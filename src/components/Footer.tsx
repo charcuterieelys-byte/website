@@ -10,8 +10,8 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ lang }) => {
   const whatsappUrl = `https://wa.me/${BRAND_CONFIG.whatsappNumber}?text=${encodeURIComponent(
     lang === 'es'
-      ? "Hola Elianne, visité la web de Ely's Charcuterie en Louisville y me gustaría hacer un pedido."
-      : "Hi Elianne! I visited Ely's Charcuterie website in Louisville and would love to place an order."
+      ? 'Hola Elianne, visité la web de Ely’s Charcuterie en Louisville y me gustaría hacer un pedido.'
+      : 'Hi Elianne! I visited Ely’s Charcuterie website in Louisville and would love to place an order.'
   )}`;
 
   return (
@@ -19,12 +19,11 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
       <footer className="bg-noir-950 text-cream-100 border-t border-gold-400/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-gold-400/20">
-            {/* Brand Column */}
             <div className="md:col-span-5 space-y-4">
               <div className="flex items-center gap-4">
                 <img
                   src="brand/logo-horizontal-bicolor.svg"
-                  alt="Ely's Charcuterie"
+                  alt="Ely’s Charcuterie"
                   className="h-14 w-auto object-contain"
                 />
               </div>
@@ -35,14 +34,13 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
               </p>
               <div className="flex items-center gap-2 text-xs text-gold-200 pt-1">
                 <MapPin className="w-4 h-4 text-gold-300" />
-                <span>Louisville, Kentucky & Surrounding Areas</span>
+                <span>Louisville, Kentucky</span>
               </div>
             </div>
 
-            {/* Navigation Column */}
             <div className="md:col-span-3 space-y-3">
-              <h4 className="text-xs uppercase tracking-[0.2em] text-gold-300 font-semibold">
-                {lang === 'es' ? 'Explorar' : 'Explore'}
+              <h4 className="font-serif text-xl text-gold-200 font-semibold">
+                {lang === 'es' ? 'Navegación' : 'Explore'}
               </h4>
               <ul className="space-y-2.5 text-sm text-cream-200/80">
                 <li>
@@ -52,36 +50,35 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                 </li>
                 <li>
                   <a href="#historia" className="hover:text-gold-200 transition-colors">
-                    {lang === 'es' ? 'Sobre Mí (Elianne Lafuente)' : 'My Story (Elianne Lafuente)'}
+                    {lang === 'es' ? 'Sobre mí (Elianne Lafuente)' : 'My story (Elianne Lafuente)'}
                   </a>
                 </li>
                 <li>
                   <a href="#catalogo" className="hover:text-gold-200 transition-colors">
-                    {lang === 'es' ? 'Catálogo de Tablas' : 'Boards Catalog'}
+                    {lang === 'es' ? 'Catálogo de tablas' : 'Boards catalog'}
                   </a>
                 </li>
                 <li>
                   <a href="#eventos" className="hover:text-gold-200 transition-colors">
-                    {lang === 'es' ? 'Mesas & Carrito para Eventos' : 'Events & Mobile Cart'}
+                    {lang === 'es' ? 'Mesas y carrito para eventos' : 'Events & mobile cart'}
                   </a>
                 </li>
                 <li>
                   <a href="#galeria" className="hover:text-gold-200 transition-colors">
-                    {lang === 'es' ? 'Galería de Trabajos' : 'Work Gallery'}
+                    {lang === 'es' ? 'Galería de trabajos' : 'Work gallery'}
                   </a>
                 </li>
                 <li>
                   <a href="#como-ordenar" className="hover:text-gold-200 transition-colors">
-                    {lang === 'es' ? 'Cómo Ordenar' : 'How to Order'}
+                    {lang === 'es' ? 'Cómo ordenar' : 'How to order'}
                   </a>
                 </li>
               </ul>
             </div>
 
-            {/* Direct Contact Column */}
             <div className="md:col-span-4 space-y-4">
-              <h4 className="text-xs uppercase tracking-[0.2em] text-gold-300 font-semibold">
-                {lang === 'es' ? 'Contacto Directo' : 'Direct Contact'}
+              <h4 className="font-serif text-xl text-gold-200 font-semibold">
+                {lang === 'es' ? 'Contacto directo' : 'Direct contact'}
               </h4>
               <p className="text-sm text-cream-200/80">
                 {lang === 'es'
@@ -94,7 +91,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gold-200 hover:bg-gold-300 text-noir-950 text-xs uppercase tracking-[0.14em] font-bold transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gold-200 hover:bg-gold-300 text-noir-950 text-xs font-bold transition-colors"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>WhatsApp</span>
@@ -104,7 +101,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                   href={BRAND_CONFIG.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-gold-300/50 hover:border-gold-200 text-gold-200 text-xs uppercase tracking-[0.14em] font-semibold transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-gold-300/50 hover:border-gold-200 text-gold-200 text-xs font-semibold transition-colors"
                 >
                   <Instagram className="w-4 h-4" />
                   <span>Instagram</span>
@@ -115,7 +112,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
 
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream-200/60">
             <p>
-              © {new Date().getFullYear()} {BRAND_CONFIG.businessName} by{' '}
+              © {new Date().getFullYear()} {BRAND_CONFIG.businessName},{' '}
               {BRAND_CONFIG.founderName}. Louisville, Kentucky.
             </p>
             <p className="flex items-center gap-1.5">
@@ -130,17 +127,15 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
         </div>
       </footer>
 
-      {/* Floating WhatsApp Quick Button */}
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contactar por WhatsApp"
-        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2.5 px-4 py-3.5 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 border border-gold-400/60 shadow-luxury hover:scale-105 transition-all"
+        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2.5 px-4 py-3.5 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 border border-gold-400/60 shadow-luxury transition-colors"
       >
-        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
         <MessageCircle className="w-5 h-5 text-gold-300" />
-        <span className="text-xs font-semibold tracking-wider uppercase hidden sm:inline">
+        <span className="text-xs font-semibold hidden sm:inline">
           WhatsApp
         </span>
       </a>

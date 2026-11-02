@@ -13,6 +13,7 @@ dist-ssr
 _archivos_marca_local/
 mockups_fotograficos/
 public_images_gen/
+.hallmark/
 *.cdr
 
 # Logs & Editor

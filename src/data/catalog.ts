@@ -1,23 +1,11 @@
 import { CatalogItem, CategoryId, GalleryPhoto } from '../types/catalog';
 
-/**
- * ============================================================================
- * GUÍA RÁPIDA PARA ACTUALIZAR EL CATÁLOGO Y CONTACTO DE ELY'S CHARCUTERIE
- * ============================================================================
- * 1. Para cambiar el número de WhatsApp o usuario de Instagram, edita `BRAND_CONFIG`.
- * 2. Para agregar una nueva tabla, caja o servicio al catálogo, simplemente
- *    añade un nuevo objeto dentro de `CATALOG_ITEMS` siguiendo el mismo formato.
- * 3. Las fotos se guardan en la carpeta `public/images/`.
- * ============================================================================
- */
-
 export const BRAND_CONFIG = {
-  businessName: "Ely's Charcuterie",
+  businessName: 'Ely’s Charcuterie',
   founderName: 'Elianne Lafuente',
   location: 'Louisville, Kentucky',
-  // Número de WhatsApp en formato internacional (solo dígitos, ej. 15025550199)
   whatsappNumber: '15025550199',
-  whatsappDisplay: '+1 (502) 555-0199',
+  whatsappDisplay: '+1 (502) 555 0199',
   instagramHandle: '@elyscharcuterie',
   instagramUrl: 'https://instagram.com/elyscharcuterie',
   email: 'hello@elyscharcuterie.com',
@@ -25,7 +13,7 @@ export const BRAND_CONFIG = {
 
 export const FOUNDER_STORY = {
   es: {
-    eyebrow: 'Mi Historia • El Corazón de la Marca',
+    eyebrow: 'Mi historia y el corazón de la marca',
     title: 'Soy Elianne Lafuente, la persona detrás de Ely’s Charcuteria',
     paragraph1:
       'Este emprendimiento nace de mi deseo de crear algo propio y de transformar los pequeños detalles en momentos especiales. Encontré en la charcutería una manera de expresar mi creatividad y de aportar algo bonito a las celebraciones de los demás.',
@@ -35,8 +23,8 @@ export const FOUNDER_STORY = {
     locationTag: 'Hecho a mano con dedicación en Louisville, Kentucky',
   },
   en: {
-    eyebrow: 'My Story • The Heart Behind the Brand',
-    title: 'I’m Elianne Lafuente, the creator behind Ely’s Charcuterie',
+    eyebrow: 'My story and the heart behind the brand',
+    title: 'I am Elianne Lafuente, the creator behind Ely’s Charcuterie',
     paragraph1:
       'This journey was born from my desire to build something of my own and transform small details into unforgettable moments. In charcuterie, I found a canvas to express my creativity and bring beauty to other people’s celebrations.',
     paragraph2:
@@ -47,11 +35,11 @@ export const FOUNDER_STORY = {
 };
 
 export const CATEGORIES: { id: CategoryId; label: { es: string; en: string } }[] = [
-  { id: 'all', label: { es: 'Todas las Propuestas', en: 'All Offerings' } },
-  { id: 'tablas', label: { es: 'Tablas Artesanales', en: 'Artisan Boards' } },
-  { id: 'cajas', label: { es: 'Cajas & Regalos', en: 'Grazing Boxes & Gifts' } },
-  { id: 'individuales', label: { es: 'Vasos & Conos (Cups)', en: 'Grazing Cups & Cones' } },
-  { id: 'eventos', label: { es: 'Mesas & Eventos', en: 'Grazing Tables & Events' } },
+  { id: 'all', label: { es: 'Todas las propuestas', en: 'All offerings' } },
+  { id: 'tablas', label: { es: 'Tablas artesanales', en: 'Artisan boards' } },
+  { id: 'cajas', label: { es: 'Cajas y regalos', en: 'Grazing boxes & gifts' } },
+  { id: 'individuales', label: { es: 'Vasos y conos', en: 'Grazing cups & cones' } },
+  { id: 'eventos', label: { es: 'Mesas y eventos', en: 'Grazing tables & events' } },
 ];
 
 export const CATALOG_ITEMS: CatalogItem[] = [
@@ -59,14 +47,14 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     id: 'tabla-rosa-imperial',
     category: 'tablas',
     featured: true,
-    badge: { es: 'Favorita de la Casa', en: 'House Signature' },
+    badge: { es: 'Favorita de la casa', en: 'House signature' },
     name: {
-      es: 'Tabla Rosa de Autor "Ely’s"',
+      es: 'Tabla Rosa de Autor “Ely’s”',
       en: 'Signature Rose Charcuterie Board',
     },
     shortDescription: {
       es: 'Nuestra tabla insignia servida sobre madera de nogal con rosas de jamón y salami hechas a mano, quesos madurados y miel en panal.',
-      en: 'Our flagship board on walnut wood featuring hand-folded prosciutto & salami roses, aged cheeses, and golden honeycomb.',
+      en: 'Our flagship board on walnut wood featuring hand-folded prosciutto and salami roses, aged cheeses, and golden honeycomb.',
     },
     fullDescription: {
       es: 'Una composición equilibrada pensada para ser el centro de todas las miradas. Incluye rosas artesanales de salami italiano y prosciutto di Parma, queso Manchego curado, rueda de Brie cremoso coronada con panal de miel natural, higos frescos, uvas seleccionadas, frutos secos tostados, aceitunas marinadas y galletas artesanales.',
@@ -76,16 +64,16 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       es: [
         'Rosas de Prosciutto di Parma y Salami Génova',
         'Queso Brie doble crema con panal de miel',
-        'Queso Manchego curado 6 meses & Gouda añejo',
+        'Queso Manchego curado 6 meses y Gouda añejo',
         'Higos frescos, uvas de temporada y romero aromático',
         'Aceitunas verdes marinadas, almendras y crackers de semillas',
       ],
       en: [
-        'Prosciutto di Parma & Genoa Salami roses',
+        'Prosciutto di Parma and Genoa Salami roses',
         'Double-cream Brie wheel with raw honeycomb',
-        '6-month aged Manchego & aged Gouda',
-        'Fresh figs, seasonal grapes & aromatic rosemary',
-        'Marinated green olives, almonds & seed crackers',
+        '6-month aged Manchego and aged Gouda',
+        'Fresh figs, seasonal grapes and aromatic rosemary',
+        'Marinated green olives, almonds and seed crackers',
       ],
     },
     pairingNote: {
@@ -98,19 +86,19 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       {
         id: 'small',
         label: { es: 'Íntima (Mediana)', en: 'Intimate (Medium)' },
-        servings: { es: '4 – 6 personas', en: 'Serves 4 – 6' },
+        servings: { es: '4 a 6 personas', en: 'Serves 4 to 6' },
         price: 95,
       },
       {
         id: 'medium',
         label: { es: 'Reunión (Grande)', en: 'Gathering (Large)' },
-        servings: { es: '8 – 10 personas', en: 'Serves 8 – 10' },
+        servings: { es: '8 a 10 personas', en: 'Serves 8 to 10' },
         price: 145,
       },
       {
         id: 'large',
         label: { es: 'Celebración (Extra Grande)', en: 'Celebration (XL)' },
-        servings: { es: '12 – 16 personas', en: 'Serves 12 – 16' },
+        servings: { es: '12 a 16 personas', en: 'Serves 12 to 16' },
         price: 195,
       },
     ],
@@ -119,9 +107,9 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     id: 'caja-gourmet-unboxing',
     category: 'cajas',
     featured: true,
-    badge: { es: 'Ideal para Regalo', en: 'Perfect Gift' },
+    badge: { es: 'Ideal para regalo', en: 'Perfect gift' },
     name: {
-      es: 'Caja Gourmet "Detalle Especial"',
+      es: 'Caja Gourmet “Detalle Especial”',
       en: 'Luxury Keepsake Grazing Box',
     },
     shortDescription: {
@@ -141,10 +129,10 @@ export const CATALOG_ITEMS: CatalogItem[] = [
         'Tarjeta de dedicatoria personalizada incluida',
       ],
       en: [
-        'Centerpiece artisan salami rose & cured prosciutto',
-        'Manchego wedges & Brie with honey',
-        'Fresh figs, dark grapes & roasted almonds',
-        'Gift packaging with custom wax paper & gold seal',
+        'Centerpiece artisan salami rose and cured prosciutto',
+        'Manchego wedges and Brie with honey',
+        'Fresh figs, dark grapes and roasted almonds',
+        'Gift packaging with custom wax paper and gold seal',
         'Complimentary handwritten greeting card',
       ],
     },
@@ -157,13 +145,13 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       {
         id: 'duo',
         label: { es: 'Box Pareja', en: 'Duo Box' },
-        servings: { es: '2 – 3 personas', en: 'Serves 2 – 3' },
+        servings: { es: '2 a 3 personas', en: 'Serves 2 to 3' },
         price: 65,
       },
       {
         id: 'sharing',
         label: { es: 'Box Compartir', en: 'Sharing Box' },
-        servings: { es: '4 – 6 personas', en: 'Serves 4 – 6' },
+        servings: { es: '4 a 6 personas', en: 'Serves 4 to 6' },
         price: 98,
       },
     ],
@@ -171,7 +159,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
   {
     id: 'caja-panoramica-long-box',
     category: 'cajas',
-    badge: { es: 'Edición Boutique', en: 'Boutique Edition' },
+    badge: { es: 'Edición boutique', en: 'Boutique edition' },
     name: {
       es: 'Caja Panorámica con Lazo de Satén',
       en: 'Panoramic Ribbon Grazing Box',
@@ -186,16 +174,16 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     },
     ingredients: {
       es: [
-        'Dúo de rosas de charcutería (Salami & Soppressata)',
+        'Dúo de rosas de charcutería (Salami y Soppressata)',
         'Pliegues de Prosciutto e higos frescos partidos',
         'Queso Brie cremoso, uvas rojas y romero fresco',
         'Faja central negra mate y lazo en cinta de satén',
       ],
       en: [
-        'Duo of charcuterie roses (Salami & Soppressata)',
-        'Prosciutto ribbons & halved fresh figs',
-        'Creamy Brie, red grapes & fresh rosemary',
-        'Matte black sleeve & satin ribbon bow',
+        'Duo of charcuterie roses (Salami and Soppressata)',
+        'Prosciutto ribbons and halved fresh figs',
+        'Creamy Brie, red grapes and fresh rosemary',
+        'Matte black sleeve and satin ribbon bow',
       ],
     },
     pairingNote: {
@@ -207,7 +195,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       {
         id: 'standard',
         label: { es: 'Formato Panorámico', en: 'Panoramic Format' },
-        servings: { es: '3 – 5 personas', en: 'Serves 3 – 5' },
+        servings: { es: '3 a 5 personas', en: 'Serves 3 to 5' },
         price: 78,
       },
     ],
@@ -216,9 +204,9 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     id: 'grazing-cups-conos',
     category: 'individuales',
     featured: true,
-    badge: { es: 'Eventos & Cócteles', en: 'Events & Cocktails' },
+    badge: { es: 'Eventos y cócteles', en: 'Events & cocktails' },
     name: {
-      es: 'Grazing Cups & Conos Individuales',
+      es: 'Grazing Cups y Conos Individuales',
       en: 'Individual Grazing Cups & Cones',
     },
     shortDescription: {
@@ -231,16 +219,16 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     },
     ingredients: {
       es: [
-        'Mini rosa de salami + pliegue de jamón serrano',
+        'Mini rosa de salami y pliegue de jamón serrano',
         'Dados de quesos seleccionados en brocheta de bambú',
         'Aceitunas rellenas, albaricoques secos y nueces',
         'Palitroques italianos (Grissini) y ramita de romero',
       ],
       en: [
-        'Mini salami rose + serrano ham ribbon',
+        'Mini salami rose and serrano ham ribbon',
         'Artisan cheese cubes on bamboo pick',
-        'Stuffed olives, dried apricots & nuts',
-        'Italian grissini breadsticks & fresh rosemary sprig',
+        'Stuffed olives, dried apricots and nuts',
+        'Italian grissini breadsticks and fresh rosemary sprig',
       ],
     },
     pairingNote: {
@@ -272,9 +260,9 @@ export const CATALOG_ITEMS: CatalogItem[] = [
   {
     id: 'tabla-nogal-conservas',
     category: 'tablas',
-    badge: { es: 'Edición Regalo', en: 'Keepsake Gift' },
+    badge: { es: 'Edición regalo', en: 'Keepsake gift' },
     name: {
-      es: 'Tabla de Nogal Grabada & Conservas de la Casa',
+      es: 'Tabla de Nogal Grabada y Conservas de la Casa',
       en: 'Engraved Walnut Board & House Preserves',
     },
     shortDescription: {
@@ -282,7 +270,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       en: 'Includes a keepsake laser-engraved walnut wood board, artisan charcuterie selection, house fig jam, and marinated olives.',
     },
     fullDescription: {
-      es: 'Un regalo inolvidable para bodas, estrenos de hogar (housewarming) o amantes de la buena mesa. Además de nuestra selección fresca de quesos y embutidos, el anfitrión conserva la tabla de madera de nogal grabada y nuestros frascos gourmet de mermelada de higos y aceitunas.',
+      es: 'Un regalo inolvidable para bodas, estrenos de hogar o amantes de la buena mesa. Además de nuestra selección fresca de quesos y embutidos, el anfitrión conserva la tabla de madera de nogal grabada y nuestros frascos gourmet de mermelada de higos y aceitunas.',
       en: 'An unforgettable gift for weddings, housewarmings, or food lovers. Along with our fresh selection of cheeses and cured meats, the host keeps the laser-engraved walnut serving board and jars of our house fig jam and marinated olives.',
     },
     ingredients: {
@@ -296,7 +284,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
         'Keepsake laser-engraved walnut wood board',
         'Full jar of house Fig Jam',
         'Full jar of herb-marinated Olives',
-        'Selection of 3 premium cheeses & 2 cured meats',
+        'Selection of 3 premium cheeses and 2 cured meats',
       ],
     },
     pairingNote: {
@@ -309,7 +297,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       {
         id: 'gift-set',
         label: { es: 'Set Regalo Completo', en: 'Complete Keepsake Set' },
-        servings: { es: '4 – 6 personas + Tabla de Nogal', en: 'Serves 4 – 6 + Walnut Board' },
+        servings: { es: '4 a 6 personas con tabla de nogal', en: 'Serves 4 to 6 with walnut board' },
         price: 165,
       },
     ],
@@ -319,7 +307,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     category: 'eventos',
     featured: true,
     isCustomQuote: true,
-    badge: { es: 'Bodas & Celebraciones', en: 'Weddings & Events' },
+    badge: { es: 'Bodas y celebraciones', en: 'Weddings & events' },
     name: {
       es: 'Mesa de Charcutería Escenográfica (Grazing Table)',
       en: 'Bespoke Event Grazing Table',
@@ -336,40 +324,40 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       es: [
         'Montaje presencial en Louisville y alrededores',
         'Estructuras y niveles en madera de nogal, lino crema y velas',
-        'Variedad de 5+ quesos artesanales y 4+ embutidos en rosas y pliegues',
+        'Variedad de 5 quesos artesanales y 4 embutidos en rosas y pliegues',
         'Panes rústicos, crackers, dips, mermeladas, miel en panal y frutas',
-        'Utensilios en bronce/madera y servilletas de cóctel',
+        'Utensilios en bronce y madera con servilletas de cóctel',
       ],
       en: [
-        'Full on-site setup across Louisville & surrounding areas',
-        'Multi-level walnut risers, cream linens & candle styling',
-        '5+ artisan cheeses & 4+ cured meats styled in roses and folds',
-        'Rustic breads, crackers, dips, jams, honeycomb & fresh fruit',
-        'Serving utensils & cocktail napkins included',
+        'Full on-site setup across Louisville and surrounding areas',
+        'Multi-level walnut risers, cream linens and candle styling',
+        '5 artisan cheeses and 4 cured meats styled in roses and folds',
+        'Rustic breads, crackers, dips, jams, honeycomb and fresh fruit',
+        'Serving utensils and cocktail napkins included',
       ],
     },
     pairingNote: {
       es: 'Diseñada a medida desde 25 hasta más de 150 invitados.',
-      en: 'Custom-designed for gatherings from 25 up to 150+ guests.',
+      en: 'Custom-designed for gatherings from 25 up to 150 guests.',
     },
     image: 'images/mesa_evento_grazing.jpg',
     sizes: [
       {
         id: 'table-25',
         label: { es: 'Mesa Petite (1 metro)', en: 'Petite Grazing Table (3.5 ft)' },
-        servings: { es: '25 – 35 invitados (desde)', en: '25 – 35 guests (starting at)' },
+        servings: { es: '25 a 35 invitados (desde)', en: '25 to 35 guests (starting at)' },
         price: 550,
       },
       {
         id: 'table-50',
         label: { es: 'Mesa Clásica (2 metros)', en: 'Classic Grazing Table (6 ft)' },
-        servings: { es: '40 – 65 invitados (desde)', en: '40 – 65 guests (starting at)' },
+        servings: { es: '40 a 65 invitados (desde)', en: '40 to 65 guests (starting at)' },
         price: 950,
       },
       {
         id: 'table-100',
         label: { es: 'Gran Mesa Imperial', en: 'Grand Imperial Grazing Table' },
-        servings: { es: '75 – 120+ invitados (desde)', en: '75 – 120+ guests (starting at)' },
+        servings: { es: '75 a 120 invitados (desde)', en: '75 to 120 guests (starting at)' },
         price: 1550,
       },
     ],
@@ -379,7 +367,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     category: 'eventos',
     featured: true,
     isCustomQuote: true,
-    badge: { es: 'Experiencia Exclusiva', en: 'Signature Experience' },
+    badge: { es: 'Experiencia exclusiva', en: 'Signature experience' },
     name: {
       es: 'Carrito Móvil de Charcutería (Mobile Grazing Bar)',
       en: 'Mobile Charcuterie Cart & Grazing Bar',
@@ -400,9 +388,9 @@ export const CATALOG_ITEMS: CatalogItem[] = [
         'Opción de servicio asistido durante tu evento',
       ],
       en: [
-        'Rental & setup of the official Ely’s Charcuterie Mobile Cart',
+        'Rental and setup of the official Ely’s Charcuterie Mobile Cart',
         'Full stocking of grazing cones or tasting plates',
-        'Warm styling in cream, matte black & soft gold',
+        'Warm styling in cream, matte black and soft gold',
         'Optional attendant service during your event',
       ],
     },
@@ -420,7 +408,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       },
       {
         id: 'cart-plus',
-        label: { es: 'Experiencia Carrito (40 – 80 pax)', en: 'Cart Experience (40 – 80 guests)' },
+        label: { es: 'Experiencia Carrito (40 a 80 pax)', en: 'Cart Experience (40 to 80 guests)' },
         servings: { es: '3 horas de evento (desde)', en: '3-hour event window (starting at)' },
         price: 1050,
       },
@@ -460,7 +448,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     src: 'images/1_caja_gourmet_unboxing.jpg',
     category: 'cajas',
     title: {
-      es: 'Caja Rígida Gourmet & Sello Dorado',
+      es: 'Caja Rígida Gourmet y Sello Dorado',
       en: 'Luxury Keepsake Box & Gold Seal',
     },
     caption: {
@@ -473,7 +461,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     src: 'images/8_carrito_cocteles_y_charcuteria.jpg',
     category: 'eventos',
     title: {
-      es: 'Carrito Móvil para Bodas & Eventos',
+      es: 'Carrito Móvil para Bodas y Eventos',
       en: 'Mobile Grazing Cart for Weddings & Events',
     },
     caption: {
@@ -486,7 +474,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     src: 'images/2_bolsa_boutique_y_grazing_cups.jpg',
     category: 'cajas',
     title: {
-      es: 'Grazing Cups & Bolsa de Regalo',
+      es: 'Grazing Cups y Bolsa de Regalo',
       en: 'Grazing Cups & Boutique Gift Bag',
     },
     caption: {
@@ -525,7 +513,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
     src: 'images/14_cuchillos_servilletas_y_cinta_horizontal.jpg',
     category: 'detalles',
     title: {
-      es: 'Detalles en Lino Crema & Madera',
+      es: 'Detalles en Lino Crema y Madera',
       en: 'Cream Linen & Walnut Accents',
     },
     caption: {

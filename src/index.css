@@ -1,3 +1,10 @@
+/* Hallmark · shape: Atelier Catalogue · genre: editorial · theme: brand · redesign: full
+ * paper: oklch(97.5% 0.014 84) · accent: oklch(68% 0.095 78) · display: Cormorant Garamond · body: Plus Jakarta Sans · hero: Stage · nav: wordmark-and-bag · footer: editorial-ledger · signature: sunlit travertine rose board beside direct order bag
+ * axes: light/roman-serif/warm · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S4 R5 V5 · weakest: S, removed generic uppercase eyebrows and tracked labels so Elianne's Louisville voice and photography carry the page */
+@import "./tokens.css";
+@import "./base.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,40 +12,25 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #FDFBF7;
-    color: #141111;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
   }
 
-  h1, h2, h3, h4, .font-editorial {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
   }
-}
 
-/* Delicate Gold Divider Line */
-.gold-divider {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(197, 155, 78, 0) 0%,
-    rgba(197, 155, 78, 0.55) 50%,
-    rgba(197, 155, 78, 0) 100%
-  );
-}
+  button:active,
+  a:active {
+    transform: translateY(1px);
+  }
 
-/* Subtle luxury scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #FAF3E3;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #D4B77B;
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #B38B40;
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
