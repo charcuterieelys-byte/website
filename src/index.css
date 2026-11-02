@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #FDFBF7;
+    color: #141111;
+  }
+
+  h1, h2, h3, h4, .font-editorial {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
+/* Delicate Gold Divider Line */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(197, 155, 78, 0) 0%,
+    rgba(197, 155, 78, 0.55) 50%,
+    rgba(197, 155, 78, 0) 100%
+  );
+}
+
+/* Subtle luxury scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF3E3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4B77B;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B38B40;
+}
