@@ -1,0 +1,414 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 6,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 769 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "C:\\TRABAJO\\ely charcuteria\\videos\\elys-brand-reveal-reel\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split coherent scenes or layers into separate .html files under compositions/, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"act0-intro-stamp\"> is a timeline element that contains nested <div id=\"act0-stage\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#act0-intro-stamp",
+        "dataAttributes": {},
+        "sourceFile": "C:\\TRABAJO\\ely charcuteria\\videos\\elys-brand-reveal-reel\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"act0-intro-stamp\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"act1-genesis\"> is a timeline element that contains nested <div id=\"act1-stage\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#act1-genesis",
+        "dataAttributes": {},
+        "sourceFile": "C:\\TRABAJO\\ely charcuteria\\videos\\elys-brand-reveal-reel\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"act1-genesis\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"act2-brand-system\"> is a timeline element that contains nested <div id=\"act2-stage\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#act2-brand-system",
+        "dataAttributes": {},
+        "sourceFile": "C:\\TRABAJO\\ely charcuteria\\videos\\elys-brand-reveal-reel\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"act2-brand-system\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"act3-mockups\"> is a timeline element that contains nested <div id=\"act3-stage\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#act3-mockups",
+        "dataAttributes": {},
+        "sourceFile": "C:\\TRABAJO\\ely charcuteria\\videos\\elys-brand-reveal-reel\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"act3-mockups\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"act4-finale\"> is a timeline element that contains nested <div id=\"act4-stage\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#act4-finale",
+        "dataAttributes": {},
+        "sourceFile": "C:\\TRABAJO\\ely charcuteria\\videos\\elys-brand-reveal-reel\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"act4-finale\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 4,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 1.033,
+        "selector": "#dml-logo-top",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -15.28,
+          "top": -17.24,
+          "right": 1095.28,
+          "bottom": 1957.1,
+          "width": 1110.57,
+          "height": 1974.34
+        },
+        "containerSelector": "#act0-stage",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": -0.05,
+          "top": -0.1,
+          "right": 1080.05,
+          "bottom": 1920.1,
+          "width": 1080.11,
+          "height": 1920.19
+        },
+        "overflow": {
+          "left": 15.23,
+          "right": 15.23,
+          "top": 17.14,
+          "bottom": 37
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -15.28,
+          "y": -17.24,
+          "width": 1110.57,
+          "height": 1974.34
+        },
+        "firstSeen": 1.033,
+        "lastSeen": 1.033,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          1.033
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 1.033,
+        "selector": "#dml-logo-x",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -25.17,
+          "top": -44.09,
+          "right": 1105.17,
+          "bottom": 1965.39,
+          "width": 1130.33,
+          "height": 2009.48
+        },
+        "containerSelector": "#act0-stage",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": -0.05,
+          "top": -0.1,
+          "right": 1080.05,
+          "bottom": 1920.1,
+          "width": 1080.11,
+          "height": 1920.19
+        },
+        "overflow": {
+          "left": 25.12,
+          "right": 25.12,
+          "top": 43.99,
+          "bottom": 45.29
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -25.17,
+          "y": -44.09,
+          "width": 1130.33,
+          "height": 2009.48
+        },
+        "firstSeen": 1.033,
+        "lastSeen": 1.033,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          1.033
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 11.367,
+        "selector": "#m-wrap-3",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -25.54,
+          "top": -39.2,
+          "right": 1105.54,
+          "bottom": 1971.62,
+          "width": 1131.08,
+          "height": 2010.82
+        },
+        "containerSelector": "#m-slide-3",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "overflow": {
+          "left": 25.54,
+          "right": 25.54,
+          "top": 39.2,
+          "bottom": 51.62
+        },
+        "dataAttributes": {
+          "data-hf-id": "hf-9y4w"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -25.54,
+          "y": -39.2,
+          "width": 1131.08,
+          "height": 2010.82
+        },
+        "firstSeen": 11.367,
+        "lastSeen": 11.367,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          11.367
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 13.433,
+        "selector": "#m-wrap-5",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -2.27,
+          "top": -12.59,
+          "right": 1082.27,
+          "bottom": 1915.48,
+          "width": 1084.54,
+          "height": 1928.06
+        },
+        "containerSelector": "#m-slide-5",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "overflow": {
+          "left": 2.27,
+          "right": 2.27,
+          "top": 12.59
+        },
+        "dataAttributes": {
+          "data-hf-id": "hf-21wu"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -2.27,
+          "y": -12.59,
+          "width": 1084.54,
+          "height": 1928.06
+        },
+        "firstSeen": 13.433,
+        "lastSeen": 13.433,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          13.433
+        ]
+      }
+    ],
+    "duration": 18.6,
+    "samples": [
+      1.033,
+      3.1,
+      5.167,
+      7.233,
+      9.3,
+      11.367,
+      13.433,
+      15.5,
+      17.567
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 4,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.033,
+      5.167,
+      9.3,
+      13.433,
+      17.567
+    ],
+    "checked": 0,
+    "passed": 0
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "film_silent",
+        "severity": "warning",
+        "message": "This 19 s film has no sound source (no <audio>, no <video> with sound): add a music bed and sounds on the visible actions unless the person asked for silence; see references/sound.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 149
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 1,
+    "findings": [
+      {
+        "code": "audio_none",
+        "severity": "info",
+        "message": "The film has no sound: no clip in it plays audio.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      }
+    ]
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

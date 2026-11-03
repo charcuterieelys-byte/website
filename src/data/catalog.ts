@@ -85,20 +85,20 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     sizes: [
       {
         id: 'small',
-        label: { es: 'Íntima (Mediana)', en: 'Intimate (Medium)' },
-        servings: { es: '4 a 6 personas', en: 'Serves 4 to 6' },
+        label: { es: 'Íntima', en: 'Intimate' },
+        servings: { es: '4 a 6 personas', en: '4 to 6 guests' },
         price: 95,
       },
       {
         id: 'medium',
-        label: { es: 'Reunión (Grande)', en: 'Gathering (Large)' },
-        servings: { es: '8 a 10 personas', en: 'Serves 8 to 10' },
+        label: { es: 'Reunión', en: 'Gathering' },
+        servings: { es: '8 a 10 personas', en: '8 to 10 guests' },
         price: 145,
       },
       {
         id: 'large',
-        label: { es: 'Celebración (Extra Grande)', en: 'Celebration (XL)' },
-        servings: { es: '12 a 16 personas', en: 'Serves 12 to 16' },
+        label: { es: 'Celebración', en: 'Celebration' },
+        servings: { es: '12 a 16 personas', en: '12 to 16 guests' },
         price: 195,
       },
     ],
@@ -145,13 +145,13 @@ export const CATALOG_ITEMS: CatalogItem[] = [
       {
         id: 'duo',
         label: { es: 'Box Pareja', en: 'Duo Box' },
-        servings: { es: '2 a 3 personas', en: 'Serves 2 to 3' },
+        servings: { es: '2 a 3 personas', en: '2 to 3 guests' },
         price: 65,
       },
       {
         id: 'sharing',
         label: { es: 'Box Compartir', en: 'Sharing Box' },
-        servings: { es: '4 a 6 personas', en: 'Serves 4 to 6' },
+        servings: { es: '4 a 6 personas', en: '4 to 6 guests' },
         price: 98,
       },
     ],
@@ -194,9 +194,15 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     sizes: [
       {
         id: 'standard',
-        label: { es: 'Formato Panorámico', en: 'Panoramic Format' },
-        servings: { es: '3 a 5 personas', en: 'Serves 3 to 5' },
+        label: { es: 'Panorámica', en: 'Panoramic' },
+        servings: { es: '3 a 5 personas', en: '3 to 5 guests' },
         price: 78,
+      },
+      {
+        id: 'grand-ribbon',
+        label: { es: 'Doble Lazo', en: 'Grand Ribbon' },
+        servings: { es: '6 a 8 personas', en: '6 to 8 guests' },
+        price: 115,
       },
     ],
   },
@@ -239,20 +245,20 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     sizes: [
       {
         id: 'pack-12',
-        label: { es: 'Set de 12 Vasos (Mínimo)', en: 'Set of 12 Cups (Minimum)' },
-        servings: { es: '12 porciones individuales', en: '12 individual servings' },
+        label: { es: 'Set 12 Vasos', en: 'Set of 12 Cups' },
+        servings: { es: '12 porciones', en: '12 servings' },
         price: 150,
       },
       {
         id: 'pack-24',
-        label: { es: 'Set de 24 Vasos', en: 'Set of 24 Cups' },
-        servings: { es: '24 porciones individuales', en: '24 individual servings' },
+        label: { es: 'Set 24 Vasos', en: 'Set of 24 Cups' },
+        servings: { es: '24 porciones', en: '24 servings' },
         price: 280,
       },
       {
         id: 'pack-40',
-        label: { es: 'Set de 40 Vasos (Fiesta)', en: 'Set of 40 Cups (Party)' },
-        servings: { es: '40 porciones individuales', en: '40 individual servings' },
+        label: { es: 'Set 40 Vasos', en: 'Set of 40 Cups' },
+        servings: { es: '40 porciones', en: '40 servings' },
         price: 440,
       },
     ],
@@ -262,7 +268,7 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     category: 'tablas',
     badge: { es: 'Edición regalo', en: 'Keepsake gift' },
     name: {
-      es: 'Tabla de Nogal Grabada y Conservas de la Casa',
+      es: 'Tabla de Nogal Grabada y Conservas',
       en: 'Engraved Walnut Board & House Preserves',
     },
     shortDescription: {
@@ -296,9 +302,65 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     sizes: [
       {
         id: 'gift-set',
-        label: { es: 'Set Regalo Completo', en: 'Complete Keepsake Set' },
-        servings: { es: '4 a 6 personas con tabla de nogal', en: 'Serves 4 to 6 with walnut board' },
+        label: { es: 'Set Regalo', en: 'Keepsake Set' },
+        servings: { es: '4 a 6 personas', en: '4 to 6 guests' },
         price: 165,
+      },
+      {
+        id: 'gift-imperial',
+        label: { es: 'Set Anfitrión', en: 'Host Edition' },
+        servings: { es: '8 a 10 personas', en: '8 to 10 guests' },
+        price: 215,
+      },
+    ],
+  },
+  {
+    id: 'tabla-maridaje-vino',
+    category: 'tablas',
+    badge: { es: 'Veladas íntimas', en: 'Evening pairing' },
+    name: {
+      es: 'Tabla de Maridaje y Degustación Nocturna',
+      en: 'Sommelier Pairing & Tasting Board',
+    },
+    shortDescription: {
+      es: 'Curaduría pensada para amantes del buen vino y el Bourbon de Kentucky: quesos de guarda, prosciutto, frutos negros, nueces y miel.',
+      en: 'Curated for wine and Kentucky Bourbon lovers: aged cheeses, prosciutto ribbons, dark berries, roasted pecans, and honey.',
+    },
+    fullDescription: {
+      es: 'Inspirada en las cenas a la luz de las velas. Seleccionamos quesos de carácter intenso junto a embutidos italianos finamente plegados, chocolate amargo al 70%, higos, moras frescas y carta impresa con notas de cata y maridaje.',
+      en: 'Inspired by candlelit tastings. Features bold aged cheeses alongside finely folded Italian charcuterie, 70% dark chocolate, mission figs, fresh blackberries, and a printed tasting and pairing menu.',
+    },
+    ingredients: {
+      es: [
+        'Queso Manchego añejo, Brie trufado y Gouda de guarda',
+        'Rosas de Salami Soppressata y Prosciutto di Parma',
+        'Higos, moras frescas, nueces pecanas y chocolate 70%',
+        'Carta impresa de maridaje sugerido por Ely’s Charcuterie',
+      ],
+      en: [
+        'Aged Manchego, truffled Brie and reserve Gouda',
+        'Soppressata salami roses and Prosciutto di Parma',
+        'Mission figs, blackberries, roasted pecans and 70% dark chocolate',
+        'Printed tasting and pairing card by Ely’s Charcuterie',
+      ],
+    },
+    pairingNote: {
+      es: 'Excelente con Cabernet Sauvignon, Syrah o Kentucky Straight Bourbon.',
+      en: 'Exceptional with Cabernet Sauvignon, Syrah, or Kentucky Straight Bourbon.',
+    },
+    image: 'images/4_carta_menu_y_maridaje_vino.jpg',
+    sizes: [
+      {
+        id: 'pairing-duo',
+        label: { es: 'Cata Pareja', en: 'Duo Tasting' },
+        servings: { es: '2 a 4 personas', en: '2 to 4 guests' },
+        price: 88,
+      },
+      {
+        id: 'pairing-group',
+        label: { es: 'Mesa de Cata', en: 'Tasting Table' },
+        servings: { es: '6 a 8 personas', en: '6 to 8 guests' },
+        price: 138,
       },
     ],
   },
@@ -344,20 +406,20 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     sizes: [
       {
         id: 'table-25',
-        label: { es: 'Mesa Petite (1 metro)', en: 'Petite Grazing Table (3.5 ft)' },
-        servings: { es: '25 a 35 invitados (desde)', en: '25 to 35 guests (starting at)' },
+        label: { es: 'Mesa Petite', en: 'Petite Table' },
+        servings: { es: '25 a 35 invitados', en: '25 to 35 guests' },
         price: 550,
       },
       {
         id: 'table-50',
-        label: { es: 'Mesa Clásica (2 metros)', en: 'Classic Grazing Table (6 ft)' },
-        servings: { es: '40 a 65 invitados (desde)', en: '40 to 65 guests (starting at)' },
+        label: { es: 'Mesa Clásica', en: 'Classic Table' },
+        servings: { es: '40 a 65 invitados', en: '40 to 65 guests' },
         price: 950,
       },
       {
         id: 'table-100',
-        label: { es: 'Gran Mesa Imperial', en: 'Grand Imperial Grazing Table' },
-        servings: { es: '75 a 120 invitados (desde)', en: '75 to 120 guests (starting at)' },
+        label: { es: 'Mesa Imperial', en: 'Imperial Table' },
+        servings: { es: '75 a 120 invitados', en: '75 to 120 guests' },
         price: 1550,
       },
     ],
@@ -402,14 +464,14 @@ export const CATALOG_ITEMS: CatalogItem[] = [
     sizes: [
       {
         id: 'cart-base',
-        label: { es: 'Experiencia Carrito (Hasta 40 pax)', en: 'Cart Experience (Up to 40 guests)' },
-        servings: { es: '2 horas de evento (desde)', en: '2-hour event window (starting at)' },
+        label: { es: 'Carrito 40 pax', en: 'Cart 40 guests' },
+        servings: { es: '2 horas de servicio', en: '2-hour service' },
         price: 680,
       },
       {
         id: 'cart-plus',
-        label: { es: 'Experiencia Carrito (40 a 80 pax)', en: 'Cart Experience (40 to 80 guests)' },
-        servings: { es: '3 horas de evento (desde)', en: '3-hour event window (starting at)' },
+        label: { es: 'Carrito 80 pax', en: 'Cart 80 guests' },
+        servings: { es: '3 horas de servicio', en: '3-hour service' },
         price: 1050,
       },
     ],

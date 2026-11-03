@@ -92,6 +92,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
       className="fixed inset-0 z-50 flex justify-end bg-noir-950/65 backdrop-blur-sm"
       onClick={onClose}
     >
@@ -108,7 +110,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-cream-200 text-noir-700 transition-colors"
+            className="w-10 h-10 rounded-full hover:bg-cream-200 text-noir-700 flex items-center justify-center transition-colors"
             aria-label="Cerrar"
           >
             <X className="w-5 h-5" />
@@ -126,7 +128,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   ? 'Tu pedido está vacío por ahora'
                   : 'Your order bag is empty'}
               </p>
-              <p className="text-sm text-noir-600 max-w-xs mx-auto">
+              <p className="text-sm text-noir-700 max-w-xs mx-auto">
                 {lang === 'es'
                   ? 'Explora nuestro catálogo y agrega las tablas, cajas o experiencias que desees encargar.'
                   : 'Browse our catalog and add the boards, gift boxes, or experiences you would like to order.'}
@@ -138,7 +140,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 {detailedItems.map((item) => (
                   <div
                     key={`${item.productId}-${item.sizeId}`}
-                    className="flex gap-3.5 p-3.5 rounded-xl bg-cream-100/70 border border-gold-300/50"
+                    className="flex gap-3.5 p-4 rounded-xl bg-cream-100/70 border border-gold-300/50"
                   >
                     <img
                       src={item.product.image}
@@ -152,18 +154,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         </h4>
                         <button
                           onClick={() => onRemove(item.productId, item.sizeId)}
-                          className="text-noir-500 hover:text-crimson-700 p-1 transition-colors"
+                          className="text-noir-600 hover:text-crimson-700 p-1 transition-colors"
                           title={lang === 'es' ? 'Eliminar' : 'Remove'}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <p className="text-xs text-noir-600 mt-0.5">
+                      <p className="text-xs text-noir-700 mt-0.5">
                         {item.size.label[lang]} ({item.size.servings[lang]})
                       </p>
 
                       <div className="flex items-center justify-between mt-3">
-                        <div className="inline-flex items-center gap-2 bg-cream-50 rounded-full border border-gold-300 px-2 py-0.5">
+                        <div className="inline-flex items-center gap-2 bg-cream-50 rounded-full border border-gold-400 px-2.5 py-1">
                           <button
                             onClick={() =>
                               onUpdateQty(item.productId, item.sizeId, -1)
@@ -205,15 +207,15 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   placeholder={lang === 'es' ? 'Tu nombre' : 'Your name'}
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-cream-50 border border-gold-300/70 text-xs text-noir-900 focus:outline-none focus:border-gold-500"
+                  className="w-full h-11 px-3.5 rounded-lg bg-cream-50 border border-noir-600/80 text-xs text-noir-900 focus:outline-none focus:border-noir-900"
                 />
                 <div className="relative">
-                  <Calendar className="w-3.5 h-3.5 text-gold-600 absolute left-3.5 top-3 pointer-events-none" />
+                  <Calendar className="w-3.5 h-3.5 text-gold-600 absolute left-3.5 top-3.5 pointer-events-none" />
                   <input
                     type="date"
                     value={preferredDate}
                     onChange={(e) => setPreferredDate(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg bg-cream-50 border border-gold-300/70 text-xs text-noir-900 focus:outline-none focus:border-gold-500"
+                    className="w-full h-11 pl-9 pr-3.5 rounded-lg bg-cream-50 border border-noir-600/80 text-xs text-noir-900 focus:outline-none focus:border-noir-900"
                   />
                 </div>
                 <textarea
@@ -225,7 +227,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       ? '¿Alguna nota, dedicatoria o preferencia?'
                       : 'Any gift message or dietary note?'
                   }
-                  className="w-full px-3.5 py-2 rounded-lg bg-cream-50 border border-gold-300/70 text-xs text-noir-900 focus:outline-none focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-cream-50 border border-noir-600/80 text-xs text-noir-900 focus:outline-none focus:border-noir-900"
                 />
               </div>
             </>
@@ -235,12 +237,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         {detailedItems.length > 0 && (
           <div className="p-6 bg-cream-100 border-t border-gold-300/60 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-noir-600 font-semibold">
+              <span className="text-xs text-noir-700 font-semibold">
                 {lang === 'es' ? 'Total estimado' : 'Estimated total'}
               </span>
               <span className="font-serif text-3xl font-bold text-noir-900 num">
                 ${totalAmount}{' '}
-                <span className="text-xs font-sans font-normal text-noir-500">
+                <span className="text-xs font-sans font-normal text-noir-600">
                   USD
                 </span>
               </span>
@@ -250,9 +252,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               href={generateWhatsAppOrderUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 text-xs font-semibold transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 text-xs font-semibold transition-colors whitespace-nowrap"
             >
-              <MessageCircle className="w-4 h-4 text-gold-300" />
+              <MessageCircle className="w-4 h-4 text-gold-300 shrink-0" />
               <span>
                 {lang === 'es'
                   ? 'Confirmar pedido por WhatsApp'
@@ -262,7 +264,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
             <button
               onClick={onClear}
-              className="w-full text-center text-xs text-noir-500 hover:text-crimson-700 font-medium transition-colors"
+              className="w-full h-10 text-center text-xs text-noir-600 hover:text-crimson-700 font-semibold transition-colors whitespace-nowrap"
             >
               {lang === 'es' ? 'Vaciar selección' : 'Clear bag'}
             </button>

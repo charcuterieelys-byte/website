@@ -17,7 +17,7 @@
   --color-rule: oklch(82% 0.045 80);
   --color-accent: oklch(68% 0.095 78);
   --color-accent-ink: oklch(18.5% 0.012 18);
-  --color-focus: oklch(58% 0.11 75);
+  --color-focus: oklch(55% 0.11 75);
   --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
   --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-outlier: var(--font-body);

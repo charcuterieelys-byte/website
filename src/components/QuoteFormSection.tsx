@@ -20,7 +20,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
     contact: '',
     eventDate: '',
     guestCount: '10 a 25 personas',
-    serviceType: 'Tabla o Caja de Charcutería',
+    serviceType: 'Tabla Artesanal de Charcutería',
     location: 'Louisville, KY',
     message: '',
   });
@@ -43,7 +43,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
     const body =
       lang === 'es'
         ? `Hola Elianne,\n\nMe gustaría solicitar una cotización:\nNombre: ${formData.name}\nContacto: ${formData.contact}\nServicio: ${formData.serviceType}\nFecha: ${formData.eventDate}\nInvitados: ${formData.guestCount}\nUbicación: ${formData.location}\nComentarios: ${formData.message}`
-        : `Hi Elianne,\n\nI would like to request a quote:\nName: ${formData.name}\nContact: ${formData.contact}\nService: ${formData.serviceType}\nDate: ${formData.eventDate}\nGuests: ${formData.guestCount}\nLocation: ${formData.location}\nNotes: ${formData.message}`;
+        : `Hi Elianne,\n\nI would like to request a quote:\nName: ${formData.name}\nContacto: ${formData.contact}\nService: ${formData.serviceType}\nDate: ${formData.eventDate}\nGuests: ${formData.guestCount}\nLocation: ${formData.location}\nNotes: ${formData.message}`;
 
     return `mailto:${BRAND_CONFIG.email}?subject=${encodeURIComponent(
       subject
@@ -61,6 +61,9 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
       : 'Hi Elianne! Messaging you from Ely’s Charcuterie website in Louisville with an inquiry.'
   )}`;
 
+  const fieldClasses =
+    'w-full h-12 px-4 rounded-xl bg-cream-50 border border-noir-600/80 text-noir-900 text-sm focus:outline-none focus:border-noir-900 transition-colors';
+
   return (
     <section
       id="cotizar"
@@ -69,13 +72,13 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-5 space-y-6">
-            <h2 className="font-serif text-3xl sm:text-5xl font-semibold text-noir-900 leading-tight">
+            <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-noir-900 leading-tight max-w-none">
               {lang === 'es'
                 ? 'Hablemos de tu pedido o próxima celebración'
                 : 'Let us plan your order or next celebration'}
             </h2>
 
-            <p className="text-noir-600 text-base sm:text-lg leading-relaxed">
+            <p className="text-noir-700 text-base sm:text-lg leading-relaxed">
               {lang === 'es'
                 ? '¿Tienes una reunión en casa, un regalo especial o un evento en Louisville? Escríbeme directamente por WhatsApp o Instagram, o completa el formulario para enviarte una propuesta personalizada.'
                 : 'Planning a gathering at home, a thoughtful gift, or an event in Louisville? Reach out directly via WhatsApp or Instagram, or fill out the form for a custom proposal.'}
@@ -98,7 +101,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                         ? 'Contactar por WhatsApp'
                         : 'Chat on WhatsApp'}
                     </p>
-                    <p className="text-xs text-cream-200/80">
+                    <p className="text-xs text-cream-200/85 mt-0.5">
                       {lang === 'es'
                         ? 'Atención directa con Elianne en Louisville'
                         : 'Direct chat with Elianne in Louisville'}
@@ -111,7 +114,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                 href={BRAND_CONFIG.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-5 rounded-2xl bg-cream-50 hover:bg-gold-100/50 text-noir-900 border border-gold-400/60 shadow-soft transition-colors"
+                className="flex items-center justify-between p-5 rounded-2xl bg-cream-50 hover:bg-gold-100/50 text-noir-900 border border-gold-500/60 shadow-soft transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-cream-200 border border-gold-400/50 text-noir-900 flex items-center justify-center shrink-0">
@@ -121,7 +124,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                     <p className="font-serif text-2xl font-semibold text-noir-900">
                       {BRAND_CONFIG.instagramHandle}
                     </p>
-                    <p className="text-xs text-noir-600">
+                    <p className="text-xs text-noir-700 mt-0.5">
                       {lang === 'es'
                         ? 'Síguenos en Instagram y escríbenos por mensaje directo'
                         : 'Follow our work on Instagram and send us a DM'}
@@ -131,7 +134,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
               </a>
             </div>
 
-            <div className="p-5 rounded-2xl bg-cream-50/90 border border-gold-300/50 flex items-start gap-3.5">
+            <div className="p-5 rounded-2xl bg-cream-50 border border-gold-400/50 flex items-start gap-3.5">
               <MapPin className="w-5 h-5 text-gold-600 shrink-0 mt-0.5" />
               <div className="text-xs sm:text-sm text-noir-700 space-y-1">
                 <p className="font-semibold text-noir-900">
@@ -149,7 +152,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="bg-cream-50 p-7 sm:p-10 rounded-2xl border border-gold-400/55 shadow-soft">
+            <div className="bg-cream-50 p-7 sm:p-10 rounded-2xl border border-gold-400/60 shadow-soft">
               {!submitted ? (
                 <form
                   onSubmit={handleSubmit}
@@ -157,12 +160,12 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                   className="space-y-5"
                 >
                   <div className="border-b border-gold-300/45 pb-4">
-                    <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-noir-900">
+                    <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-noir-900 max-w-none">
                       {lang === 'es'
                         ? 'Solicitar cotización'
                         : 'Request a custom quote'}
                     </h3>
-                    <p className="text-xs sm:text-sm text-noir-600 mt-1">
+                    <p className="text-xs sm:text-sm text-noir-700 mt-1">
                       {lang === 'es'
                         ? 'Completa los datos de tu pedido o evento para preparar tu mensaje directo.'
                         : 'Fill in your order or event details to prepare your direct inquiry.'}
@@ -171,7 +174,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs text-noir-700 font-semibold mb-2">
+                      <label className="block text-xs text-noir-800 font-semibold mb-2">
                         {lang === 'es' ? 'Tu nombre' : 'Your name'}
                       </label>
                       <input
@@ -184,12 +187,12 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                         placeholder={
                           lang === 'es' ? 'Ej. María Rodríguez' : 'e.g. Sarah Miller'
                         }
-                        className="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-gold-300/70 text-noir-900 text-sm focus:outline-none focus:border-gold-500"
+                        className={fieldClasses}
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs text-noir-700 font-semibold mb-2">
+                      <label className="block text-xs text-noir-800 font-semibold mb-2">
                         {lang === 'es'
                           ? 'Teléfono, WhatsApp o correo'
                           : 'Phone, WhatsApp, or email'}
@@ -202,14 +205,14 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                           setFormData({ ...formData, contact: e.target.value })
                         }
                         placeholder="(502) 000 0000"
-                        className="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-gold-300/70 text-noir-900 text-sm focus:outline-none focus:border-gold-500"
+                        className={fieldClasses}
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs text-noir-700 font-semibold mb-2">
+                      <label className="block text-xs text-noir-800 font-semibold mb-2">
                         {lang === 'es'
                           ? '¿Qué te gustaría cotizar?'
                           : 'Service of interest'}
@@ -219,7 +222,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                         onChange={(e) =>
                           setFormData({ ...formData, serviceType: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-gold-300/70 text-noir-900 text-sm focus:outline-none focus:border-gold-500"
+                        className={fieldClasses}
                       >
                         <option value="Tabla Artesanal de Charcutería">
                           {lang === 'es'
@@ -250,7 +253,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                     </div>
 
                     <div>
-                      <label className="block text-xs text-noir-700 font-semibold mb-2">
+                      <label className="block text-xs text-noir-800 font-semibold mb-2">
                         {lang === 'es'
                           ? 'Número de personas estimado'
                           : 'Estimated guest count'}
@@ -260,7 +263,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                         onChange={(e) =>
                           setFormData({ ...formData, guestCount: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-gold-300/70 text-noir-900 text-sm focus:outline-none focus:border-gold-500"
+                        className={fieldClasses}
                       >
                         <option value="2 a 6 personas (Íntimo o Regalo)">
                           {lang === 'es'
@@ -293,7 +296,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs text-noir-700 font-semibold mb-2">
+                      <label className="block text-xs text-noir-800 font-semibold mb-2">
                         {lang === 'es'
                           ? 'Fecha del pedido o evento'
                           : 'Event or order date'}
@@ -304,12 +307,12 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                         onChange={(e) =>
                           setFormData({ ...formData, eventDate: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-gold-300/70 text-noir-900 text-sm focus:outline-none focus:border-gold-500"
+                        className={fieldClasses}
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs text-noir-700 font-semibold mb-2">
+                      <label className="block text-xs text-noir-800 font-semibold mb-2">
                         {lang === 'es'
                           ? 'Zona en Louisville, KY'
                           : 'Location in Louisville, KY'}
@@ -321,13 +324,13 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                           setFormData({ ...formData, location: e.target.value })
                         }
                         placeholder="Louisville, KY"
-                        className="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-gold-300/70 text-noir-900 text-sm focus:outline-none focus:border-gold-500"
+                        className={fieldClasses}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs text-noir-700 font-semibold mb-2">
+                    <label className="block text-xs text-noir-800 font-semibold mb-2">
                       {lang === 'es'
                         ? 'Detalles adicionales (tipo de celebración, preferencias o dedicatoria)'
                         : 'Additional details (occasion, dietary notes, or gift message)'}
@@ -343,15 +346,15 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                           ? 'Ej. Es para un aniversario o baby shower, nos encantan los quesos suaves y frutos rojos...'
                           : 'e.g. It is for a bridal shower or birthday, we love soft cheeses and berries...'
                       }
-                      className="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-gold-300/70 text-noir-900 text-sm focus:outline-none focus:border-gold-500"
+                      className="w-full px-4 py-3 rounded-xl bg-cream-50 border border-noir-600/80 text-noir-900 text-sm focus:outline-none focus:border-noir-900 transition-colors"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2.5 py-4 px-6 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 border border-gold-400/50 text-sm font-semibold transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-2.5 h-12 px-6 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 border border-gold-400/50 text-sm font-semibold transition-colors whitespace-nowrap"
                   >
-                    <Send className="w-4 h-4 text-gold-300" />
+                    <Send className="w-4 h-4 text-gold-300 shrink-0" />
                     <span>
                       {lang === 'es'
                         ? 'Preparar solicitud de cotización'
@@ -366,12 +369,12 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                   </div>
 
                   <div className="space-y-2 max-w-md mx-auto">
-                    <h3 className="font-serif text-3xl font-semibold text-noir-900">
+                    <h3 className="font-serif text-3xl font-semibold text-noir-900 max-w-none">
                       {lang === 'es'
                         ? `Resumen listo para ${formData.name}`
                         : `Summary ready for ${formData.name}`}
                     </h3>
-                    <p className="text-sm text-noir-600 leading-relaxed">
+                    <p className="text-sm text-noir-700 leading-relaxed">
                       {lang === 'es'
                         ? 'Elige el canal por el que prefieres abrir y enviar tu mensaje directo a Elianne:'
                         : 'Choose the channel you prefer to open and send your direct message to Elianne:'}
@@ -383,9 +386,9 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                       href={buildWhatsAppQuoteUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 text-xs font-semibold transition-colors"
+                      className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 text-xs font-semibold transition-colors whitespace-nowrap"
                     >
-                      <MessageCircle className="w-4 h-4 text-gold-300" />
+                      <MessageCircle className="w-4 h-4 text-gold-300 shrink-0" />
                       <span>
                         {lang === 'es'
                           ? 'Abrir en WhatsApp'
@@ -395,9 +398,9 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
 
                     <a
                       href={buildMailtoUrl()}
-                      className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border border-gold-400 bg-cream-100 hover:bg-gold-200/40 text-noir-900 text-xs font-semibold transition-colors"
+                      className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full border border-gold-500 bg-cream-100 hover:bg-gold-200/40 text-noir-900 text-xs font-semibold transition-colors whitespace-nowrap"
                     >
-                      <Mail className="w-4 h-4 text-gold-600" />
+                      <Mail className="w-4 h-4 text-gold-600 shrink-0" />
                       <span>
                         {lang === 'es' ? 'Abrir en correo' : 'Open in email'}
                       </span>
@@ -407,7 +410,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                   <button
                     type="button"
                     onClick={() => setSubmitted(false)}
-                    className="text-xs text-gold-600 hover:text-noir-900 font-semibold underline pt-2 transition-colors"
+                    className="inline-flex items-center justify-center h-11 px-5 text-xs text-gold-600 hover:text-noir-900 font-semibold underline transition-colors whitespace-nowrap"
                   >
                     {lang === 'es'
                       ? 'Editar datos del formulario'

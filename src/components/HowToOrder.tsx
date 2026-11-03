@@ -60,10 +60,10 @@ export const HowToOrder: React.FC<HowToOrderProps> = ({ lang }) => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl space-y-3 mb-12">
-          <h2 className="font-serif text-3xl sm:text-5xl font-semibold text-noir-900">
+          <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-noir-900 max-w-none">
             {lang === 'es' ? '¿Cómo ordenar tu pedido?' : 'How to place your order'}
           </h2>
-          <p className="text-noir-600 text-base sm:text-lg">
+          <p className="text-noir-700 text-base sm:text-lg">
             {lang === 'es'
               ? 'Recomendamos reservar tablas con 48 horas de anticipación y mesas de eventos con al menos 1 a 2 semanas en Louisville.'
               : 'We recommend booking boards 48 hours in advance and event tables at least 1 to 2 weeks ahead in Louisville.'}
@@ -82,7 +82,7 @@ export const HowToOrder: React.FC<HowToOrderProps> = ({ lang }) => {
                 </span>
               </div>
               <div className="md:col-span-4">
-                <h3 className="font-serif text-2xl font-semibold text-noir-900">
+                <h3 className="font-serif text-2xl font-semibold text-noir-900 max-w-none">
                   {step.title}
                 </h3>
               </div>

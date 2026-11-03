@@ -29,10 +29,10 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ lang }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div className="space-y-3 max-w-2xl">
-            <h2 className="font-serif text-3xl sm:text-5xl font-semibold text-noir-900">
+            <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-noir-900 max-w-none">
               {lang === 'es' ? 'Galería de nuestros trabajos' : 'Gallery of our work'}
             </h2>
-            <p className="text-noir-600 text-base sm:text-lg">
+            <p className="text-noir-700 text-base sm:text-lg">
               {lang === 'es'
                 ? 'Fotografías grandes de nuestras tablas, cajas de regalo, vasos individuales y montajes de eventos. Haz clic en cualquier imagen para ampliarla.'
                 : 'Large photographs of our boards, gift boxes, individual cups, and event styling. Click any image to view full screen.'}
@@ -43,9 +43,9 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ lang }) => {
             href={BRAND_CONFIG.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-gold-400/70 bg-cream-100 hover:bg-gold-200/40 text-noir-900 text-xs font-semibold transition-colors self-start md:self-auto"
+            className="inline-flex items-center gap-2 h-11 px-5 rounded-full border border-gold-500/70 bg-cream-100 hover:bg-gold-200/40 text-noir-900 text-xs font-semibold transition-colors self-start md:self-auto whitespace-nowrap"
           >
-            <Instagram className="w-4 h-4 text-gold-600" />
+            <Instagram className="w-4 h-4 text-gold-600 shrink-0" />
             <span>
               {lang === 'es'
                 ? `Ver más en ${BRAND_CONFIG.instagramHandle}`
@@ -54,15 +54,21 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ lang }) => {
           </a>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 border-b border-gold-300/50">
+        <div
+          role="tablist"
+          aria-label={lang === 'es' ? 'Filtros de galería' : 'Gallery filters'}
+          className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 border-b border-gold-300/50"
+        >
           {filterButtons.map((btn) => (
             <button
               key={btn.id}
+              role="tab"
+              aria-selected={filter === btn.id}
               onClick={() => setFilter(btn.id)}
-              className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
+              className={`shrink-0 h-11 px-5 rounded-full text-sm font-semibold transition-colors border whitespace-nowrap ${
                 filter === btn.id
                   ? 'bg-noir-900 text-gold-200 border-noir-900'
-                  : 'bg-cream-100 text-noir-700 border-gold-300/60 hover:border-gold-500'
+                  : 'bg-cream-100 text-noir-700 border-gold-400/60 hover:border-gold-600'
               }`}
             >
               {btn.label[lang]}
@@ -75,23 +81,24 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ lang }) => {
             <figure
               key={photo.id}
               onClick={() => setLightboxPhoto(photo)}
-              className="group cursor-pointer rounded-2xl overflow-hidden bg-cream-100 border border-gold-300/60 shadow-soft hover:border-gold-500 transition-colors p-3"
+              className="group cursor-pointer rounded-2xl overflow-hidden bg-cream-100 border border-gold-400/60 shadow-soft hover:border-gold-600 transition-colors p-3.5"
             >
               <div className="relative aspect-[16/11] overflow-hidden rounded-xl bg-cream-200">
                 <img
                   src={photo.src}
                   alt={photo.title[lang]}
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-3.5 right-3.5 w-9 h-9 rounded-full bg-cream-50/90 text-noir-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                <div className="absolute top-3.5 right-3.5 w-10 h-10 rounded-full bg-cream-50/90 text-noir-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
                   <Maximize2 className="w-4 h-4 text-gold-600" />
                 </div>
               </div>
-              <figcaption className="pt-3.5 px-1">
-                <h3 className="font-serif text-2xl font-semibold text-noir-900">
+              <figcaption className="pt-4 px-2 pb-1">
+                <h3 className="font-serif text-2xl font-semibold text-noir-900 max-w-none">
                   {photo.title[lang]}
                 </h3>
-                <p className="text-xs sm:text-sm text-noir-600 mt-1">
+                <p className="text-xs sm:text-sm text-noir-700 mt-1">
                   {photo.caption[lang]}
                 </p>
               </figcaption>
@@ -102,6 +109,8 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ lang }) => {
 
       {lightboxPhoto && (
         <div
+          role="dialog"
+          aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-noir-950/85 backdrop-blur-md"
           onClick={() => setLightboxPhoto(null)}
         >
@@ -111,7 +120,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ lang }) => {
           >
             <button
               onClick={() => setLightboxPhoto(null)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-noir-900/85 text-cream-50 flex items-center justify-center hover:bg-noir-900 transition-colors"
+              className="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-noir-900/85 text-cream-50 flex items-center justify-center hover:bg-noir-900 transition-colors"
               aria-label="Cerrar imagen"
             >
               <X className="w-5 h-5" />
@@ -124,10 +133,10 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ lang }) => {
               />
             </div>
             <div className="p-6 bg-cream-50">
-              <h3 className="font-serif text-2xl font-semibold text-noir-900">
+              <h3 className="font-serif text-2xl font-semibold text-noir-900 max-w-none">
                 {lightboxPhoto.title[lang]}
               </h3>
-              <p className="text-sm text-noir-600 mt-1">
+              <p className="text-sm text-noir-700 mt-1">
                 {lightboxPhoto.caption[lang]}
               </p>
             </div>

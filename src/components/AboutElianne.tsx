@@ -15,18 +15,19 @@ export const AboutElianne: React.FC<AboutElianneProps> = ({ lang }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-5">
-            <figure className="mx-auto max-w-md rounded-2xl p-3 bg-cream-50 border border-gold-400/55 shadow-soft">
+            <figure className="mx-auto max-w-md rounded-2xl p-3.5 bg-cream-50 border border-gold-400/60 shadow-soft">
               <div className="rounded-xl overflow-hidden aspect-[4/5] bg-cream-200">
                 <img
                   src="images/elianne_story_atelier.jpg"
                   alt="Elianne Lafuente preparando una tabla en Ely’s Charcuterie"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <figcaption className="pt-3 px-1 flex items-center justify-between text-xs text-noir-600">
-                <span className="font-medium text-noir-900">Elianne Lafuente</span>
-                <span className="inline-flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-gold-600" />
+              <figcaption className="pt-3.5 px-2 flex items-center justify-between text-xs text-noir-700">
+                <span className="font-semibold text-noir-900">Elianne Lafuente</span>
+                <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                  <MapPin className="w-3.5 h-3.5 text-gold-600 shrink-0" />
                   <span>Louisville, Kentucky</span>
                 </span>
               </figcaption>
@@ -34,11 +35,11 @@ export const AboutElianne: React.FC<AboutElianneProps> = ({ lang }) => {
           </div>
 
           <div className="lg:col-span-7 space-y-6">
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-noir-900 leading-tight">
+            <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-noir-900 leading-tight max-w-none">
               {copy.title}
             </h2>
 
-            <blockquote className="p-6 rounded-2xl bg-cream-50 border-l-2 border-gold-400">
+            <blockquote className="p-6 rounded-2xl bg-cream-50 border-l-2 border-gold-500">
               <p className="font-serif italic text-xl sm:text-2xl text-noir-800 leading-relaxed">
                 {copy.quote}
               </p>

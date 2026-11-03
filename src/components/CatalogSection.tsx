@@ -66,29 +66,35 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
     <section id="catalogo" className="py-20 lg:py-28 bg-cream-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl space-y-4 mb-10">
-          <h2 className="font-serif text-3xl sm:text-5xl font-semibold text-noir-900">
+          <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-noir-900 max-w-none">
             {lang === 'es'
               ? 'Catálogo de tablas, cajas y experiencias'
               : 'Catalog of boards, gift boxes, and event experiences'}
           </h2>
-          <p className="text-noir-600 text-base sm:text-lg leading-relaxed">
+          <p className="text-noir-700 text-base sm:text-lg leading-relaxed">
             {lang === 'es'
               ? 'Selecciona el formato y tamaño ideal para tu reunión o regalo en Louisville. Puedes agregar varias opciones a tu pedido o escribirnos directamente por WhatsApp.'
               : 'Choose the ideal style and size for your gathering or gift in Louisville. Add multiple items to your order bag or message us directly on WhatsApp.'}
           </p>
         </div>
 
-        <div className="flex items-center justify-start gap-2.5 overflow-x-auto pb-4 mb-10 border-b border-gold-300/50">
+        <div
+          role="tablist"
+          aria-label={lang === 'es' ? 'Categorías del catálogo' : 'Catalog categories'}
+          className="flex items-center justify-start gap-2.5 overflow-x-auto pb-4 mb-10 border-b border-gold-300/50"
+        >
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat.id;
             return (
               <button
                 key={cat.id}
+                role="tab"
+                aria-selected={isActive}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`shrink-0 px-5 py-2.5 rounded-full text-sm font-medium transition-colors border ${
+                className={`shrink-0 h-11 px-5 rounded-full text-sm font-semibold transition-colors border whitespace-nowrap ${
                   isActive
                     ? 'bg-noir-900 text-gold-200 border-noir-900'
-                    : 'bg-cream-100 text-noir-700 border-gold-300/60 hover:border-gold-500 hover:bg-cream-200/60'
+                    : 'bg-cream-100 text-noir-700 border-gold-400/60 hover:border-gold-600 hover:bg-cream-200/60'
                 }`}
               >
                 {cat.label[lang]}
@@ -97,7 +103,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
           })}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           {filteredItems.map((item) => {
             const currentSizeId = selectedSizes[item.id] || item.sizes[0].id;
             const currentSize =
@@ -107,83 +113,87 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
             return (
               <article
                 key={item.id}
-                className="bg-cream-100/60 rounded-2xl border border-gold-300/60 overflow-hidden shadow-soft flex flex-col transition-colors hover:border-gold-500"
+                className="bg-cream-100/70 rounded-2xl border border-gold-400/55 overflow-hidden shadow-soft flex flex-col transition-colors hover:border-gold-600 p-3 sm:p-4"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-cream-200">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-cream-200">
                   <img
                     src={item.image}
                     alt={item.name[lang]}
+                    decoding="async"
                     className="w-full h-full object-cover object-center"
                   />
 
                   <button
+                    type="button"
                     onClick={() => setDetailModalItem(item)}
-                    className="absolute bottom-3.5 right-3.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cream-50/95 hover:bg-cream-50 text-noir-900 text-xs font-semibold shadow-sm transition-colors"
+                    className="absolute bottom-3.5 right-3.5 inline-flex items-center gap-2 h-11 px-4 rounded-full bg-cream-50/95 hover:bg-cream-50 text-noir-900 border border-gold-400/60 text-xs font-semibold shadow-sm transition-colors whitespace-nowrap"
                   >
-                    <Eye className="w-3.5 h-3.5 text-gold-600" />
+                    <Eye className="w-4 h-4 text-gold-600 shrink-0" />
                     <span>{lang === 'es' ? 'Ver ingredientes' : 'View details'}</span>
                   </button>
                 </div>
 
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-5">
+                <div className="pt-5 px-2 pb-2 flex-1 flex flex-col justify-between space-y-5">
                   <div className="space-y-2.5">
-                    <h3 className="font-serif text-2xl font-semibold text-noir-900 leading-snug">
-                      {item.name[lang]}
-                    </h3>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-noir-900 leading-snug max-w-none">
+                        {item.name[lang]}
+                      </h3>
+                      <span className="font-serif text-2xl sm:text-3xl font-bold text-noir-900 shrink-0 num">
+                        ${currentSize.price}
+                      </span>
+                    </div>
 
-                    <p className="text-sm text-noir-600 leading-relaxed">
+                    <p className="text-sm sm:text-base text-noir-700 leading-relaxed">
                       {item.shortDescription[lang]}
                     </p>
                   </div>
 
-                  <div className="space-y-4 pt-3 border-t border-gold-300/45">
-                    {item.sizes.length > 1 ? (
-                      <div className="space-y-2">
-                        <p className="text-xs text-noir-600 font-medium">
-                          {lang === 'es' ? 'Selecciona el tamaño:' : 'Select size:'}
-                        </p>
-                        <div className="grid grid-cols-1 gap-1.5">
-                          {item.sizes.map((size) => {
-                            const active = size.id === currentSize.id;
-                            return (
-                              <button
-                                key={size.id}
-                                type="button"
-                                onClick={() => handleSelectSize(item.id, size.id)}
-                                className={`flex items-center justify-between px-3.5 py-2 rounded-xl text-xs transition-colors border ${
-                                  active
-                                    ? 'bg-cream-50 border-gold-500 text-noir-900 font-semibold'
-                                    : 'bg-cream-100/60 border-gold-300/40 text-noir-600 hover:border-gold-400'
-                                }`}
-                              >
-                                <span className="truncate">
-                                  {size.label[lang]} ({size.servings[lang]})
-                                </span>
-                                <span className="font-serif text-base font-bold text-noir-900 ml-2 num">
-                                  ${size.price}
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-cream-50 px-4 py-2.5 rounded-xl border border-gold-300/50">
-                        <div className="flex items-center gap-2 text-xs text-noir-700">
+                  <div className="space-y-4 pt-4 border-t border-gold-300/50">
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between gap-2 text-xs text-noir-700">
+                        <span className="font-semibold text-noir-900">
+                          {lang === 'es' ? 'Formato y porciones:' : 'Format & servings:'}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 text-noir-700 font-normal">
                           <Users className="w-3.5 h-3.5 text-gold-600 shrink-0" />
                           <span>{currentSize.servings[lang]}</span>
-                        </div>
-                        <span className="font-serif text-xl font-bold text-noir-900 num">
-                          ${currentSize.price}
                         </span>
                       </div>
-                    )}
 
-                    <div className="grid grid-cols-2 gap-2.5 pt-1">
+                      <div
+                        role="tablist"
+                        aria-label={lang === 'es' ? 'Tamaños disponibles' : 'Available sizes'}
+                        className="flex flex-wrap gap-2"
+                      >
+                        {item.sizes.map((size) => {
+                          const active = size.id === currentSize.id;
+                          return (
+                            <button
+                              key={size.id}
+                              type="button"
+                              role="tab"
+                              aria-selected={active}
+                              onClick={() => handleSelectSize(item.id, size.id)}
+                              className={`inline-flex items-center gap-2 h-10 px-4 rounded-full text-xs transition-colors border whitespace-nowrap ${
+                                active
+                                  ? 'bg-noir-900 border-noir-900 text-gold-200 font-semibold'
+                                  : 'bg-cream-50 border-gold-400/70 text-noir-800 hover:border-noir-900 font-normal'
+                              }`}
+                            >
+                              <span>{size.label[lang]}</span>
+                              <span className="num font-semibold">${size.price}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                       <button
                         type="button"
                         onClick={() => handleAdd(item)}
-                        className={`inline-flex items-center justify-center gap-1.5 py-3 px-3 rounded-full text-xs font-semibold transition-colors border ${
+                        className={`inline-flex items-center justify-center gap-2 h-12 px-5 rounded-full text-xs font-semibold transition-colors border whitespace-nowrap ${
                           isAdded
                             ? 'bg-gold-500 text-cream-50 border-gold-500'
                             : 'bg-noir-900 hover:bg-noir-800 text-gold-200 border-noir-900'
@@ -191,12 +201,12 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                       >
                         {isAdded ? (
                           <>
-                            <Check className="w-3.5 h-3.5" />
-                            <span>{lang === 'es' ? 'Agregado' : 'Added'}</span>
+                            <Check className="w-4 h-4 shrink-0" />
+                            <span>{lang === 'es' ? 'Agregado al pedido' : 'Added to bag'}</span>
                           </>
                         ) : (
                           <>
-                            <ShoppingBag className="w-3.5 h-3.5 text-gold-300" />
+                            <ShoppingBag className="w-4 h-4 text-gold-300 shrink-0" />
                             <span>{lang === 'es' ? 'Agregar al pedido' : 'Add to bag'}</span>
                           </>
                         )}
@@ -206,10 +216,10 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                         href={getDirectWhatsAppLink(item)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-1.5 py-3 px-3 rounded-full bg-cream-50 hover:bg-gold-200/40 text-noir-900 border border-gold-400/70 text-xs font-semibold transition-colors"
+                        className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-full bg-cream-50 hover:bg-gold-200/40 text-noir-900 border border-gold-500/80 text-xs font-semibold transition-colors whitespace-nowrap"
                       >
-                        <MessageCircle className="w-3.5 h-3.5 text-gold-600" />
-                        <span>WhatsApp</span>
+                        <MessageCircle className="w-4 h-4 text-gold-600 shrink-0" />
+                        <span>{lang === 'es' ? 'Pedir por WhatsApp' : 'Order via WhatsApp'}</span>
                       </a>
                     </div>
                   </div>
@@ -222,6 +232,8 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
 
       {detailModalItem && (
         <div
+          role="dialog"
+          aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-noir-950/70 backdrop-blur-sm"
           onClick={() => setDetailModalItem(null)}
         >
@@ -237,7 +249,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
               />
               <button
                 onClick={() => setDetailModalItem(null)}
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-noir-900/85 text-cream-50 flex items-center justify-center hover:bg-noir-900 transition-colors"
+                className="absolute top-4 right-4 w-11 h-11 rounded-full bg-noir-900/85 text-cream-50 flex items-center justify-center hover:bg-noir-900 transition-colors"
                 aria-label="Cerrar"
               >
                 <X className="w-5 h-5" />
@@ -246,7 +258,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
 
             <div className="p-6 sm:p-8 space-y-6">
               <div>
-                <h3 className="font-serif text-3xl font-semibold text-noir-900">
+                <h3 className="font-serif text-3xl font-semibold text-noir-900 max-w-none">
                   {detailModalItem.name[lang]}
                 </h3>
                 <p className="text-noir-700 text-sm sm:text-base leading-relaxed mt-2">
@@ -271,10 +283,10 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                 </ul>
               </div>
 
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-cream-200/50 border border-gold-300/40">
+              <div className="flex items-start gap-3 p-5 rounded-xl bg-cream-200/50 border border-gold-300/40">
                 <Wine className="w-5 h-5 text-gold-600 shrink-0 mt-0.5" />
                 <p className="text-xs sm:text-sm text-noir-700">
-                  <strong className="text-noir-900">
+                  <strong className="text-noir-900 font-semibold">
                     {lang === 'es' ? 'Maridaje sugerido: ' : 'Suggested pairing: '}
                   </strong>
                   {detailModalItem.pairingNote[lang]}
@@ -288,9 +300,9 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                     handleAdd(detailModalItem);
                     setDetailModalItem(null);
                   }}
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 text-xs font-semibold transition-colors"
+                  className="flex-1 inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 text-xs font-semibold transition-colors whitespace-nowrap"
                 >
-                  <ShoppingBag className="w-4 h-4 text-gold-300" />
+                  <ShoppingBag className="w-4 h-4 text-gold-300 shrink-0" />
                   <span>
                     {lang === 'es' ? 'Agregar a mi pedido' : 'Add to my order'}
                   </span>
@@ -299,9 +311,9 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                   href={getDirectWhatsAppLink(detailModalItem)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full border border-gold-400 bg-cream-100 hover:bg-gold-200/40 text-noir-900 text-xs font-semibold transition-colors"
+                  className="flex-1 inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full border border-gold-500 bg-cream-100 hover:bg-gold-200/40 text-noir-900 text-xs font-semibold transition-colors whitespace-nowrap"
                 >
-                  <MessageCircle className="w-4 h-4 text-gold-600" />
+                  <MessageCircle className="w-4 h-4 text-gold-600 shrink-0" />
                   <span>
                     {lang === 'es'
                       ? 'Consultar por WhatsApp'

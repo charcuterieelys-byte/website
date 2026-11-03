@@ -4,4 +4,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: './',
   plugins: [react()],
+  server: {
+    watch: {
+      ignored: ['**/*.mp4', '**/videos/**', '**/_archivos_marca_local/**'],
+    },
+  },
 })
