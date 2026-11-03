@@ -13,8 +13,10 @@ dist-ssr
 _archivos_marca_local/
 mockups_fotograficos/
 public_images_gen/
+videos/
 .hallmark/
 *.cdr
+*.mp4
 
 # Logs & Editor
 npm-debug.log*
