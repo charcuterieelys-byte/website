@@ -21,41 +21,28 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const smoothProgressRef = useRef<number>(0);
   const [videoFailed, setVideoFailed] = useState(false);
-  // Strategic progressive media loading: only load Product 01 & 02 initially,
-  // then load subsequent product videos as the user approaches them
-  const [shouldLoadVideo, setShouldLoadVideo] = useState<boolean>(index <= 1);
 
   const isActive = index === activeIndex;
   const isAdjacent = Math.abs(index - activeIndex) <= 1;
 
-  useEffect(() => {
-    if ((isActive || isAdjacent) && !shouldLoadVideo) {
-      setShouldLoadVideo(true);
-    }
-  }, [isActive, isAdjacent, shouldLoadVideo]);
-
-  // Initialize video for scroll-controlled 3D scrubbing & pause when off-stage
+  // Initialize video for scroll-controlled 3D scrubbing
   useEffect(() => {
     const vid = videoRef.current;
-    if (!vid || videoFailed || !shouldLoadVideo) return;
+    if (!vid || videoFailed) return;
 
     vid.muted = true;
     vid.defaultMuted = true;
     vid.playsInline = true;
     vid.pause();
-  }, [videoFailed, shouldLoadVideo, isActive]);
+  }, [videoFailed]);
 
   // High-frequency 60fps requestAnimationFrame Lerp Scrubbing Engine
+  // Scrubs video.currentTime directly according to scroll progress for this product
   useEffect(() => {
     const vid = videoRef.current;
-    if (!vid || videoFailed || !shouldLoadVideo || (!isActive && !isAdjacent)) {
+    if (!vid || videoFailed || (!isActive && !isAdjacent)) {
       return;
     }
-
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (prefersReducedMotion) return;
 
     let rafId: number;
     const updateVideoFrame = () => {
@@ -82,14 +69,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
 
     rafId = requestAnimationFrame(updateVideoFrame);
     return () => cancelAnimationFrame(rafId);
-  }, [
-    index,
-    isActive,
-    isAdjacent,
-    rotationProgressRef,
-    videoFailed,
-    shouldLoadVideo,
-  ]);
+  }, [index, isActive, isAdjacent, rotationProgressRef, videoFailed]);
 
   const isRightAlignedInfo = product.layoutAlign === 'right';
 
@@ -128,12 +108,12 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
               className="w-full h-full flex items-center justify-center"
               style={{ transform: `scale(${product.visualScale})` }}
             >
-              {!videoFailed && shouldLoadVideo ? (
+              {!videoFailed ? (
                 <video
                   ref={videoRef}
                   muted
                   playsInline
-                  preload={isActive ? 'auto' : 'metadata'}
+                  preload="auto"
                   poster={product.posterSrc}
                   onLoadedData={(e) => {
                     const v = e.currentTarget;
@@ -153,7 +133,6 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                 <img
                   src={product.posterSrc}
                   alt={product.name[lang]}
-                  loading={index <= 1 ? 'eager' : 'lazy'}
                   className="w-full h-full object-contain pointer-events-none select-none floating-product-shadow"
                 />
               )}

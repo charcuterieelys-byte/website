@@ -26,11 +26,6 @@ export const CustomOrdersSection: React.FC<CustomOrdersSectionProps> = ({
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (prefersReducedMotion) return;
-
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.custom-order-reveal',

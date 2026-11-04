@@ -27,11 +27,6 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (prefersReducedMotion) return;
-
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.gathering-reveal',

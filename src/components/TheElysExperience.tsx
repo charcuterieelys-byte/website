@@ -24,11 +24,6 @@ export const TheElysExperience: React.FC<TheElysExperienceProps> = ({ lang }) =>
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (prefersReducedMotion) return;
-
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.experience-reveal',
