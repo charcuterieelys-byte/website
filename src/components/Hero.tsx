@@ -1,258 +1,230 @@
-import React, { useEffect, useRef } from 'react';
-import { MessageCircle, Instagram, MapPin, ArrowUpRight, Sparkles } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Language } from '../types/catalog';
-import { BRAND_CONFIG } from '../data/catalog';
+import { BRAND_CONFIG, HERO_CONTENT, PRODUCTS } from '../data/catalog';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface HeroProps {
   lang: Language;
+  onOpenOrderModal: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ lang }) => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const bgImageRef = useRef<HTMLImageElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const floatingCardRef = useRef<HTMLDivElement>(null);
+export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
+  const heroRef = useRef<HTMLElement>(null);
+  const productWrapRef = useRef<HTMLDivElement>(null);
+  const shadowRef = useRef<HTMLDivElement>(null);
+  const textWrapRef = useRef<HTMLDivElement>(null);
+  const [useMp4Fallback, setUseMp4Fallback] = useState(false);
 
-  const whatsappUrl = `https://wa.me/${BRAND_CONFIG.whatsappNumber}?text=${encodeURIComponent(
-    lang === 'es'
-      ? 'Hola Elianne, me encantaría hacer un pedido o cotizar un evento con Ely’s Charcuterie en Louisville.'
-      : 'Hi Elianne! I would love to place an order or get an event quote with Ely’s Charcuterie in Louisville.'
-  )}`;
+  const content = HERO_CONTENT[lang];
+  // Featured hero floating sculpture: 03 Rectangular Charcuterie Board
+  const featuredProduct = PRODUCTS[2];
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Entrance choreography
-      gsap.fromTo(
-        '.hero-reveal',
-        { y: 36, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.15,
-          stagger: 0.14,
-          ease: 'power3.out',
-          delay: 0.1,
-        }
-      );
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    if (prefersReducedMotion || !heroRef.current) return;
 
-      if (floatingCardRef.current) {
-        gsap.fromTo(
-          floatingCardRef.current,
-          { y: 40, opacity: 0, scale: 0.96 },
+    const ctx = gsap.context(() => {
+      // Physical, dimensional 3D entrance of the featured product and editorial text
+      const entranceTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      entranceTl
+        .fromTo(
+          productWrapRef.current,
+          {
+            y: 95,
+            z: -160,
+            scale: 0.78,
+            rotationX: 16,
+            rotationY: -14,
+            rotationZ: -4,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            z: 0,
+            scale: 1,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0,
+            opacity: 1,
+            duration: 1.8,
+            ease: 'expo.out',
+          },
+          0.1
+        )
+        .fromTo(
+          shadowRef.current,
+          { scale: 0.55, opacity: 0 },
+          { scale: 1, opacity: 0.75, duration: 1.8, ease: 'expo.out' },
+          0.15
+        )
+        .fromTo(
+          '.hero-editorial-item',
+          { y: 34, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            scale: 1,
-            duration: 1.25,
+            duration: 1.2,
+            stagger: 0.12,
             ease: 'power3.out',
-            delay: 0.45,
-          }
+          },
+          0.35
         );
-      }
 
-      // Subtle scrubbed parallax on the background photography
-      if (bgImageRef.current && sectionRef.current) {
-        gsap.fromTo(
-          bgImageRef.current,
-          { scale: 1.08, yPercent: 0 },
-          {
-            scale: 1.0,
-            yPercent: 8,
-            ease: 'none',
-            force3D: true,
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
-        );
-      }
-    }, sectionRef);
+      // Subtle continuous levitation while in the Hero
+      gsap.to(productWrapRef.current, {
+        y: -12,
+        rotationZ: 0.8,
+        duration: 3.8,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      // Scroll-controlled dimensional exit as the visitor scrolls into the Collection
+      gsap.to(productWrapRef.current, {
+        y: -110,
+        scale: 0.9,
+        rotationX: 10,
+        opacity: 0.15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+
+      gsap.to(textWrapRef.current, {
+        y: -70,
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: '15% top',
+          end: '85% top',
+          scrub: true,
+        },
+      });
+    }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      ref={sectionRef}
-      id="inicio"
-      className="relative min-h-[100dvh] w-full overflow-hidden bg-noir-950 text-cream-50 flex flex-col justify-end pt-32 pb-12 sm:pb-16 lg:pb-20"
+      id="top"
+      ref={heroRef}
+      className="relative z-10 min-h-[100dvh] w-full flex flex-col justify-between pt-28 pb-10 sm:pt-32 sm:pb-14 overflow-hidden studio-perspective"
     >
-      {/* Full-bleed atmospheric photography with multi-layered cinematic lighting */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          ref={bgImageRef}
-          src="images/hero_grazing_table.jpg"
-          alt="Tabla Rosa de Autor de Ely’s Charcuterie en Louisville"
-          decoding="async"
-          className="w-full h-full object-cover object-center will-change-transform"
-        />
-        {/* Cinematic directional vignette */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(105deg, rgba(13,10,11,0.92) 0%, rgba(13,10,11,0.72) 44%, rgba(13,10,11,0.28) 78%, rgba(13,10,11,0.52) 100%)',
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(to top, rgba(13,10,11,0.96) 0%, rgba(13,10,11,0.35) 38%, rgba(13,10,11,0.45) 100%)',
-          }}
-        />
-      </div>
-
-      {/* Main architectural stage */}
-      <div
-        ref={contentRef}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 w-full"
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-end">
-          {/* Left Column: Monumental Editorial Statement */}
-          <div className="lg:col-span-7 space-y-7">
-            <div className="hero-reveal inline-flex items-center gap-2.5 px-4 py-2 rounded-full liquid-glass-pill text-gold-200 text-xs font-medium tracking-wide">
-              <Sparkles className="w-3.5 h-3.5 text-gold-300 shrink-0" />
-              <span>
-                {lang === 'es'
-                  ? 'Atelier de Charcutería Artesanal · Louisville, Kentucky'
-                  : 'Artisanal Charcuterie Atelier · Louisville, Kentucky'}
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 my-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+          {/* Left Editorial Composition */}
+          <div
+            ref={textWrapRef}
+            className="lg:col-span-5 space-y-7 text-center lg:text-left order-2 lg:order-1"
+          >
+            {/* Editorial Eyebrow */}
+            <div className="hero-editorial-item flex items-center justify-center lg:justify-start gap-3">
+              <span className="w-8 h-px bg-[#C9A96E]/55" />
+              <span className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-[#C9A96E]/90 font-medium">
+                {content.eyebrow}
               </span>
             </div>
 
-            <h1 className="hero-reveal font-serif text-5xl sm:text-6xl lg:text-[4.65rem] font-semibold text-cream-50 leading-[0.98] tracking-[-0.02em] max-w-none">
-              {lang === 'es' ? (
-                <>
-                  El arte de reunir{' '}
-                  <span className="italic font-normal text-gold-200">
-                    alrededor de una mesa.
-                  </span>
-                </>
-              ) : (
-                <>
-                  The art of gathering{' '}
-                  <span className="italic font-normal text-gold-200">
-                    around the table.
-                  </span>
-                </>
-              )}
+            {/* Large Editorial Headline */}
+            <h1 className="hero-editorial-item font-serif font-light text-4xl sm:text-6xl xl:text-[4.4rem] text-[#F3EBDD] leading-[1.03] tracking-[-0.02em]">
+              {content.headline}
             </h1>
 
-            <p className="hero-reveal text-base sm:text-lg lg:text-xl text-cream-100/85 leading-relaxed max-w-xl font-normal">
-              {lang === 'es'
-                ? 'Tablas de autor, cajas de regalo y mesas escenográficas creadas a mano por Elianne Lafuente para transformar los pequeños detalles en celebraciones inolvidables.'
-                : 'Signature boards, luxury keepsake boxes, and bespoke grazing tables handcrafted by Elianne Lafuente to turn small details into unforgettable celebrations.'}
+            {/* Supporting Text */}
+            <p className="hero-editorial-item text-sm sm:text-base text-[#F3EBDD]/75 font-light leading-relaxed max-w-md mx-auto lg:mx-0">
+              {content.supportingText}
             </p>
 
-            <div className="hero-reveal flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            {/* Primary & Secondary CTAs */}
+            <div className="hero-editorial-item pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <a
-                href="#catalogo"
-                className="group inline-flex items-center justify-center gap-3 h-14 px-8 rounded-full bg-gradient-to-r from-gold-200 via-gold-300 to-gold-200 text-noir-950 text-sm font-bold tracking-wide shadow-gold-glow hover:brightness-105 transition-all duration-300 whitespace-nowrap"
+                href="#collection"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-[#C9A96E] hover:bg-[#d6b77d] text-[#17181A] text-[11px] font-semibold tracking-[0.24em] uppercase transition-all duration-300"
               >
-                <span>
-                  {lang === 'es' ? 'Explorar la Colección' : 'Explore Collection'}
-                </span>
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                {content.primaryCta}
               </a>
 
-              <a
-                href="#cotizar"
-                className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-full liquid-glass-pill hover:bg-cream-50/15 text-cream-50 text-sm font-semibold transition-all duration-300 whitespace-nowrap"
+              <button
+                type="button"
+                onClick={onOpenOrderModal}
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-[#F3EBDD]/25 hover:border-[#C9A96E] text-[#F3EBDD] hover:text-[#C9A96E] text-[11px] font-medium tracking-[0.24em] uppercase transition-all duration-300"
               >
-                <span>
-                  {lang === 'es' ? 'Cotizar Mesa o Evento' : 'Request Event Quote'}
-                </span>
-              </a>
-            </div>
-
-            {/* Direct Atelier Bar */}
-            <div className="hero-reveal pt-6 border-t border-gold-300/20 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-cream-200/85">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-semibold text-gold-200 hover:text-cream-50 transition-colors whitespace-nowrap"
-              >
-                <MessageCircle className="w-4 h-4 text-gold-300 shrink-0" />
-                <span>WhatsApp Concierge</span>
-              </a>
-              <a
-                href={BRAND_CONFIG.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-semibold text-cream-100 hover:text-gold-200 transition-colors whitespace-nowrap"
-              >
-                <Instagram className="w-4 h-4 text-gold-300 shrink-0" />
-                <span>{BRAND_CONFIG.instagramHandle}</span>
-              </a>
-              <span className="inline-flex items-center gap-1.5 text-cream-200/75 whitespace-nowrap">
-                <MapPin className="w-4 h-4 text-gold-400 shrink-0" />
-                <span>Louisville, KY & Surrounding Areas</span>
-              </span>
+                {content.secondaryCta}
+              </button>
             </div>
           </div>
 
-          {/* Right Column: Floating Liquid Glass Signature Showcase Card */}
-          <div className="lg:col-span-5 flex lg:justify-end">
+          {/* Right Floating 3D Charcuterie Sculpture (58%+ visual prominence) */}
+          <div className="lg:col-span-7 relative flex flex-col items-center justify-center order-1 lg:order-2">
+            {/* Soft Studio Atmospheric Backlight behind the floating board */}
             <div
-              ref={floatingCardRef}
-              className="w-full max-w-md rounded-3xl liquid-glass-dark p-5 sm:p-6 space-y-5"
+              aria-hidden="true"
+              className="pointer-events-none absolute w-[78%] h-[78%] rounded-full blur-[90px] opacity-45"
+              style={{
+                background:
+                  'radial-gradient(circle, rgba(201, 169, 110, 0.14) 0%, rgba(243, 235, 221, 0.05) 45%, transparent 72%)',
+              }}
+            />
+
+            {/* Floating 3D Product Video — NO container box, NO borders */}
+            <div
+              ref={productWrapRef}
+              className="relative w-full max-w-[780px] aspect-[16/9] flex items-center justify-center will-change-transform"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <img
-                    src="images/7_tabla_madera_grabada.jpg"
-                    alt="Detalle de tabla de nogal grabada Ely’s"
-                    className="w-14 h-14 rounded-2xl object-cover border border-gold-300/35 shrink-0"
-                  />
-                  <div>
-                    <span className="text-[11px] font-semibold text-gold-300 tracking-wide block">
-                      {lang === 'es' ? 'Pieza Insignia de la Casa' : 'House Signature Piece'}
-                    </span>
-                    <h2 className="font-serif text-2xl font-semibold text-cream-50 leading-tight">
-                      {lang === 'es' ? 'Tabla Rosa de Autor' : 'Signature Rose Board'}
-                    </h2>
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <span className="text-[11px] text-cream-200/70 block">
-                    {lang === 'es' ? 'Desde' : 'From'}
-                  </span>
-                  <span className="font-serif text-3xl font-bold text-gold-200 num">
-                    $95
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-xs sm:text-sm text-cream-100/80 leading-relaxed">
-                {lang === 'es'
-                  ? 'Rosas de Prosciutto di Parma y Salami hechas pétalo a pétalo, rueda de Brie con panal de miel natural, higos frescos y Manchego sobre madera de nogal.'
-                  : 'Hand-folded Prosciutto di Parma and Salami roses, double-cream Brie with raw honeycomb, fresh mission figs, and aged Manchego on walnut wood.'}
-              </p>
-
-              <div className="pt-3 border-t border-gold-300/20 flex items-center justify-between gap-4 text-xs">
-                <span className="text-cream-200/75">
-                  {lang === 'es'
-                    ? '3 tamaños · 4 a 16 invitados'
-                    : '3 sizes · Serves 4 to 16'}
-                </span>
-                <a
-                  href="#catalogo"
-                  className="inline-flex items-center gap-1.5 font-semibold text-gold-200 hover:text-cream-50 transition-colors whitespace-nowrap"
-                >
-                  <span>{lang === 'es' ? 'Personalizar pedido' : 'Customize order'}</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                poster={featuredProduct.posterSrc}
+                className={`w-full h-full object-contain pointer-events-none select-none floating-product-shadow scale-[1.08] sm:scale-[1.14] ${
+                  useMp4Fallback ? 'video-feather-mask' : ''
+                }`}
+              >
+                <source src={featuredProduct.videoSrc} type="video/webm" />
+                <source
+                  src={featuredProduct.videoFallbackMp4}
+                  type="video/mp4"
+                  onError={() => setUseMp4Fallback(true)}
+                />
+              </video>
             </div>
+
+            {/* Grounded 3D Studio Floor Shadow */}
+            <div
+              ref={shadowRef}
+              aria-hidden="true"
+              className="w-[62%] h-8 -mt-4 rounded-full blur-2xl pointer-events-none"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, rgba(10, 11, 13, 0.92) 0%, rgba(10, 11, 13, 0.45) 55%, transparent 80%)',
+              }}
+            />
           </div>
+        </div>
+      </div>
+
+      {/* Minimal Scroll Invitation */}
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[10px] tracking-[0.28em] uppercase text-[#F3EBDD]/45">
+        <span>{content.scrollHint}</span>
+        <div className="flex items-center gap-3">
+          <span className="num text-[#C9A96E]">01 — 07</span>
+          <span className="w-10 h-px bg-[#C9A96E]/40" />
         </div>
       </div>
     </section>

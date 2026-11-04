@@ -1,592 +1,550 @@
-import { CatalogItem, CategoryId, GalleryPhoto } from '../types/catalog';
+import { Product, OccasionItem, Language } from '../types/catalog';
+
+/**
+ * ============================================================================
+ * ELYS CHARCUTERIE — EDITABLE BRAND & PRODUCT CONFIGURATION
+ * ============================================================================
+ * IMPORTANT:
+ * Do not invent prices, serving quantities, or details that have not been
+ * confirmed. All fields marked [EDITABLE FIELD] below can be updated directly
+ * once final pricing and serving specifications are confirmed.
+ */
 
 export const BRAND_CONFIG = {
-  businessName: 'Ely’s Charcuterie',
+  businessName: "Ely’s Charcuterie",
   founderName: 'Elianne Lafuente',
-  location: 'Louisville, Kentucky',
+  city: 'Louisville, Kentucky',
+  // [EDITABLE FIELD] Confirm official WhatsApp number & Instagram handle
   whatsappNumber: '15025550199',
-  whatsappDisplay: '+1 (502) 555 0199',
   instagramHandle: '@elyscharcuterie',
-  instagramUrl: 'https://instagram.com/elyscharcuterie',
-  email: 'hello@elyscharcuterie.com',
+  instagramUrl: 'https://instagram.com/',
+  email: 'orders@elyscharcuterie.com',
+  // Original supplied logo file — NEVER modify or redraw
+  logoHorizontal: './logos/logo.png',
+  logoVertical: './logos/logo.png',
+  logoIsotipo: './logos/logo.png',
 };
 
-export const FOUNDER_STORY = {
-  es: {
-    eyebrow: 'El Atelier · Louisville, Kentucky',
-    title: 'Soy Elianne Lafuente, la persona detrás de Ely’s Charcuteria',
-    paragraph1:
-      'Este emprendimiento nace de mi deseo de crear algo propio y de transformar los pequeños detalles en momentos especiales. Encontré en la charcutería una manera de expresar mi creatividad y de aportar algo bonito a las celebraciones de los demás.',
-    paragraph2:
-      'Cada tabla representa la ilusión y el cariño que pongo en este proyecto. Mi propósito es crear propuestas que inviten a compartir, disfrutar y reunir a las personas alrededor de una mesa.',
-    quote: '“Transformar los pequeños detalles en momentos especiales alrededor de una mesa.”',
-    locationTag: 'Hecho a mano con dedicación en Louisville, Kentucky',
-  },
+export const HERO_CONTENT: Record<
+  Language,
+  {
+    eyebrow: string;
+    headline: string;
+    supportingText: string;
+    primaryCta: string;
+    secondaryCta: string;
+    scrollHint: string;
+  }
+> = {
   en: {
-    eyebrow: 'The Atelier · Louisville, Kentucky',
-    title: 'I am Elianne Lafuente, the creator behind Ely’s Charcuterie',
-    paragraph1:
-      'This journey was born from my desire to build something of my own and transform small details into unforgettable moments. In charcuterie, I found a canvas to express my creativity and bring beauty to other people’s celebrations.',
-    paragraph2:
-      'Every board represents the passion, warmth, and care I pour into this project. My purpose is to craft proposals that invite people to share, savor, and gather around the table.',
-    quote: '“Transforming small details into special moments shared around the table.”',
-    locationTag: 'Handcrafted with love in Louisville, Kentucky',
+    eyebrow: 'CURATED CULINARY ATELIER · LOUISVILLE, KY',
+    headline: 'An experience worth sharing.',
+    supportingText:
+      'Beautifully curated charcuterie for moments that deserve something special.',
+    primaryCta: 'EXPLORE THE COLLECTION',
+    secondaryCta: 'CREATE YOUR EXPERIENCE',
+    scrollHint: 'SCROLL TO ENTER THE STUDIO',
+  },
+  es: {
+    eyebrow: 'ATELIER DE CHARCUTERÍA · LOUISVILLE, KY',
+    headline: 'Una experiencia para compartir.',
+    supportingText:
+      'Charcutería cuidadosamente curada para momentos que merecen algo especial.',
+    primaryCta: 'EXPLORAR LA COLECCIÓN',
+    secondaryCta: 'CREA TU EXPERIENCIA',
+    scrollHint: 'DESLIZA PARA ENTRAR AL ESTUDIO',
   },
 };
 
-export const CATEGORIES: { id: CategoryId; label: { es: string; en: string } }[] = [
-  { id: 'all', label: { es: 'Colección Completa', en: 'Full Collection' } },
-  { id: 'tablas', label: { es: 'Tablas de Autor', en: 'Signature Boards' } },
-  { id: 'cajas', label: { es: 'Cajas & Regalos', en: 'Gift Boxes' } },
-  { id: 'individuales', label: { es: 'Grazing Cups', en: 'Grazing Cups' } },
-  { id: 'eventos', label: { es: 'Mesas & Carrito', en: 'Events & Mobile Bar' } },
-];
-
-export const CATALOG_ITEMS: CatalogItem[] = [
+/**
+ * ============================================================================
+ * THE 01–07 PRODUCT COLLECTION (EXACT REQUIRED ORDER)
+ * ============================================================================
+ * Each product maps directly to its original supplied product video and photo.
+ * Fields marked with [EDITABLE] are placeholders awaiting final confirmation.
+ */
+export const PRODUCTS: Product[] = [
   {
-    id: 'tabla-rosa-imperial',
-    category: 'tablas',
-    featured: true,
-    badge: { es: 'Pieza Insignia', en: 'House Signature' },
+    id: '01',
+    slug: 'small-charcuterie-board',
+    indexLabel: {
+      en: '01 / THE COLLECTION',
+      es: '01 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'SMALL',
+      es: 'SMALL · 12"',
+    },
     name: {
-      es: 'Tabla Rosa de Autor “Ely’s”',
-      en: 'Signature Rose Charcuterie Board',
+      en: 'Small Charcuterie Board',
+      es: 'Tabla de Charcutería Pequeña',
     },
-    shortDescription: {
-      es: 'Servida sobre madera de nogal con rosas de jamón y salami plegadas a mano, Brie con panal de miel, higos frescos y Manchego curado.',
-      en: 'Served on walnut wood with hand-folded prosciutto and salami roses, Brie with honeycomb, fresh figs, and aged Manchego.',
+    description: {
+      en: 'An intimate arrangement of carefully selected cheeses, Italian cured meats, seasonal fruits and artisan accompaniments.',
+      es: 'Una composición íntima de quesos cuidadosamente seleccionados, embutidos artesanales, frutas frescas de estación y acompañamientos.',
     },
-    fullDescription: {
-      es: 'Una composición equilibrada pensada para ser el centro de todas las miradas. Incluye rosas artesanales de salami italiano y prosciutto di Parma, queso Manchego curado, rueda de Brie cremoso coronada con panal de miel natural, higos frescos, uvas seleccionadas, frutos secos tostados, aceitunas marinadas y galletas artesanales.',
-      en: 'A balanced composition designed to be the centerpiece of your gathering. Features handcrafted Italian salami and Prosciutto di Parma roses, aged Manchego, creamy Brie wheel topped with raw honeycomb, fresh mission figs, grapes, roasted nuts, marinated olives, and artisan crackers.',
+    dimensions: {
+      en: '12 INCHES',
+      es: '12 PULGADAS',
     },
-    ingredients: {
-      es: [
-        'Rosas de Prosciutto di Parma y Salami Génova',
-        'Queso Brie doble crema con panal de miel',
-        'Queso Manchego curado 6 meses y Gouda añejo',
-        'Higos frescos, uvas de temporada y romero aromático',
-        'Aceitunas verdes marinadas, almendras y crackers de semillas',
-      ],
-      en: [
-        'Prosciutto di Parma and Genoa Salami roses',
-        'Double-cream Brie wheel with raw honeycomb',
-        '6-month aged Manchego and aged Gouda',
-        'Fresh figs, seasonal grapes and aromatic rosemary',
-        'Marinated green olives, almonds and seed crackers',
-      ],
+    servings: {
+      // Supplied example in brief Section 5
+      en: 'SERVES 2–3',
+      es: '2–3 PERSONAS',
     },
-    pairingNote: {
-      es: 'Ideal con Pinot Noir, Cabernet Sauvignon suave o Prosecco Brut.',
-      en: 'Pairs beautifully with Pinot Noir, soft Cabernet Sauvignon, or Prosecco Brut.',
+    price: {
+      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
+      en: '$ PRICE',
+      es: '$ PRECIO',
     },
-    image: 'images/hero_grazing_table.jpg',
-    secondaryImage: 'images/7_tabla_madera_grabada.jpg',
-    sizes: [
-      {
-        id: 'small',
-        label: { es: 'Íntima', en: 'Intimate' },
-        servings: { es: '4 a 6 personas', en: '4 to 6 guests' },
-        price: 95,
-      },
-      {
-        id: 'medium',
-        label: { es: 'Reunión', en: 'Gathering' },
-        servings: { es: '8 a 10 personas', en: '8 to 10 guests' },
-        price: 145,
-      },
-      {
-        id: 'large',
-        label: { es: 'Celebración', en: 'Celebration' },
-        servings: { es: '12 a 16 personas', en: '12 to 16 guests' },
-        price: 195,
-      },
-    ],
+    details: {
+      en: ['Hand-sculpted salami rose centerpiece', 'Artisanal cheeses, berries, grapes, crackers & honey'],
+      es: ['Rosa central de salami esculpida a mano', 'Quesos selectos, frutos rojos, uvas, galletas y miel'],
+    },
+    videoSrc: './videos/products/01-small-board.webm',
+    videoFallbackMp4: './videos/products/01-small-board.mp4',
+    posterSrc: './images/products/01-small-board-poster.webp',
+    realPhotoSrc: './images/real/01-small-board.jpg',
+    category: 'boards',
+    orderUrl: '#custom-orders',
+    ctaLabel: {
+      en: 'ORDER THIS BOARD',
+      es: 'ORDENAR ESTA TABLA',
+    },
+    layoutAlign: 'left',
+    visualScale: 1.08, // Intentional scaling so 12" board feels balanced in the studio
   },
   {
-    id: 'caja-gourmet-unboxing',
-    category: 'cajas',
-    featured: true,
-    badge: { es: 'Ideal para Regalo', en: 'Luxury Gift' },
+    id: '02',
+    slug: 'medium-charcuterie-board',
+    indexLabel: {
+      en: '02 / THE COLLECTION',
+      es: '02 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'MEDIUM',
+      es: 'MEDIUM · 16"',
+    },
     name: {
-      es: 'Caja Gourmet “Detalle Especial”',
-      en: 'Luxury Keepsake Grazing Box',
+      en: 'Medium Charcuterie Board',
+      es: 'Tabla de Charcutería Mediana',
     },
-    shortDescription: {
-      es: 'Presentación rígida en negro mate con papel encerado sellado en oro, rosa central de charcutería, quesos finos, higos y miel.',
-      en: 'Matte black keepsake box wrapped in gold-sealed deli paper with a signature salami rose, fine cheeses, fresh figs, and honey.',
+    description: {
+      en: 'A generous circular presentation designed for effortless gathering, featuring dual charcuterie roses, fine cheeses, fresh fruit and curated pairings.',
+      es: 'Una presentación circular generosa pensada para compartir sin esfuerzo, con doble rosa de charcutería, quesos finos, fruta fresca y acompañamientos.',
     },
-    fullDescription: {
-      es: 'Pensada para sorprender en cumpleaños, aniversarios, agradecimientos o tardes de picnic en Louisville. Viene lista para degustar dentro de nuestra caja rígida con sello dorado e incluye tarjeta de dedicatoria personalizada.',
-      en: 'Crafted to surprise someone special on birthdays, anniversaries, thank-you gifts, or picnics across Louisville. Arrives ready to enjoy in our signature gold-sealed box with a personalized note card.',
+    dimensions: {
+      en: '16 INCHES',
+      es: '16 PULGADAS',
     },
-    ingredients: {
-      es: [
-        'Rosa central de salami artesanal y lonchas de jamón curado',
-        'Cuñas de queso Manchego y Brie con miel',
-        'Higos frescos, uvas negras y frutos secos',
-        'Empaque de regalo con papel encerado y sello dorado',
-        'Tarjeta de dedicatoria personalizada incluida',
-      ],
-      en: [
-        'Centerpiece artisan salami rose and cured prosciutto',
-        'Manchego wedges and Brie with honey',
-        'Fresh figs, dark grapes and roasted almonds',
-        'Gift packaging with custom wax paper and gold seal',
-        'Complimentary handwritten greeting card',
-      ],
+    servings: {
+      // [EDITABLE FIELD] Confirm exact serving range for 16-inch board
+      en: 'SERVES — TO CONFIRM',
+      es: 'PORCIONES — POR CONFIRMAR',
     },
-    pairingNote: {
-      es: 'Perfecta con Champagne, Rosé frío o agua mineral con gas y cítricos.',
-      en: 'Lovely with Champagne, chilled Rosé, or sparkling citrus water.',
+    price: {
+      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
+      en: '$ PRICE',
+      es: '$ PRECIO',
     },
-    image: 'images/1_caja_gourmet_unboxing.jpg',
-    secondaryImage: 'images/11_caja_alargada_horizontal_y_cinta.jpg',
-    sizes: [
-      {
-        id: 'duo',
-        label: { es: 'Box Pareja', en: 'Duo Box' },
-        servings: { es: '2 a 3 personas', en: '2 to 3 guests' },
-        price: 65,
-      },
-      {
-        id: 'sharing',
-        label: { es: 'Box Compartir', en: 'Sharing Box' },
-        servings: { es: '4 a 6 personas', en: '4 to 6 guests' },
-        price: 98,
-      },
-    ],
+    details: {
+      en: ['16-inch circular presentation', 'Dual salami roses, brie wedges, cubed cheeses, nuts & seasonal fruit'],
+      es: ['Presentación circular de 16 pulgadas', 'Doble rosa de charcutería, cuñas de brie, quesos, nueces y fruta'],
+    },
+    videoSrc: './videos/products/02-medium-board.webm',
+    videoFallbackMp4: './videos/products/02-medium-board.mp4',
+    posterSrc: './images/products/02-medium-board-poster.webp',
+    realPhotoSrc: './images/real/02-medium-board.jpg',
+    category: 'boards',
+    orderUrl: '#custom-orders',
+    ctaLabel: {
+      en: 'ORDER THIS BOARD',
+      es: 'ORDENAR ESTA TABLA',
+    },
+    layoutAlign: 'right',
+    visualScale: 1.12,
   },
   {
-    id: 'caja-panoramica-long-box',
-    category: 'cajas',
-    badge: { es: 'Edición Boutique', en: 'Boutique Edition' },
+    id: '03',
+    slug: 'rectangular-charcuterie-board',
+    indexLabel: {
+      en: '03 / THE COLLECTION',
+      es: '03 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'RECTANGULAR',
+      es: 'RECTANGULAR',
+    },
     name: {
-      es: 'Caja Panorámica con Lazo de Satén',
-      en: 'Panoramic Ribbon Grazing Box',
+      en: 'Rectangular Charcuterie Board',
+      es: 'Tabla de Charcutería Rectangular',
     },
-    shortDescription: {
-      es: 'Caja alargada con doble ventana, faja central negra mate y lazo de satén. Lista para lucir en el centro de la mesa.',
-      en: 'Sleek elongated window box tied with a satin ribbon and branded sleeve. Ready to place at the center of the table.',
+    description: {
+      en: 'An architectural wooden board composition crafted as the centerpiece of the table, bringing together signature charcuterie, artisan cheeses, preserves and fresh fruit.',
+      es: 'Una composición escultural sobre madera con asas, concebida como el centro de la mesa con charcutería de autor, quesos, conservas y fruta fresca.',
     },
-    fullDescription: {
-      es: 'Una presentación sofisticada que enamora desde el primer vistazo. Su formato alargado permite disponer una galería de rosas de charcutería, quesos suaves y maduros, frutas frescas y acompañamientos gourmet lista para colocar directamente en el centro de la mesa.',
-      en: 'A sophisticated presentation that captivates at first glance. Its elongated silhouette showcases a gallery of charcuterie roses, soft and aged cheeses, fresh fruits, and gourmet accompaniments ready to place right at the center of the table.',
+    dimensions: {
+      // [EDITABLE FIELD] Confirm exact dimensions for Rectangular Board
+      en: 'RECTANGULAR FORMAT',
+      es: 'FORMATO RECTANGULAR',
     },
-    ingredients: {
-      es: [
-        'Dúo de rosas de charcutería (Salami y Soppressata)',
-        'Pliegues de Prosciutto e higos frescos partidos',
-        'Queso Brie cremoso, uvas rojas y romero fresco',
-        'Faja central negra mate y lazo en cinta de satén',
-      ],
-      en: [
-        'Duo of charcuterie roses (Salami and Soppressata)',
-        'Prosciutto ribbons and halved fresh figs',
-        'Creamy Brie, red grapes and fresh rosemary',
-        'Matte black sleeve and satin ribbon bow',
-      ],
+    servings: {
+      // [EDITABLE FIELD] Confirm exact serving count
+      en: 'SERVES — TO CONFIRM',
+      es: 'PORCIONES — POR CONFIRMAR',
     },
-    pairingNote: {
-      es: 'Marida con Chardonnay con barrica ligera o vino tinto crianza.',
-      en: 'Pairs with lightly oaked Chardonnay or medium-bodied red wine.',
+    price: {
+      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
+      en: '$ PRICE',
+      es: '$ PRECIO',
     },
-    image: 'images/11_caja_alargada_horizontal_y_cinta.jpg',
-    secondaryImage: 'images/1_caja_gourmet_unboxing.jpg',
-    sizes: [
-      {
-        id: 'standard',
-        label: { es: 'Panorámica', en: 'Panoramic' },
-        servings: { es: '3 a 5 personas', en: '3 to 5 guests' },
-        price: 78,
-      },
-      {
-        id: 'grand-ribbon',
-        label: { es: 'Doble Lazo', en: 'Grand Ribbon' },
-        servings: { es: '6 a 8 personas', en: '6 to 8 guests' },
-        price: 115,
-      },
-    ],
+    details: {
+      en: ['Hardwood handled tray presentation', 'Ceramic bowls for olives & preserves, signature honey jar & artisan cheeses'],
+      es: ['Bandeja de madera con asas', 'Cuencos de cerámica con aceitunas y mermelada, miel Ely’s y quesos selectos'],
+    },
+    videoSrc: './videos/products/03-rectangular-board.webm',
+    videoFallbackMp4: './videos/products/03-rectangular-board.mp4',
+    posterSrc: './images/products/03-rectangular-board-poster.webp',
+    realPhotoSrc: './images/real/03-rectangular-board.jpg',
+    category: 'boards',
+    orderUrl: '#custom-orders',
+    ctaLabel: {
+      en: 'ORDER THIS BOARD',
+      es: 'ORDENAR ESTA TABLA',
+    },
+    layoutAlign: 'left',
+    visualScale: 1.15,
   },
   {
-    id: 'grazing-cups-conos',
-    category: 'individuales',
-    featured: true,
-    badge: { es: 'Cócteles & Eventos', en: 'Events & Cocktails' },
+    id: '04',
+    slug: 'double-basket-presentation',
+    indexLabel: {
+      en: '04 / THE COLLECTION',
+      es: '04 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'DOUBLE BASKET',
+      es: 'DOBLE CESTA',
+    },
     name: {
-      es: 'Grazing Cups & Conos Individuales',
-      en: 'Individual Grazing Cups & Cones',
+      en: 'Double Basket / Two-Tier Presentation',
+      es: 'Presentación en Doble Cesta / Dos Niveles',
     },
-    shortDescription: {
-      es: 'Vasos individuales con mini rosa de salami, dados de queso artesanal, grissini italiano, frutos secos y aceitunas.',
-      en: 'Individual charcuterie cups filled with a mini salami rose, artisan cheese cubes, breadsticks, dried fruits, and olives.',
+    description: {
+      en: 'A tactile two-basket presentation pairing an abundant selection of cured meats, cheeses and fruits with a dedicated companion basket of artisan crackers, honey and preserves.',
+      es: 'Una presentación táctil de dos cestas tejidas que combina una selección abundante de charcutería, quesos y frutas con una segunda cesta dedicada a galletas artesanales, miel y conservas.',
     },
-    fullDescription: {
-      es: 'La opción más práctica y elegante para baby showers, bridal showers, inauguraciones, eventos corporativos y cócteles en Louisville. Cada invitado disfruta de su propia porción individual cuidadosamente decorada con nuestro sello oficial.',
-      en: 'The most practical and stylish choice for baby showers, bridal showers, grand openings, corporate mixers, and cocktail parties in Louisville. Each guest enjoys their own thoughtfully styled individual portion.',
+    dimensions: {
+      en: 'TWO-TIER PRESENTATION',
+      es: 'PRESENTACIÓN DE DOS NIVELES',
     },
-    ingredients: {
-      es: [
-        'Mini rosa de salami y pliegue de jamón serrano',
-        'Dados de quesos seleccionados en brocheta de bambú',
-        'Aceitunas rellenas, albaricoques secos y nueces',
-        'Palitroques italianos (Grissini) y ramita de romero',
-      ],
-      en: [
-        'Mini salami rose and serrano ham ribbon',
-        'Artisan cheese cubes on bamboo pick',
-        'Stuffed olives, dried apricots and nuts',
-        'Italian grissini breadsticks and fresh rosemary sprig',
-      ],
+    servings: {
+      // [EDITABLE FIELD] Confirm exact serving count
+      en: 'SERVES — TO CONFIRM',
+      es: 'PORCIONES — POR CONFIRMAR',
     },
-    pairingNote: {
-      es: 'Ideales para acompañar con cócteles, mimosas o barra de espumosos.',
-      en: 'Perfect alongside signature cocktails, mimosas, or a bubbly bar.',
+    price: {
+      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
+      en: '$ PRICE',
+      es: '$ PRECIO',
     },
-    image: 'images/2_bolsa_boutique_y_grazing_cups.jpg',
-    secondaryImage: 'images/16_empaque_vacio_y_individual_mesa.jpg',
-    sizes: [
-      {
-        id: 'pack-12',
-        label: { es: '12 Vasos', en: '12 Cups' },
-        servings: { es: '12 porciones individuales', en: '12 individual servings' },
-        price: 150,
-      },
-      {
-        id: 'pack-24',
-        label: { es: '24 Vasos', en: '24 Cups' },
-        servings: { es: '24 porciones individuales', en: '24 individual servings' },
-        price: 280,
-      },
-      {
-        id: 'pack-40',
-        label: { es: '40 Vasos', en: '40 Cups' },
-        servings: { es: '40 porciones individuales', en: '40 individual servings' },
-        price: 440,
-      },
-    ],
+    details: {
+      en: ['Woven twin-basket culinary display', 'Dedicated cracker, honey & preserve accompaniment basket'],
+      es: ['Presentación en doble cesta tejida', 'Cesta complementaria de galletas, miel y mermelada'],
+    },
+    videoSrc: './videos/products/04-double-basket.webm',
+    videoFallbackMp4: './videos/products/04-double-basket.mp4',
+    posterSrc: './images/products/04-double-basket-poster.webp',
+    realPhotoSrc: './images/real/04-double-basket.jpg',
+    category: 'presentations',
+    orderUrl: '#custom-orders',
+    ctaLabel: {
+      en: 'ORDER THIS PRESENTATION',
+      es: 'ORDENAR ESTA PRESENTACIÓN',
+    },
+    layoutAlign: 'right',
+    visualScale: 1.14,
   },
   {
-    id: 'tabla-nogal-conservas',
-    category: 'tablas',
-    badge: { es: 'Edición Colección', en: 'Keepsake Gift' },
+    id: '05',
+    slug: 'individual-charcuterie-cups',
+    indexLabel: {
+      en: '05 / THE COLLECTION',
+      es: '05 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'CUPS',
+      es: 'VASOS INDIVIDUALES',
+    },
     name: {
-      es: 'Tabla de Nogal Grabada & Conservas',
-      en: 'Engraved Walnut Board & Preserves',
+      en: 'Individual Charcuterie Cups',
+      es: 'Vasos Individuales de Charcutería',
     },
-    shortDescription: {
-      es: 'Incluye tabla de madera de nogal grabada a láser para conservar, selección de charcutería, mermelada de higos y aceitunas.',
-      en: 'Includes a keepsake laser-engraved walnut wood board, artisan charcuterie selection, house fig jam, and marinated olives.',
+    description: {
+      en: 'Three-cup presentation crafted for effortless mingling at celebrations, corporate events and private toasts—each cup crowned with a signature salami rose, cheese skewers and fresh berries.',
+      es: 'Presentación de tres vasos diseñada para disfrutar cómodamente en eventos, brindis y celebraciones; cada vaso coronado con una rosa de salami, brochetas de queso y frutos frescos.',
     },
-    fullDescription: {
-      es: 'Un regalo inolvidable para bodas, estrenos de hogar o amantes de la buena mesa. Además de nuestra selección fresca de quesos y embutidos, el anfitrión conserva la tabla de madera de nogal grabada y nuestros frascos gourmet de mermelada de higos y aceitunas.',
-      en: 'An unforgettable gift for weddings, housewarmings, or food lovers. Along with our fresh selection of cheeses and cured meats, the host keeps the laser-engraved walnut serving board and jars of our house fig jam and marinated olives.',
+    dimensions: {
+      en: 'THREE-CUP PRESENTATION',
+      es: 'PRESENTACIÓN DE TRES VASOS',
     },
-    ingredients: {
-      es: [
-        'Tabla de madera de nogal grabada a láser (conservar)',
-        'Frasco de Mermelada de Higos (Fig Jam) de la casa',
-        'Frasco de Aceitunas Marinadas con hierbas',
-        'Selección de 3 quesos premium y 2 embutidos curados',
-      ],
-      en: [
-        'Keepsake laser-engraved walnut wood board',
-        'Full jar of house Fig Jam',
-        'Full jar of herb-marinated Olives',
-        'Selection of 3 premium cheeses and 2 cured meats',
-      ],
+    servings: {
+      // [EDITABLE FIELD] Confirm minimum order or serving details
+      en: 'INDIVIDUAL PORTIONS — TO CONFIRM',
+      es: 'PORCIONES INDIVIDUALES — POR CONFIRMAR',
     },
-    pairingNote: {
-      es: 'Acompañar con Bourbon de Kentucky, Rioja Reserva o Malbec.',
-      en: 'Pair with Kentucky Bourbon, Rioja Reserva, or Malbec.',
+    price: {
+      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
+      en: '$ PRICE',
+      es: '$ PRECIO',
     },
-    image: 'images/3_delantal_tablas_y_conservas.jpg',
-    secondaryImage: 'images/7_tabla_madera_grabada.jpg',
-    sizes: [
-      {
-        id: 'gift-set',
-        label: { es: 'Set Regalo', en: 'Keepsake Set' },
-        servings: { es: '4 a 6 personas + tabla', en: '4 to 6 guests + board' },
-        price: 165,
-      },
-      {
-        id: 'gift-imperial',
-        label: { es: 'Set Anfitrión', en: 'Host Edition' },
-        servings: { es: '8 a 10 personas + tabla', en: '8 to 10 guests + board' },
-        price: 215,
-      },
-    ],
+    details: {
+      en: ['Branded Ely’s Charcuterie cups', 'Individual salami rose, artisan cheese cubes, fresh berries & crackers'],
+      es: ['Vasos con sello de marca Ely’s Charcuterie', 'Rosa individual de salami, cubos de queso, frutos rojos y galletas'],
+    },
+    videoSrc: './videos/products/05-charcuterie-cups.webm',
+    videoFallbackMp4: './videos/products/05-charcuterie-cups.mp4',
+    posterSrc: './images/products/05-charcuterie-cups-poster.webp',
+    realPhotoSrc: './images/real/05-charcuterie-cups.jpg',
+    category: 'individual',
+    orderUrl: '#custom-orders',
+    ctaLabel: {
+      en: 'ORDER CHARCUTERIE CUPS',
+      es: 'ORDENAR VASOS',
+    },
+    layoutAlign: 'left',
+    visualScale: 1.14, // Scaled intentionally so individual cups command equal presence
   },
   {
-    id: 'tabla-maridaje-vino',
-    category: 'tablas',
-    badge: { es: 'Veladas Íntimas', en: 'Evening Pairing' },
+    id: '06',
+    slug: 'elys-snack-box',
+    indexLabel: {
+      en: '06 / THE COLLECTION',
+      es: '06 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'SNACK BOX',
+      es: 'SNACK BOX',
+    },
     name: {
-      es: 'Tabla de Maridaje & Cata Nocturna',
-      en: 'Sommelier Pairing & Tasting Board',
+      en: 'Elys Snack Box',
+      es: 'Elys Snack Box',
     },
-    shortDescription: {
-      es: 'Curaduría pensada para amantes del vino y el Bourbon de Kentucky: quesos de guarda, prosciutto, frutos negros, nueces y miel.',
-      en: 'Curated for wine and Kentucky Bourbon lovers: aged cheeses, prosciutto ribbons, dark berries, roasted pecans, and honey.',
+    description: {
+      en: 'A refined rectangular kraft box with window lid, thoughtfully arranged with sliced cheeses, cured meats, wooden bowl of olives, fresh fruit and sweet-savory bites.',
+      es: 'Caja rectangular kraft con ventana superior, cuidadosamente dispuesta con quesos laminados y en cubos, embutidos, cuenco de madera con aceitunas, fruta fresca y acompañamientos.',
     },
-    fullDescription: {
-      es: 'Inspirada en las cenas a la luz de las velas. Seleccionamos quesos de carácter intenso junto a embutidos italianos finamente plegados, chocolate amargo al 70%, higos, moras frescas y carta impresa con notas de cata y maridaje.',
-      en: 'Inspired by candlelit tastings. Features bold aged cheeses alongside finely folded Italian charcuterie, 70% dark chocolate, mission figs, fresh blackberries, and a printed tasting and pairing menu.',
+    dimensions: {
+      en: 'RECTANGULAR KRAFT BOX',
+      es: 'CAJA KRAFT RECTANGULAR',
     },
-    ingredients: {
-      es: [
-        'Queso Manchego añejo, Brie trufado y Gouda de guarda',
-        'Rosas de Salami Soppressata y Prosciutto di Parma',
-        'Higos, moras frescas, nueces pecanas y chocolate 70%',
-        'Carta impresa de maridaje sugerido por Ely’s Charcuterie',
-      ],
-      en: [
-        'Aged Manchego, truffled Brie and reserve Gouda',
-        'Soppressata salami roses and Prosciutto di Parma',
-        'Mission figs, blackberries, roasted pecans and 70% dark chocolate',
-        'Printed tasting and pairing card by Ely’s Charcuterie',
-      ],
+    servings: {
+      // [EDITABLE FIELD] Confirm exact serving count
+      en: 'SERVES — TO CONFIRM',
+      es: 'PORCIONES — POR CONFIRMAR',
     },
-    pairingNote: {
-      es: 'Excelente con Cabernet Sauvignon, Syrah o Kentucky Straight Bourbon.',
-      en: 'Exceptional with Cabernet Sauvignon, Syrah, or Kentucky Straight Bourbon.',
+    price: {
+      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
+      en: '$ PRICE',
+      es: '$ PRECIO',
     },
-    image: 'images/4_carta_menu_y_maridaje_vino.jpg',
-    secondaryImage: 'images/14_cuchillos_servilletas_y_cinta_horizontal.jpg',
-    sizes: [
-      {
-        id: 'pairing-duo',
-        label: { es: 'Cata Pareja', en: 'Duo Tasting' },
-        servings: { es: '2 a 4 personas', en: '2 to 4 guests' },
-        price: 88,
-      },
-      {
-        id: 'pairing-group',
-        label: { es: 'Mesa de Cata', en: 'Tasting Table' },
-        servings: { es: '6 a 8 personas', en: '6 to 8 guests' },
-        price: 138,
-      },
-    ],
+    details: {
+      en: ['Window-lid kraft gift box presentation', 'Ideal for gifting, picnics & intimate moments'],
+      es: ['Caja kraft con ventana lista para regalar', 'Ideal para obsequios, picnics y detalles especiales'],
+    },
+    videoSrc: './videos/products/06-snack-box.webm',
+    videoFallbackMp4: './videos/products/06-snack-box.mp4',
+    posterSrc: './images/products/06-snack-box-poster.webp',
+    realPhotoSrc: './images/real/06-snack-box.jpg',
+    category: 'boxes',
+    orderUrl: '#custom-orders',
+    ctaLabel: {
+      en: 'ORDER THIS BOX',
+      es: 'ORDENAR ESTA CAJA',
+    },
+    layoutAlign: 'right',
+    visualScale: 1.1,
   },
   {
-    id: 'mesa-grazing-eventos',
-    category: 'eventos',
-    featured: true,
-    isCustomQuote: true,
-    badge: { es: 'Bodas & Celebraciones', en: 'Weddings & Events' },
+    id: '07',
+    slug: 'celebration-brunch-box',
+    indexLabel: {
+      en: '07 / THE COLLECTION',
+      es: '07 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'BRUNCH BOX',
+      es: 'BRUNCH BOX',
+    },
     name: {
-      es: 'Mesa Escenográfica (Grazing Table)',
-      en: 'Bespoke Event Grazing Table',
+      en: 'Celebration Brunch Box',
+      es: 'Celebration Brunch Box',
     },
-    shortDescription: {
-      es: 'Montaje arquitectónico en tu locación de Louisville: niveles en nogal, caminos de lino crema, velas doradas, flores y abundancia gourmet.',
-      en: 'Full on-site styling at your Louisville venue: walnut risers, cream linen runners, brass candles, florals, and abundant gourmet spreads.',
+    description: {
+      en: 'A complete rectangular brunch presentation uniting filled artisan croissants, bottled beverages with bamboo lids, cured meats, cheeses, fresh seasonal fruits and sweet accompaniments.',
+      es: 'Una presentación rectangular de brunch que reúne croissants rellenos, bebidas en frascos de vidrio con tapa de bambú, charcutería fina, quesos, frutas frescas y postres.',
     },
-    fullDescription: {
-      es: 'Transformamos cualquier rincón de tu celebración en una obra de arte gastronómica. Nos encargamos del diseño visual, montaje en diferentes alturas, selección de quesos nacionales e importados, charcutería fina, panes artesanales, frutas de estación, mieles, frutos secos y detalles florales en armonía con los colores de tu evento.',
-      en: 'We transform your celebration space into an edible work of art. Our team handles the visual design, multi-tiered wood risers, imported and local cheeses, fine charcuterie, artisan breads, seasonal fruits, honeys, nuts, and floral touches tailored to your event palette.',
+    dimensions: {
+      en: 'RECTANGULAR BRUNCH TRAY',
+      es: 'BANDEJA RECTANGULAR DE BRUNCH',
     },
-    ingredients: {
-      es: [
-        'Montaje presencial en Louisville y alrededores',
-        'Estructuras y niveles en madera de nogal, lino crema y velas',
-        'Variedad de 5 quesos artesanales y 4 embutidos en rosas y pliegues',
-        'Panes rústicos, crackers, dips, mermeladas, miel en panal y frutas',
-        'Utensilios en bronce y madera con servilletas de cóctel',
-      ],
-      en: [
-        'Full on-site setup across Louisville and surrounding areas',
-        'Multi-level walnut risers, cream linens and candle styling',
-        '5 artisan cheeses and 4 cured meats styled in roses and folds',
-        'Rustic breads, crackers, dips, jams, honeycomb and fresh fruit',
-        'Serving utensils and cocktail napkins included',
-      ],
+    servings: {
+      // [EDITABLE FIELD] Confirm exact serving count
+      en: 'SERVES — TO CONFIRM',
+      es: 'PORCIONES — POR CONFIRMAR',
     },
-    pairingNote: {
-      es: 'Diseñada a medida desde 25 hasta más de 150 invitados.',
-      en: 'Custom-designed for gatherings from 25 up to 150 guests.',
+    price: {
+      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
+      en: '$ PRICE',
+      es: '$ PRECIO',
     },
-    image: 'images/mesa_evento_grazing.jpg',
-    secondaryImage: 'images/14_cuchillos_servilletas_y_cinta_horizontal.jpg',
-    sizes: [
-      {
-        id: 'table-25',
-        label: { es: 'Petite', en: 'Petite' },
-        servings: { es: '25 a 35 invitados', en: '25 to 35 guests' },
-        price: 550,
-      },
-      {
-        id: 'table-50',
-        label: { es: 'Clásica', en: 'Classic' },
-        servings: { es: '40 a 65 invitados', en: '40 to 65 guests' },
-        price: 950,
-      },
-      {
-        id: 'table-100',
-        label: { es: 'Imperial', en: 'Imperial' },
-        servings: { es: '75 a 120 invitados', en: '75 to 120 guests' },
-        price: 1550,
-      },
-    ],
-  },
-  {
-    id: 'carrito-movil-charcuteria',
-    category: 'eventos',
-    featured: true,
-    isCustomQuote: true,
-    badge: { es: 'Experiencia Exclusiva', en: 'Signature Experience' },
-    name: {
-      es: 'Carrito Móvil (Mobile Grazing Bar)',
-      en: 'Mobile Charcuterie Cart & Bar',
+    details: {
+      en: ['Includes bottled beverages, croissants & charcuterie', 'Presented in a ribbon-wrapped wooden tray with personalized note card'],
+      es: ['Incluye bebidas, croissants rellenos y selección de charcutería', 'Presentada en bandeja de madera decorada con cinta y tarjeta'],
     },
-    shortDescription: {
-      es: 'Nuestro carrito negro mate y bronce con toldo crema lleva una barra interactiva de charcutería directamente a tu celebración.',
-      en: 'Our matte-black and brass mobile cart with a cream canopy brings an interactive charcuterie bar straight to your event.',
+    videoSrc: './videos/products/07-brunch-box.webm',
+    videoFallbackMp4: './videos/products/07-brunch-box.mp4',
+    posterSrc: './images/products/07-brunch-box-poster.webp',
+    realPhotoSrc: './images/real/07-brunch-box.jpg',
+    category: 'brunch',
+    orderUrl: '#custom-orders',
+    ctaLabel: {
+      en: 'ORDER BRUNCH BOX',
+      es: 'ORDENAR BRUNCH BOX',
     },
-    fullDescription: {
-      es: 'Sorprende a tus invitados con una estación interactiva e inolvidable. Ideal para recepciones de boda, bridal showers, eventos al aire libre y celebraciones privadas en Louisville. Tus invitados pueden personalizar su cono o plato mientras disfrutan de una puesta en escena única.',
-      en: 'Delight your guests with an unforgettable interactive station. Perfect for wedding cocktail hours, bridal showers, outdoor soirées, and private events in Louisville. Guests can enjoy freshly styled cones or plates from a show-stopping setup.',
-    },
-    ingredients: {
-      es: [
-        'Alquiler y montaje del Carrito Oficial Ely’s Charcuterie',
-        'Abastecimiento completo de conos individuales o bandejas de degustación',
-        'Decoración cálida en tonos crema, negro y dorado suave',
-        'Opción de servicio asistido durante tu evento',
-      ],
-      en: [
-        'Rental and setup of the official Ely’s Charcuterie Mobile Cart',
-        'Full stocking of grazing cones or tasting plates',
-        'Warm styling in cream, matte black and soft gold',
-        'Optional attendant service during your event',
-      ],
-    },
-    pairingNote: {
-      es: 'El complemento soñado para horas de cóctel al aire libre o en salón.',
-      en: 'The dream addition for indoor or outdoor cocktail hours.',
-    },
-    image: 'images/8_carrito_cocteles_y_charcuteria.jpg',
-    secondaryImage: 'images/13_vehiculo_catering_van_horizontal.jpg',
-    sizes: [
-      {
-        id: 'cart-base',
-        label: { es: 'Hasta 40 pax', en: 'Up to 40 guests' },
-        servings: { es: '2 horas de evento', en: '2-hour service' },
-        price: 680,
-      },
-      {
-        id: 'cart-plus',
-        label: { es: '40 a 80 pax', en: '40 to 80 guests' },
-        servings: { es: '3 horas de evento', en: '3-hour service' },
-        price: 1050,
-      },
-    ],
+    layoutAlign: 'left',
+    visualScale: 1.12,
   },
 ];
 
-export const GALLERY_PHOTOS: GalleryPhoto[] = [
+export const OCCASIONS_DATA: OccasionItem[] = [
   {
-    id: 'gal-1',
-    src: 'images/hero_grazing_table.jpg',
-    category: 'tablas',
-    title: {
-      es: 'Tabla Rosa de Autor al Sol',
-      en: 'Sunlit Signature Rose Board',
+    id: 'birthdays',
+    index: '01',
+    title: { en: 'Birthdays', es: 'Cumpleaños' },
+    subtitle: {
+      en: 'Centerpiece boards and celebratory grazing tables that bring guests together.',
+      es: 'Tablas centrales y mesas abundantes que reúnen a todos tus invitados.',
     },
-    caption: {
-      es: 'Rosas hechas pétalo a pétalo, queso Brie con panal de miel, higos frescos y Manchego sobre piedra travertino y madera.',
-      en: 'Hand-folded salami roses, Brie with raw honeycomb, fresh figs, and Manchego on warm travertine stone and walnut.',
-    },
+    imageSrc: './images/real/03-rectangular-board.jpg',
   },
   {
-    id: 'gal-2',
-    src: 'images/mesa_evento_grazing.jpg',
-    category: 'eventos',
-    title: {
-      es: 'Mesa Escenográfica a Múltiples Alturas',
-      en: 'Multi-Tiered Celebration Grazing Table',
+    id: 'weddings',
+    index: '02',
+    title: { en: 'Weddings', es: 'Bodas' },
+    subtitle: {
+      en: 'Elevated cocktail-hour displays and intimate bridal suite presentations.',
+      es: 'Presentaciones esculturales para recepción, cóctel y momentos nupciales.',
     },
-    caption: {
-      es: 'Montaje a varios niveles con caminos de lino crema, candelabros en bronce y abundancia de quesos y frutas.',
-      en: 'Multi-level wooden risers styled with cream linen runners, brass taper candles, and abundant cheeses and fruits.',
-    },
+    imageSrc: './images/real/08-grazing-table-event.jpg',
   },
   {
-    id: 'gal-3',
-    src: 'images/1_caja_gourmet_unboxing.jpg',
-    category: 'cajas',
-    title: {
-      es: 'Caja Rígida Gourmet y Sello en Oro',
-      en: 'Luxury Keepsake Box & Gold Seal',
+    id: 'corporate',
+    index: '03',
+    title: { en: 'Corporate Gatherings', es: 'Eventos Corporativos' },
+    subtitle: {
+      en: 'Individual charcuterie cups and executive boards tailored for effortless hosting.',
+      es: 'Vasos individuales y tablas ejecutivas pensadas para recepciones impecables.',
     },
-    caption: {
-      es: 'Cada pedido se envuelve cuidadosamente en papel encerado con patrón de rosas y nuestro sello en dorado.',
-      en: 'Every box is carefully wrapped in rose-patterned deli paper and finished with our signature gold seal.',
-    },
+    imageSrc: './images/real/05-charcuterie-cups.jpg',
   },
   {
-    id: 'gal-4',
-    src: 'images/8_carrito_cocteles_y_charcuteria.jpg',
-    category: 'eventos',
-    title: {
-      es: 'Mobile Grazing Bar para Bodas',
-      en: 'Mobile Grazing Cart for Weddings',
+    id: 'baby-showers',
+    index: '04',
+    title: { en: 'Baby Showers', es: 'Baby Showers' },
+    subtitle: {
+      en: 'Warm, tactile two-tier basket presentations and brunch spreads for daytime celebrations.',
+      es: 'Cestas de dos niveles y propuestas de brunch para celebraciones llenas de ternura.',
     },
-    caption: {
-      es: 'Nuestra barra móvil con toldo crema y detalles en bronce lleva el encanto de Ely’s a jardines y salones en Louisville.',
-      en: 'Our custom mobile bar with a cream canopy and brass accents brings Ely’s charm to Louisville gardens and venues.',
-    },
+    imageSrc: './images/real/04-double-basket.jpg',
   },
   {
-    id: 'gal-5',
-    src: 'images/2_bolsa_boutique_y_grazing_cups.jpg',
-    category: 'cajas',
-    title: {
-      es: 'Grazing Cups & Bolsa Boutique',
-      en: 'Grazing Cups & Boutique Gift Bag',
+    id: 'anniversaries',
+    index: '05',
+    title: { en: 'Anniversaries', es: 'Aniversarios' },
+    subtitle: {
+      en: 'Intimate 12-inch boards and morning brunch trays crafted for two.',
+      es: 'Tablas íntimas y bandejas de brunch creadas para celebrar en pareja.',
     },
-    caption: {
-      es: 'Vasos individuales listos para disfrutar en cócteles, baby showers y reuniones corporativas.',
-      en: 'Individual charcuterie cups ready to enjoy at cocktail hours, showers, and corporate gatherings.',
-    },
+    imageSrc: './images/real/07-brunch-box.jpg',
   },
   {
-    id: 'gal-6',
-    src: 'images/11_caja_alargada_horizontal_y_cinta.jpg',
-    category: 'cajas',
-    title: {
-      es: 'Caja Panorámica con Lazo de Satén',
-      en: 'Panoramic Ribbon Grazing Box',
+    id: 'private-celebrations',
+    index: '06',
+    title: { en: 'Private Celebrations', es: 'Celebraciones Privadas' },
+    subtitle: {
+      en: 'Full-scale grazing experiences and 16-inch boards for unforgettable evenings at home.',
+      es: 'Mesas completas y tablas de 16 pulgadas para veladas inolvidables en casa.',
     },
-    caption: {
-      es: 'Un detalle elegante y delicado listo para colocar directamente en el centro de la mesa.',
-      en: 'An elegant, delicate gift ready to place right at the center of the table.',
-    },
+    imageSrc: './images/real/02-medium-board.jpg',
   },
   {
-    id: 'gal-7',
-    src: 'images/7_tabla_madera_grabada.jpg',
-    category: 'detalles',
-    title: {
-      es: 'Grabado Artesanal en Nogal',
-      en: 'Laser-Engraved Walnut Wood Detail',
+    id: 'special-gifts',
+    index: '07',
+    title: { en: 'Special Gifts', es: 'Regalos Especiales' },
+    subtitle: {
+      en: 'Artisanal kraft snack boxes and curated trays delivered with a personal touch.',
+      es: 'Snack boxes y bandejas curadas entregadas como un detalle inolvidable.',
     },
-    caption: {
-      es: 'Cuidamos cada acabado para que la experiencia alrededor de la mesa sea cálida y memorable.',
-      en: 'We care for every detail so the experience around the table feels warm and memorable.',
-    },
-  },
-  {
-    id: 'gal-8',
-    src: 'images/14_cuchillos_servilletas_y_cinta_horizontal.jpg',
-    category: 'detalles',
-    title: {
-      es: 'Lino Crema & Cuchillería en Madera',
-      en: 'Cream Linen & Walnut Accents',
-    },
-    caption: {
-      es: 'Servilletas bordadas y accesorios artesanales que acompañan nuestros montajes de eventos.',
-      en: 'Embroidered linen napkins and artisan accessories that accompany our event setups.',
-    },
+    imageSrc: './images/real/06-snack-box.jpg',
   },
 ];
+
+export const EXPERIENCE_STORY: Record<
+  Language,
+  {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    paragraph1: string;
+    paragraph2: string;
+    pillars: { label: string; text: string }[];
+  }
+> = {
+  en: {
+    eyebrow: 'THE ELYS EXPERIENCE',
+    title: 'Crafted by hand, designed to be shared.',
+    lead: 'Behind Ely’s Charcuterie is Elianne Lafuente—guided by the belief that the smallest details transform a simple gathering into a lasting memory.',
+    paragraph1:
+      'Every board, basket and box begins with a deliberate selection of ingredients: aged and creamy cheeses, artisan cured meats folded petal by petal, seasonal fruits at peak ripeness, and accompaniments chosen for balance in texture and color.',
+    paragraph2:
+      'More than food presentation, each creation is conceived as an invitation to pause, gather around the table, and share something genuinely special.',
+    pillars: [
+      {
+        label: '01 / INGREDIENT CURATION',
+        text: 'Selected daily for freshness, contrast of flavor, and visual harmony.',
+      },
+      {
+        label: '02 / SCULPTURAL PRESENTATION',
+        text: 'Hand-folded charcuterie roses and intentional architectural composition.',
+      },
+      {
+        label: '03 / THE ART OF SHARING',
+        text: 'Created in Louisville, Kentucky for intimate moments and grand celebrations alike.',
+      },
+    ],
+  },
+  es: {
+    eyebrow: 'LA EXPERIENCIA ELYS',
+    title: 'Creado a mano, pensado para compartir.',
+    lead: 'Detrás de Ely’s Charcuterie está Elianne Lafuente, guiada por la convicción de que los pequeños detalles transforman una reunión en un recuerdo inolvidable.',
+    paragraph1:
+      'Cada tabla, cesta y caja comienza con una selección cuidadosa de ingredientes: quesos cremosos y madurados, embutidos doblados pétalo a pétalo, frutas frescas de estación y acompañamientos elegidos por su equilibrio de sabor y textura.',
+    paragraph2:
+      'Más que una presentación gastronómica, cada propuesta nace como una invitación a detenerse, reunirse alrededor de la mesa y compartir algo verdaderamente especial.',
+    pillars: [
+      {
+        label: '01 / SELECCIÓN DE INGREDIENTES',
+        text: 'Elegidos por su frescura, contraste de sabores y armonía visual.',
+      },
+      {
+        label: '02 / COMPOSICIÓN ESCULTURAL',
+        text: 'Rosas de charcutería hechas a mano y cuidado en cada detalle.',
+      },
+      {
+        label: '03 / EL ARTE DE COMPARTIR',
+        text: 'Creado en Louisville, Kentucky para momentos íntimos y grandes celebraciones.',
+      },
+    ],
+  },
+};

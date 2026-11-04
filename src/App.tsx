@@ -1,97 +1,87 @@
 import React, { useState } from 'react';
-import { CartItem, Language } from './types/catalog';
+import { Language, Product } from './types/catalog';
+import { StudioEnvironment } from './components/StudioEnvironment';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { AboutElianne } from './components/AboutElianne';
-import { CatalogSection } from './components/CatalogSection';
-import { EventsShowcase } from './components/EventsShowcase';
-import { HowToOrder } from './components/HowToOrder';
-import { GallerySection } from './components/GallerySection';
-import { QuoteFormSection } from './components/QuoteFormSection';
-import { CartDrawer } from './components/CartDrawer';
+import { ImmersiveCollection } from './components/ImmersiveCollection';
+import { MadeForGathering } from './components/MadeForGathering';
+import { TheElysExperience } from './components/TheElysExperience';
+import { CustomOrdersSection } from './components/CustomOrdersSection';
 import { Footer } from './components/Footer';
+import { OrderInquiryModal } from './components/OrderInquiryModal';
 
-export const App: React.FC = () => {
-  const [lang, setLang] = useState<Language>('es');
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
+export function App() {
+  const [lang, setLang] = useState<Language>('en');
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
+  const [selectedInquiry, setSelectedInquiry] = useState<string | undefined>(
+    undefined
+  );
 
-  const handleAddToCart = (productId: string, sizeId: string) => {
-    setCart((prev) => {
-      const existingIndex = prev.findIndex(
-        (item) => item.productId === productId && item.sizeId === sizeId
-      );
-      if (existingIndex > -1) {
-        const updated = [...prev];
-        updated[existingIndex] = {
-          ...updated[existingIndex],
-          quantity: updated[existingIndex].quantity + 1,
-        };
-        return updated;
-      }
-      return [...prev, { productId, sizeId, quantity: 1 }];
-    });
+  const handleToggleLang = () => {
+    setLang((prev) => (prev === 'en' ? 'es' : 'en'));
   };
 
-  const handleUpdateQty = (productId: string, sizeId: string, delta: number) => {
-    setCart((prev) =>
-      prev
-        .map((item) => {
-          if (item.productId === productId && item.sizeId === sizeId) {
-            return { ...item, quantity: item.quantity + delta };
-          }
-          return item;
-        })
-        .filter((item) => item.quantity > 0)
-    );
+  const handleOpenOrder = (selection?: string) => {
+    setSelectedInquiry(selection);
+    setOrderModalOpen(true);
   };
 
-  const handleRemove = (productId: string, sizeId: string) => {
-    setCart((prev) =>
-      prev.filter(
-        (item) => !(item.productId === productId && item.sizeId === sizeId)
-      )
-    );
+  const handleOrderProduct = (product: Product) => {
+    setSelectedInquiry(`${product.id} — ${product.name[lang]}`);
+    setOrderModalOpen(true);
   };
-
-  const handleClear = () => {
-    setCart([]);
-  };
-
-  const totalCartItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream-50 text-noir-900">
+    <div className="relative min-h-screen bg-[#222326] text-[#F3EBDD] selection:bg-[#C9A96E]/30 selection:text-[#F3EBDD]">
+      {/* ONE FIXED GLOBAL 3D STUDIO BACKGROUND */}
+      <StudioEnvironment />
+
+      {/* MINIMAL FLOATING STUDIO NAVIGATION */}
       <Navbar
         lang={lang}
-        setLang={setLang}
-        cartCount={totalCartItems}
-        onOpenCart={() => setCartOpen(true)}
+        onToggleLang={handleToggleLang}
+        onOpenOrderModal={() => handleOpenOrder()}
       />
 
-      <main className="flex-1">
-        <Hero lang={lang} />
-        <AboutElianne lang={lang} />
-        <CatalogSection lang={lang} onAddToCart={handleAddToCart} />
-        <EventsShowcase lang={lang} />
-        <HowToOrder lang={lang} />
-        <GallerySection lang={lang} />
-        <QuoteFormSection lang={lang} />
+      {/* CONTINUOUS CINEMATIC EXPERIENCE */}
+      <main className="relative z-10">
+        {/* 1. HERO EXPERIENCE */}
+        <Hero lang={lang} onOpenOrderModal={() => handleOpenOrder()} />
+
+        {/* 2. IMMERSIVE PINNED 3D PRODUCT COLLECTION (01–07) */}
+        <ImmersiveCollection
+          lang={lang}
+          onOrderProduct={handleOrderProduct}
+        />
+
+        {/* 3. MADE FOR GATHERING (OCCASIONS) */}
+        <MadeForGathering
+          lang={lang}
+          onSelectOccasion={(occasionTitle) => handleOpenOrder(occasionTitle)}
+        />
+
+        {/* 4. THE ELYS EXPERIENCE (BRAND STORY) */}
+        <TheElysExperience lang={lang} />
+
+        {/* 5. CUSTOM ORDERS */}
+        <CustomOrdersSection
+          lang={lang}
+          onOpenOrderModal={() => handleOpenOrder('Custom Charcuterie Experience')}
+        />
       </main>
 
-      <Footer lang={lang} />
+      {/* 6. MINIMAL CHARCOAL STUDIO FOOTER */}
+      <Footer lang={lang} onOpenOrderModal={() => handleOpenOrder()} />
 
-      <CartDrawer
-        isOpen={cartOpen}
-        onClose={() => setCartOpen(false)}
+      {/* ORDER / CONCIERGE DRAWER */}
+      <OrderInquiryModal
+        isOpen={orderModalOpen}
+        onClose={() => setOrderModalOpen(false)}
         lang={lang}
-        cart={cart}
-        onUpdateQty={handleUpdateQty}
-        onRemove={handleRemove}
-        onClear={handleClear}
+        initialSelection={selectedInquiry}
       />
     </div>
   );
-};
+}
 
 export default App;

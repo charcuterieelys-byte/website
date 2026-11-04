@@ -13,11 +13,11 @@ dist-ssr
 _archivos_marca_local/
 mockups_fotograficos/
 public_images_gen/
-videos/
-MEDIA/
+/videos/
+/MEDIA/
 .hallmark/
 *.cdr
-*.mp4
+/elys-brand-reveal-reel.mp4
 
 # Logs & Editor
 npm-debug.log*

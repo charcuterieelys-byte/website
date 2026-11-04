@@ -7,42 +7,45 @@ export default {
   theme: {
     extend: {
       colors: {
+        studio: {
+          primary: '#222326',
+          secondary: '#303136',
+          shadow: '#17181A',
+        },
+        champagne: '#C9A96E',
+        ivory: '#F3EBDD',
+        deepred: '#8F1719',
         cream: {
           50: '#FDFBF7',
-          100: '#FAF3E3',
-          200: '#F2E7CE',
-          300: '#E5D4B1',
+          100: '#F3EBDD',
+          200: '#E5DAC6',
+          300: '#D4C3A3',
         },
         gold: {
-          100: '#F9E8C2',
-          200: '#F3D18D',
-          300: '#DFB96E',
-          400: '#C59B4E',
-          500: '#AD8337',
-          600: '#8F6A26',
+          100: '#F3EBDD',
+          200: '#DFC79A',
+          300: '#C9A96E',
+          400: '#B49155',
+          500: '#9A783E',
+          600: '#7D5F2D',
         },
         noir: {
-          950: '#0D0A0B',
-          900: '#141111',
-          800: '#211C1D',
-          700: '#383031',
-          600: '#544A4B',
-          500: '#736869',
+          950: '#17181A',
+          900: '#222326',
+          800: '#303136',
+          700: '#3E4047',
+          600: '#5A5D66',
+          500: '#858994',
         },
         crimson: {
-          700: '#990000',
-          800: '#730000',
+          700: '#8F1719',
+          800: '#6B1012',
         }
       },
       fontFamily: {
         serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
-      boxShadow: {
-        'soft': '0 12px 40px -12px rgba(20, 17, 17, 0.08)',
-        'luxury': '0 20px 50px -15px rgba(20, 17, 17, 0.14)',
-        'gold-glow': '0 8px 25px -4px rgba(197, 155, 78, 0.28)',
-      }
     },
   },
   plugins: [],

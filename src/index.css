@@ -1,76 +1,22 @@
-@import "./tokens.css";
-@import "./base.css";
-
+@import './base.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-    background-color: #FDFBF7;
-    color: #141111;
-  }
-
-  h1, h2, h3, h4 {
-    font-family: "Cormorant Garamond", Georgia, serif;
-    text-wrap: balance;
-  }
-}
-
-@layer components {
-  /* Apple-inspired Liquid Glass surfaces */
-  .liquid-glass-dark {
-    background: linear-gradient(
-      135deg,
-      rgba(20, 17, 17, 0.72) 0%,
-      rgba(13, 10, 11, 0.58) 100%
-    );
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(243, 209, 141, 0.22);
-    box-shadow:
-      0 24px 60px -12px rgba(0, 0, 0, 0.48),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
-  }
-
-  .liquid-glass-light {
-    background: linear-gradient(
-      135deg,
-      rgba(253, 251, 247, 0.86) 0%,
-      rgba(250, 243, 227, 0.74) 100%
-    );
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(197, 155, 78, 0.34);
-    box-shadow:
-      0 20px 50px -15px rgba(20, 17, 17, 0.12),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
-  }
-
-  .liquid-glass-pill {
-    background: rgba(20, 17, 17, 0.62);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border: 1px solid rgba(243, 209, 141, 0.28);
-    box-shadow:
-      0 10px 30px -6px rgba(0, 0, 0, 0.35),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
-  }
-}
-
-/* Custom subtle scrollbar */
+/* Custom scrollbar for dark luxury studio */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #FDFBF7;
+  background: #17181A;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #DFB96E;
-  border-radius: 999px;
+  background: #303136;
+  border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #C59B4E;
+  background: #C9A96E;
 }
