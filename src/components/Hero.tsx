@@ -17,7 +17,6 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
   const logoOvertureRef = useRef<HTMLDivElement>(null);
   const logoLockupWrapRef = useRef<HTMLDivElement>(null);
   const frameBorderRef = useRef<HTMLDivElement>(null);
-  const watermarkWrapRef = useRef<HTMLImageElement>(null);
   const logoMetaRef = useRef<HTMLDivElement>(null);
   const mainStageRef = useRef<HTMLDivElement>(null);
   const productWrapRef = useRef<HTMLDivElement>(null);
@@ -84,19 +83,23 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
       // =====================================================================
       const introTl = gsap.timeline();
 
-      introTl
-        .fromTo(
-          watermarkWrapRef.current,
+      const globalWatermark = document.querySelector('.studio-watermark-rose');
+      if (globalWatermark) {
+        introTl.fromTo(
+          globalWatermark,
           { rotation: -20, scale: 0.9, opacity: 0 },
           {
-            rotation: 6,
+            rotation: 0,
             scale: 1,
-            opacity: 0.52,
-            duration: 2.8,
+            opacity: 0.65,
+            duration: 2.6,
             ease: 'sine.out',
           },
           0.05
-        )
+        );
+      }
+
+      introTl
         .fromTo(
           frameBorderRef.current,
           { scale: 0.94, opacity: 0 },
@@ -301,25 +304,6 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
         ref={logoOvertureRef}
         className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 pointer-events-none select-none will-change-transform"
       >
-        {/* Finale Center Radial Spotlight (#finale-bg-glow) */}
-        <div
-          aria-hidden="true"
-          className="absolute w-[380px] h-[380px] sm:w-[580px] sm:h-[580px] lg:w-[680px] lg:h-[680px] rounded-full pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(circle, rgba(255, 250, 238, 0.55) 0%, rgba(229, 206, 154, 0) 70%)',
-          }}
-        />
-
-        {/* Animated Oversized Rose Watermark on the Right (#finale-watermark-wrap) */}
-        <img
-          ref={watermarkWrapRef}
-          src="./brand/isotipo-rosa-watermark.svg"
-          alt=""
-          aria-hidden="true"
-          className="absolute -right-[22vw] sm:-right-[12vw] lg:-right-[8vw] bottom-[6vh] sm:bottom-[4vh] w-[82vw] sm:w-[56vw] max-w-[780px] h-auto object-contain opacity-50 pointer-events-none will-change-transform"
-        />
-
         {/* Delicate Cream Architectural Frame Border (#finale-frame-border) */}
         <div
           ref={frameBorderRef}
@@ -330,7 +314,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
         {/* Animated Inline SVG Vertical Lockup (#finale-lockup-wrap) */}
         <div
           ref={logoLockupWrapRef}
-          className="relative z-10 w-[235px] sm:w-[315px] lg:w-[365px] aspect-[660/857] flex items-center justify-center drop-shadow-[0_18px_36px_rgba(96,26,18,0.13)] will-change-transform"
+          className="relative z-10 w-[235px] sm:w-[315px] lg:w-[365px] aspect-[660/857] flex items-center justify-center drop-shadow-[0_14px_28px_rgba(96,26,18,0.10)] will-change-transform"
         >
           <AnimatedVerticalLogo className="w-full h-full" />
         </div>

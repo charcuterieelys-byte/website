@@ -1,13 +1,13 @@
 import React from 'react';
 
 /**
- * GLOBAL VISUAL ENVIRONMENT (Phase 2 — Warm Ivory / Marfil & Cream-Gold Studio)
+ * GLOBAL VISUAL ENVIRONMENT (Official Brand Sheet Edition)
  * A single fixed three-dimensional luxury studio environment in Ely's official
- * Warm Ivory, Cream-Gold & Burgundy Red palette:
- * - Warm Ivory / Marfil Key Light: #FAF5E8 -> #F4E6C2
+ * Warm Cream-Gold & Burgundy Red palette:
  * - Primary Studio Cream-Gold: #E7D095
- * - Soft Illuminated Rose Watermark: #F0E0B2
- * - Deep Burgundy Accents: #841F17
+ * - Soft Illuminated Cream Highlight / Rose Watermark: #F0E0B2
+ * - Warm Studio Depth Edge: #D8BD7A
+ * - Burgundy Red Accents: #841F17
  */
 export const StudioEnvironment: React.FC = () => {
   return (
@@ -15,37 +15,28 @@ export const StudioEnvironment: React.FC = () => {
       aria-hidden="true"
       className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none bg-[#E7D095]"
     >
-      {/* Primary Studio Radial Illumination: Warm Ivory/Marfil heart blending into Cream-Gold */}
+      {/* Primary Studio Radial Illumination (#EEDAA6 -> #E7D095 -> #D9BE7D) */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 74% 66% at 52% 44%, #FAF5E8 0%, #F4E6C0 38%, #EBD6A0 68%, #E2C684 100%)',
+            'radial-gradient(ellipse 70% 62% at 54% 46%, #EEDBA8 0%, #E7D095 55%, #D9BE7D 100%)',
         }}
       />
 
-      {/* Soft overhead warm marfil studio key-light bloom */}
-      <div
-        className="absolute -top-[12%] left-1/2 -translate-x-1/2 w-[90vw] h-[54vh] rounded-full opacity-75 blur-[115px]"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(250, 245, 232, 0.82) 0%, rgba(244, 230, 192, 0.38) 54%, transparent 80%)',
-        }}
-      />
-
-      {/* Official Brand Sheet Detail: Subtle Oversized Rose Watermark on the Right Edge */}
+      {/* Official Brand Sheet Detail: Single Oversized Rose Watermark (#F0E0B2) on the Right Edge */}
       <img
         src="./brand/isotipo-rosa-watermark.svg"
         alt=""
-        className="absolute -right-[18vw] sm:-right-[10vw] top-1/2 -translate-y-1/2 w-[78vw] sm:w-[52vw] max-w-[760px] h-auto object-contain opacity-55"
+        className="studio-watermark-rose absolute -right-[16vw] sm:-right-[10vw] top-1/2 -translate-y-1/2 w-[78vw] sm:w-[54vw] max-w-[780px] h-auto object-contain opacity-65 will-change-transform"
       />
 
       {/* Subtle studio floor horizon depth plane */}
       <div
-        className="absolute bottom-0 inset-x-0 h-[30vh]"
+        className="absolute bottom-0 inset-x-0 h-[32vh]"
         style={{
           background:
-            'linear-gradient(to top, rgba(218, 190, 125, 0.45) 0%, rgba(231, 208, 149, 0.12) 60%, transparent 100%)',
+            'linear-gradient(to top, rgba(212, 183, 117, 0.45) 0%, rgba(231, 208, 149, 0.12) 60%, transparent 100%)',
         }}
       />
 
@@ -56,7 +47,7 @@ export const StudioEnvironment: React.FC = () => {
       <div
         className="absolute inset-0"
         style={{
-          boxShadow: 'inset 0 0 140px rgba(132, 31, 23, 0.06)',
+          boxShadow: 'inset 0 0 150px rgba(132, 31, 23, 0.07)',
         }}
       />
     </div>
