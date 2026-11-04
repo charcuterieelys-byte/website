@@ -12,9 +12,9 @@ interface MadeForGatheringProps {
 }
 
 /**
- * SECTION 9 — MADE FOR GATHERING
+ * SECTION 8 — MADE FOR GATHERING
  * Editorial presentation of the occasions Elys serves inside the same
- * continuous Warm Cream-Gold & Burgundy studio environment, pairing large
+ * continuous Warm Ivory & Cream-Gold studio environment, pairing large
  * interactive typography with Elianne's real photography.
  */
 export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
@@ -27,19 +27,24 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
   useEffect(() => {
     if (!sectionRef.current) return;
 
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.gathering-reveal',
-        { y: 36, opacity: 0 },
+        { y: 28, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
-          stagger: 0.08,
+          duration: 0.9,
+          stagger: 0.07,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 76%',
+            start: 'top 78%',
           },
         }
       );
@@ -54,13 +59,13 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
     <section
       id="occasions"
       ref={sectionRef}
-      className="relative z-10 py-28 sm:py-36 lg:py-44 px-6 sm:px-10 lg:px-16"
+      className="relative z-10 py-24 sm:py-32 lg:py-40 px-6 sm:px-10 lg:px-16"
     >
       <div className="max-w-[1440px] mx-auto">
         {/* Editorial Header */}
-        <div className="gathering-reveal max-w-2xl mb-16 sm:mb-24 space-y-4">
+        <div className="gathering-reveal max-w-2xl mb-14 sm:mb-20 space-y-4">
           <div className="flex items-center gap-3">
-            <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.3em] uppercase text-[#841F17]">
+            <span className="text-xs font-semibold tracking-[0.28em] uppercase text-[#841F17]">
               {lang === 'en' ? 'OCCASIONS' : 'OCASIONES'}
             </span>
             <span className="w-8 h-px bg-[#841F17]/45" />
@@ -68,7 +73,7 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
           <h2 className="font-serif font-normal text-4xl sm:text-6xl text-[#841F17] tracking-[-0.02em] leading-[1.03]">
             {lang === 'en' ? 'Made for gathering.' : 'Creado para reunir.'}
           </h2>
-          <p className="text-sm sm:text-base text-[#4A120E]/85 font-normal leading-relaxed">
+          <p className="text-base sm:text-lg text-[#4A120E]/90 font-normal leading-relaxed">
             {lang === 'en'
               ? 'From intimate toasts for two to abundant grazing tables for life’s milestone celebrations.'
               : 'Desde brindis íntimos para dos hasta mesas abundantes para las celebraciones más memorables.'}
@@ -76,9 +81,9 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
         </div>
 
         {/* Two-Column Studio Composition: Interactive Editorial Index + Real Photography Stage */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left: Interactive Editorial Occasion List */}
-          <div className="lg:col-span-7 divide-y divide-[#841F17]/15 border-t border-b border-[#841F17]/20">
+          <div className="lg:col-span-7 divide-y divide-[#841F17]/15 border-t border-b border-[#841F17]/25">
             {OCCASIONS_DATA.map((item, idx) => {
               const isSelected = idx === activeOccasion;
               return (
@@ -90,12 +95,12 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
                   className="gathering-reveal group py-5 sm:py-6 cursor-pointer transition-colors"
                 >
                   <div className="flex items-baseline justify-between gap-4">
-                    <div className="flex items-baseline gap-5 sm:gap-7">
+                    <div className="flex items-baseline gap-4 sm:gap-7">
                       <span
-                        className={`num text-xs font-semibold tracking-[0.24em] transition-colors duration-300 ${
+                        className={`num text-xs font-semibold tracking-[0.22em] transition-colors duration-300 ${
                           isSelected
                             ? 'text-[#841F17]'
-                            : 'text-[#841F17]/40 group-hover:text-[#841F17]/80'
+                            : 'text-[#841F17]/45 group-hover:text-[#841F17]/80'
                         }`}
                       >
                         {item.index}
@@ -104,7 +109,7 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
                         className={`font-serif font-normal text-2xl sm:text-4xl transition-all duration-300 ${
                           isSelected
                             ? 'text-[#841F17] translate-x-1'
-                            : 'text-[#5A120D]/60 group-hover:text-[#841F17]'
+                            : 'text-[#5A120D]/70 group-hover:text-[#841F17]'
                         }`}
                       >
                         {item.title[lang]}
@@ -117,10 +122,10 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
                         e.stopPropagation();
                         onSelectOccasion(item.title[lang]);
                       }}
-                      className={`text-[10px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 ${
+                      className={`shrink-0 text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-300 py-1 px-2 ${
                         isSelected
-                          ? 'opacity-100 text-[#841F17] hover:underline'
-                          : 'opacity-0 group-hover:opacity-100 text-[#841F17]/80'
+                          ? 'opacity-100 text-[#841F17] underline underline-offset-4'
+                          : 'opacity-70 sm:opacity-0 group-hover:opacity-100 text-[#841F17]/85'
                       }`}
                     >
                       {lang === 'en' ? 'INQUIRE →' : 'CONSULTAR →'}
@@ -129,10 +134,10 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
 
                   <div
                     className={`overflow-hidden transition-all duration-500 ${
-                      isSelected ? 'max-h-24 opacity-100 mt-2.5' : 'max-h-0 opacity-0'
+                      isSelected ? 'max-h-28 opacity-100 mt-3' : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <p className="pl-10 sm:pl-12 text-xs sm:text-sm text-[#4A120E]/80 font-normal max-w-xl">
+                    <p className="pl-9 sm:pl-12 text-sm sm:text-base text-[#4A120E]/85 font-normal max-w-xl leading-relaxed">
                       {item.subtitle[lang]}
                     </p>
                   </div>
@@ -141,37 +146,43 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
             })}
           </div>
 
-          {/* Right: Selected Real Photograph Floating in the Cream-Gold Studio */}
-          <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
-            <div className="relative w-full max-w-[460px] aspect-[4/5] overflow-hidden border border-[#841F17]/20 floating-product-shadow">
-              {OCCASIONS_DATA.map((item, idx) => (
-                <img
-                  key={item.id}
-                  src={item.imageSrc}
-                  alt={item.title[lang]}
-                  loading="lazy"
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out ${
-                    idx === activeOccasion
-                      ? 'opacity-100 scale-100'
-                      : 'opacity-0 scale-105 pointer-events-none'
-                  }`}
-                />
-              ))}
-              {/* Subtle warm inner frame */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  boxShadow: 'inset 0 0 40px rgba(84, 24, 16, 0.22)',
-                }}
-              />
-            </div>
+          {/* Right: Selected Real Photograph Framed in Warm Marfil */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 relative flex flex-col items-center justify-center">
+            <div className="w-full max-w-[460px] bg-[#FAF5E8]/65 p-3.5 sm:p-4 border border-[#841F17]/20 shadow-[0_24px_48px_rgba(84,24,16,0.14)]">
+              <div className="relative w-full aspect-[4/5] overflow-hidden bg-[#E7D095]">
+                {OCCASIONS_DATA.map((item, idx) => (
+                  <img
+                    key={item.id}
+                    src={item.imageSrc}
+                    alt={item.title[lang]}
+                    loading="lazy"
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out ${
+                      idx === activeOccasion
+                        ? 'opacity-100 scale-100'
+                        : 'opacity-0 scale-105 pointer-events-none'
+                    }`}
+                  />
+                ))}
+              </div>
 
-            <div className="mt-5 w-full max-w-[460px] flex items-center justify-between text-[10px] font-semibold tracking-[0.24em] uppercase text-[#5A120D]/75">
-              <span>{currentItem.title[lang]}</span>
-              <span className="num text-[#841F17]">
-                {currentItem.index} / 0{OCCASIONS_DATA.length}
-              </span>
+              <div className="pt-4 pb-1 px-1 flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-[10px] font-semibold tracking-[0.24em] uppercase text-[#841F17]/75 num">
+                    {currentItem.index} / 0{OCCASIONS_DATA.length}
+                  </p>
+                  <p className="font-serif text-xl text-[#841F17] mt-0.5">
+                    {currentItem.title[lang]}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => onSelectOccasion(currentItem.title[lang])}
+                  className="px-4 py-2.5 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-[10px] font-semibold tracking-[0.22em] uppercase transition-colors"
+                >
+                  {lang === 'en' ? 'PLAN THIS EVENT' : 'COTIZAR EVENTO'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

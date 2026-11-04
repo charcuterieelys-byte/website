@@ -70,8 +70,11 @@ export function App() {
         />
       </main>
 
-      {/* 6. MINIMAL CHARCOAL STUDIO FOOTER */}
-      <Footer lang={lang} onOpenOrderModal={() => handleOpenOrder()} />
+      {/* 6. COMPLETE EDITORIAL STUDIO FOOTER */}
+      <Footer
+        lang={lang}
+        onOpenOrderModal={(selection) => handleOpenOrder(selection)}
+      />
 
       {/* ORDER / CONCIERGE DRAWER */}
       <OrderInquiryModal

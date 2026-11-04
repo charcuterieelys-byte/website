@@ -28,7 +28,10 @@ export const AnimatedVerticalLogo: React.FC<AnimatedVerticalLogoProps> = ({
       role="img"
     >
       {/* 11 ARCHED "CHARCUTERIE" LETTERS (#FAF5E8) */}
-      <g className="fin-arch-group">
+      <g
+        className="fin-arch-group"
+        style={{ filter: 'drop-shadow(0 2px 5px rgba(132, 31, 23, 0.22))' }}
+      >
         <path
           className="fin-arch-letter"
           data-idx="0"

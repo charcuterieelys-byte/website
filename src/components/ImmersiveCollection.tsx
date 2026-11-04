@@ -13,12 +13,12 @@ interface ImmersiveCollectionProps {
 }
 
 /**
- * SECTION 4, 5, 6, 7 & 11 — THE MAIN EXPERIENCE: IMMERSIVE PRODUCT COLLECTION
- * - Single pinned 3D studio viewport controlled by GSAP ScrollTrigger.
- * - During each product's dwell window [i, i + 0.74], scrolling directly rotates
+ * SECTION 5 & 6 — THE MAIN EXPERIENCE: IMMERSIVE PRODUCT COLLECTION (01–07)
+ * - Single pinned studio viewport controlled by GSAP ScrollTrigger.
+ * - During each product's dwell window [i, i + 0.72], scrolling smoothly rotates
  *   the product in 3D from 0% to 100% of its turntable video frames.
- * - During [i + 0.74, i + 1.0], the current product exits in 3D space while the
- *   next product enters.
+ * - During [i + 0.72, i + 0.85], the current product exits cleanly without distortion.
+ * - During [i + 0.85, i + 1.00], the next product enters smoothly with zero overlap.
  */
 export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
   lang,
@@ -32,40 +32,32 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
   const [activeIndex, setActiveIndex] = useState(0);
 
   const totalProducts = PRODUCTS.length; // 7
-  const ROTATION_WINDOW = 0.74; // First 74% of each product segment rotates the 3D video; remaining 26% transitions to next product
+  const ROTATION_WINDOW = 0.72; // First 72% rotates the 3D turntable; remaining 28% executes a clean non-overlapping transition
 
   useEffect(() => {
     if (!wrapperRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Initialize all stages: Product 01 visible at start, 02–07 waiting in 3D space
+      // Initialize all stages: Product 01 visible at start, 02–07 waiting cleanly in the studio
       PRODUCTS.forEach((_, idx) => {
         if (idx === 0) {
           gsap.set(`.product-stage-${idx}`, { autoAlpha: 1 });
           gsap.set(`.product-visual-${idx}`, {
             y: 0,
-            z: 0,
             scale: 1,
-            rotationX: 0,
-            rotationY: 0,
-            rotationZ: 0,
             opacity: 1,
           });
           gsap.set(`.product-info-${idx}`, { y: 0, opacity: 1 });
-          gsap.set(`.product-shadow-${idx}`, { scale: 1, opacity: 0.85 });
+          gsap.set(`.product-shadow-${idx}`, { scale: 1, opacity: 0.82 });
         } else {
           gsap.set(`.product-stage-${idx}`, { autoAlpha: 0 });
           gsap.set(`.product-visual-${idx}`, {
-            y: 110,
-            z: -200,
-            scale: 0.78,
-            rotationX: 12,
-            rotationY: idx % 2 === 0 ? -10 : 10,
-            rotationZ: idx % 2 === 0 ? -3 : 3,
+            y: 44,
+            scale: 0.92,
             opacity: 0,
           });
-          gsap.set(`.product-info-${idx}`, { y: 40, opacity: 0 });
-          gsap.set(`.product-shadow-${idx}`, { scale: 0.45, opacity: 0 });
+          gsap.set(`.product-info-${idx}`, { y: 28, opacity: 0 });
+          gsap.set(`.product-shadow-${idx}`, { scale: 0.65, opacity: 0 });
         }
       });
 
@@ -74,18 +66,17 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
           trigger: wrapperRef.current,
           pin: true,
           start: 'top top',
-          // Generous scroll distance so each product rotates smoothly in 3D before transitioning
-          end: () => `+=${window.innerHeight * (totalProducts * 1.45)}`,
-          scrub: 0.5,
+          end: () => `+=${window.innerHeight * (totalProducts * 1.38)}`,
+          scrub: 0.45,
           anticipatePin: 1,
           onUpdate: (self) => {
             const totalDur = tl.duration() || 1;
             const currentTime = self.progress * totalDur;
 
-            // Active index switches at transition midpoint (i + 0.87)
+            // Switch active index cleanly at the exact non-overlapping handoff point (i + 0.85)
             const idx = Math.min(
               totalProducts - 1,
-              Math.max(0, Math.floor(currentTime + 0.13))
+              Math.max(0, Math.floor(currentTime + 0.15))
             );
             setActiveIndex((prev) => (prev !== idx ? idx : prev));
 
@@ -108,13 +99,12 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
       timelineRef.current = tl;
       triggerRef.current = tl.scrollTrigger || null;
 
-      // Build reusable choreographed segments for all 7 products
+      // Build distortion-free, non-overlapping choreographed segments for all 7 products
       for (let i = 0; i < totalProducts; i++) {
         const segStart = i; // Each product step = 1.0 timeline unit
         tl.addLabel(`product-${i}`, segStart);
 
-        // During [segStart, segStart + ROTATION_WINDOW], the product stays centered
-        // while its video frames rotate in 3D via rotationProgressRef
+        // Subtle, poised breathing lift while the product rotates 360° in [segStart, segStart + ROTATION_WINDOW]
         tl.to(
           `.product-visual-${i}`,
           {
@@ -126,23 +116,20 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
           segStart
         );
 
-        // Coordinated transition from Product i -> Product i + 1 [i + 0.74, i + 1.0]
+        // Sequential non-overlapping transition from Product i -> Product i + 1
         if (i < totalProducts - 1) {
           const next = i + 1;
-          const exitStart = segStart + ROTATION_WINDOW;
-          const exitDur = 0.14;
-          const enterStart = segStart + ROTATION_WINDOW + 0.1;
-          const enterDur = 0.16;
+          const exitStart = segStart + ROTATION_WINDOW; // i + 0.72
+          const exitDur = 0.13; // ends at i + 0.85
+          const enterStart = exitStart + exitDur; // starts at i + 0.85 (zero overlap!)
+          const enterDur = 0.15; // ends at i + 1.00
 
-          // 1. Current product exits smoothly in 3D space after finishing its 3D rotation
+          // 1. Current product exits smoothly upward and fades completely by i + 0.85
           tl.to(
             `.product-visual-${i}`,
             {
-              y: -115,
-              z: -180,
-              scale: 0.82,
-              rotationX: -12,
-              rotationZ: i % 2 === 0 ? 3 : -3,
+              y: -44,
+              scale: 0.94,
               opacity: 0,
               duration: exitDur,
               ease: 'power2.in',
@@ -152,7 +139,7 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
             .to(
               `.product-shadow-${i}`,
               {
-                scale: 0.45,
+                scale: 0.65,
                 opacity: 0,
                 duration: exitDur,
                 ease: 'power2.in',
@@ -162,35 +149,27 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
             .to(
               `.product-info-${i}`,
               {
-                y: -36,
+                y: -24,
                 opacity: 0,
-                duration: exitDur * 0.9,
+                duration: exitDur,
                 ease: 'power2.in',
               },
               exitStart
             )
-            .set(`.product-stage-${i}`, { autoAlpha: 0 }, exitStart + exitDur);
+            .set(`.product-stage-${i}`, { autoAlpha: 0 }, enterStart);
 
-          // 2. Next product enters smoothly into the center of the studio
+          // 2. Next product enters cleanly into the center of the studio [i + 0.85 -> i + 1.00]
           tl.set(`.product-stage-${next}`, { autoAlpha: 1 }, enterStart)
             .fromTo(
               `.product-visual-${next}`,
               {
-                y: 115,
-                z: -200,
-                scale: 0.78,
-                rotationX: 12,
-                rotationY: next % 2 === 0 ? -10 : 10,
-                rotationZ: next % 2 === 0 ? -3 : 3,
+                y: 44,
+                scale: 0.92,
                 opacity: 0,
               },
               {
                 y: 0,
-                z: 0,
                 scale: 1,
-                rotationX: 0,
-                rotationY: 0,
-                rotationZ: 0,
                 opacity: 1,
                 duration: enterDur,
                 ease: 'power2.out',
@@ -199,10 +178,10 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
             )
             .fromTo(
               `.product-shadow-${next}`,
-              { scale: 0.45, opacity: 0 },
+              { scale: 0.65, opacity: 0 },
               {
                 scale: 1,
-                opacity: 0.85,
+                opacity: 0.82,
                 duration: enterDur,
                 ease: 'power2.out',
               },
@@ -210,14 +189,14 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
             )
             .fromTo(
               `.product-info-${next}`,
-              { y: 38, opacity: 0 },
+              { y: 28, opacity: 0 },
               {
                 y: 0,
                 opacity: 1,
                 duration: enterDur,
                 ease: 'power2.out',
               },
-              enterStart + 0.02
+              enterStart
             );
         }
       }
@@ -231,7 +210,7 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
     const st = triggerRef.current;
     const tl = timelineRef.current;
     if (!st || !tl) return;
-    const targetTime = targetIdx + 0.05;
+    const targetTime = targetIdx + 0.04;
     const progress = Math.min(1, Math.max(0, targetTime / tl.duration()));
     const targetScrollY = st.start + (st.end - st.start) * progress;
     window.scrollTo({
@@ -245,27 +224,27 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
       id="collection"
       ref={wrapperRef}
       aria-label={lang === 'en' ? 'The Collection' : 'La Colección'}
-      className="relative z-10 w-full h-[100dvh] overflow-hidden studio-perspective"
+      className="relative z-10 w-full h-[100dvh] overflow-hidden"
     >
-      {/* Top Studio Section & 3D Rotation Progress Bar */}
-      <div className="pointer-events-none absolute top-24 left-6 sm:left-10 lg:left-16 z-30 hidden sm:flex items-center gap-4 text-[10px] font-semibold tracking-[0.28em] uppercase text-[#5A120D]/65">
+      {/* Top Studio Section Header & 3D Rotation Progress Bar */}
+      <div className="pointer-events-none absolute top-20 sm:top-24 left-6 sm:left-10 lg:left-16 z-30 flex items-center gap-3 sm:gap-4 text-[10px] sm:text-[11px] font-semibold tracking-[0.26em] uppercase text-[#5A120D]/75">
         <span>{lang === 'en' ? 'CURATED COLLECTION' : 'COLECCIÓN CURADA'}</span>
-        <span className="num text-[#841F17]">
+        <span className="num text-[#841F17] font-bold">
           {PRODUCTS[activeIndex]?.id} / 0{totalProducts}
         </span>
-        <div className="w-20 h-[2px] bg-[#841F17]/20 overflow-hidden">
+        <div className="w-16 sm:w-24 h-[2px] bg-[#841F17]/20 overflow-hidden">
           <div
             ref={rotationBarRef}
             className="w-full h-full bg-[#841F17] origin-left"
             style={{ transform: 'scaleX(0)' }}
           />
         </div>
-        <span className="text-[9px] tracking-[0.24em] text-[#841F17]/85">
-          {lang === 'en' ? '3D ROTATION' : 'GIRO 3D'}
+        <span className="hidden sm:inline text-[10px] tracking-[0.22em] text-[#841F17]/85">
+          {lang === 'en' ? '360° VIEW' : 'GIRO 360°'}
         </span>
       </div>
 
-      {/* All 7 Floating Product Stages inside the single pinned 3D viewport */}
+      {/* All 7 Floating Product Stages inside the single pinned viewport */}
       <div className="relative w-full h-full">
         {PRODUCTS.map((product, index) => (
           <ProductStageItem
@@ -280,12 +259,12 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
         ))}
       </div>
 
-      {/* SECTION 7 — MINIMAL VERTICAL PROGRESS INDICATOR ON THE RIGHT (01–07) */}
+      {/* MINIMAL VERTICAL PROGRESS INDICATOR ON THE RIGHT (01–07) */}
       <nav
         aria-label={
           lang === 'en' ? 'Product collection index' : 'Índice de productos'
         }
-        className="absolute right-4 sm:right-6 lg:right-10 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end gap-3"
+        className="absolute right-3 sm:right-6 lg:right-10 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end gap-2.5 sm:gap-3"
       >
         {PRODUCTS.map((item, idx) => {
           const isCurrent = idx === activeIndex;
@@ -296,20 +275,20 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
               onClick={() => scrollToProduct(idx)}
               aria-label={`Jump to ${item.name[lang]}`}
               aria-current={isCurrent ? 'step' : undefined}
-              className="group flex items-center gap-2.5 py-0.5 focus:outline-none"
+              className="group flex items-center gap-2 sm:gap-2.5 py-0.5 focus:outline-none"
             >
               <span
                 className={`h-[1.5px] transition-all duration-300 ${
                   isCurrent
-                    ? 'w-6 bg-[#841F17]'
-                    : 'w-2.5 bg-[#841F17]/30 group-hover:w-4 group-hover:bg-[#841F17]/75'
+                    ? 'w-5 sm:w-6 bg-[#841F17]'
+                    : 'w-2 sm:w-2.5 bg-[#841F17]/30 group-hover:w-4 group-hover:bg-[#841F17]/75'
                 }`}
               />
               <span
-                className={`num text-[11px] tracking-[0.2em] transition-colors duration-300 ${
+                className={`num text-[11px] tracking-[0.18em] transition-colors duration-300 ${
                   isCurrent
                     ? 'text-[#841F17] font-bold'
-                    : 'text-[#841F17]/45 group-hover:text-[#841F17]'
+                    : 'text-[#841F17]/50 group-hover:text-[#841F17]'
                 }`}
               >
                 {item.id}

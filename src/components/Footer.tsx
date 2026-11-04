@@ -1,50 +1,80 @@
 import React from 'react';
 import { Language } from '../types/catalog';
-import { BRAND_CONFIG } from '../data/catalog';
+import { BRAND_CONFIG, PRODUCTS } from '../data/catalog';
 
 interface FooterProps {
   lang: Language;
-  onOpenOrderModal: () => void;
+  onOpenOrderModal: (selection?: string) => void;
 }
 
 /**
- * SECTION 9 — MINIMAL STUDIO FOOTER (Cream-Gold & Burgundy Brand Sheet Edition)
+ * SECTION 8 — COMPLETE EDITORIAL STUDIO FOOTER
  * Includes:
- * - Official Elys logo (vertical Cream/Burgundy emblem)
- * - Navigation
- * - Contact information
- * - Social media links
- * - Ordering information
+ * - Official untouched Elys logo (vertical Cream/Burgundy emblem)
+ * - Complete 01–07 Collection quick-inquire index
+ * - Studio navigation
+ * - Contact, Social & Ordering Concierge information
  * - Copyright
  */
 export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
   return (
-    <footer className="relative z-10 border-t border-[#841F17]/20 pt-20 pb-14 px-6 sm:px-10 lg:px-16">
+    <footer className="relative z-10 border-t border-[#841F17]/25 bg-[#E2C684]/45 pt-20 pb-14 px-6 sm:px-10 lg:px-16">
       <div className="max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-[#841F17]/20">
-          {/* Official Elys Logo & Studio Identity */}
-          <div className="md:col-span-5 space-y-5">
+          {/* Column 1: Official Untouched Elys Logo & Studio Identity */}
+          <div className="md:col-span-4 space-y-5">
             <img
               src={BRAND_CONFIG.logoVertical}
               alt={BRAND_CONFIG.businessName}
-              className="h-24 w-auto object-contain"
+              className="h-28 w-auto object-contain"
             />
-            <p className="text-xs sm:text-sm text-[#4A120E]/85 font-normal max-w-sm leading-relaxed">
+            <p className="text-sm text-[#4A120E]/90 font-normal max-w-sm leading-relaxed">
               {lang === 'en'
-                ? 'Beautifully curated charcuterie boards, two-tier baskets, individual cups and celebration boxes crafted in Louisville, Kentucky.'
-                : 'Tablas de charcutería, cestas de dos niveles, vasos individuales y cajas de celebración creadas en Louisville, Kentucky.'}
+                ? 'Beautifully curated charcuterie boards, two-tier baskets, individual cups and celebration boxes handcrafted in Louisville, Kentucky.'
+                : 'Tablas de charcutería, cestas de dos niveles, vasos individuales y cajas de celebración elaboradas a mano en Louisville, Kentucky.'}
             </p>
-            <p className="text-[11px] font-semibold tracking-[0.24em] uppercase text-[#841F17]">
+            <p className="text-xs font-semibold tracking-[0.24em] uppercase text-[#841F17]">
               {BRAND_CONFIG.city}
             </p>
           </div>
 
-          {/* Navigation */}
+          {/* Column 2: The 01–07 Collection Quick Index */}
           <div className="md:col-span-3 space-y-4">
-            <p className="text-[10px] font-bold tracking-[0.28em] uppercase text-[#841F17]">
-              {lang === 'en' ? 'NAVIGATION' : 'NAVEGACIÓN'}
+            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#841F17]">
+              {lang === 'en' ? 'THE COLLECTION' : 'LA COLECCIÓN'}
             </p>
-            <ul className="space-y-3 text-xs font-medium tracking-[0.2em] uppercase text-[#5A120D]/80">
+            <ul className="space-y-2.5 text-xs sm:text-sm text-[#4A120E]/85">
+              {PRODUCTS.map((p) => (
+                <li key={p.id}>
+                  <button
+                    type="button"
+                    onClick={() => onOpenOrderModal(`${p.id} — ${p.name[lang]}`)}
+                    className="group inline-flex items-baseline gap-2.5 text-left hover:text-[#841F17] transition-colors"
+                  >
+                    <span className="num text-[11px] font-semibold text-[#841F17]/75 group-hover:text-[#841F17]">
+                      {p.id}
+                    </span>
+                    <span>{p.name[lang]}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Navigation */}
+          <div className="md:col-span-2 space-y-4">
+            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#841F17]">
+              {lang === 'en' ? 'EXPLORE' : 'EXPLORAR'}
+            </p>
+            <ul className="space-y-3 text-xs font-semibold tracking-[0.18em] uppercase text-[#5A120D]/85">
+              <li>
+                <a
+                  href="#top"
+                  className="hover:text-[#841F17] transition-colors"
+                >
+                  {lang === 'en' ? 'Studio Home' : 'Inicio'}
+                </a>
+              </li>
               <li>
                 <a
                   href="#collection"
@@ -74,36 +104,39 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
                   href="#contact"
                   className="hover:text-[#841F17] transition-colors"
                 >
-                  {lang === 'en' ? 'Contact' : 'Contacto'}
+                  {lang === 'en' ? 'Custom Orders' : 'Pedidos'}
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Contact, Social & Ordering Information */}
-          <div className="md:col-span-4 space-y-4">
-            <p className="text-[10px] font-bold tracking-[0.28em] uppercase text-[#841F17]">
+          {/* Column 4: Contact, Social & Ordering Concierge */}
+          <div className="md:col-span-3 space-y-4">
+            <p className="text-xs font-bold tracking-[0.24em] uppercase text-[#841F17]">
               {lang === 'en' ? 'ORDERING & CONTACT' : 'PEDIDOS Y CONTACTO'}
             </p>
-            <p className="text-xs sm:text-sm text-[#4A120E]/85 font-normal leading-relaxed">
+            <p className="text-sm text-[#4A120E]/90 font-normal leading-relaxed">
               {lang === 'en'
                 ? 'All creations are prepared fresh to order. Advance reservation is recommended for boards, boxes and private events.'
                 : 'Todas las creaciones se preparan frescas bajo pedido. Se recomienda reservar con anticipación para tablas, cajas y eventos.'}
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-6 text-[11px] font-semibold tracking-[0.22em] uppercase">
+            <div className="pt-2">
               <button
                 type="button"
-                onClick={onOpenOrderModal}
-                className="text-[#841F17] hover:text-[#4A120E] transition-colors"
+                onClick={() => onOpenOrderModal()}
+                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-colors shadow-sm"
               >
-                {lang === 'en' ? 'REQUEST AN ORDER →' : 'SOLICITAR PEDIDO →'}
+                {lang === 'en' ? 'REQUEST AN ORDER' : 'SOLICITAR PEDIDO'}
               </button>
+            </div>
+
+            <div className="pt-2 flex flex-wrap items-center gap-6 text-xs font-semibold tracking-[0.2em] uppercase">
               <a
                 href={`https://wa.me/${BRAND_CONFIG.whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#5A120D]/80 hover:text-[#841F17] transition-colors"
+                className="text-[#5A120D]/85 hover:text-[#841F17] transition-colors"
               >
                 WHATSAPP
               </a>
@@ -111,7 +144,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
                 href={BRAND_CONFIG.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#5A120D]/80 hover:text-[#841F17] transition-colors"
+                className="text-[#5A120D]/85 hover:text-[#841F17] transition-colors"
               >
                 INSTAGRAM
               </a>
@@ -120,7 +153,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
         </div>
 
         {/* Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase text-[#5A120D]/65">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium tracking-[0.16em] uppercase text-[#5A120D]/75">
           <p>
             © {new Date().getFullYear()} {BRAND_CONFIG.businessName}. ALL RIGHTS
             RESERVED.
