@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ShoppingBag,
   MessageCircle,
@@ -7,9 +7,16 @@ import {
   Check,
   Wine,
   Users,
+  Plus,
+  Sparkles,
+  ArrowUpRight,
 } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CatalogItem, CategoryId, Language } from '../types/catalog';
 import { BRAND_CONFIG, CATEGORIES, CATALOG_ITEMS } from '../data/catalog';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface CatalogSectionProps {
   lang: Language;
@@ -32,11 +39,30 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
   });
   const [detailModalItem, setDetailModalItem] = useState<CatalogItem | null>(null);
   const [addedFeedback, setAddedFeedback] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const filteredItems =
     activeCategory === 'all'
       ? CATALOG_ITEMS
       : CATALOG_ITEMS.filter((item) => item.category === activeCategory);
+
+  useEffect(() => {
+    if (!gridRef.current) return;
+    const cards = gridRef.current.querySelectorAll('.bento-card');
+    gsap.fromTo(
+      cards,
+      { y: 32, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        stagger: 0.08,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }
+    );
+  }, [activeCategory]);
 
   const handleSelectSize = (productId: string, sizeId: string) => {
     setSelectedSizes((prev) => ({ ...prev, [productId]: sizeId }));
@@ -63,108 +89,167 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
   };
 
   return (
-    <section id="catalogo" className="py-20 lg:py-28 bg-cream-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl space-y-4 mb-10">
-          <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-noir-900 max-w-none">
+    <section
+      ref={sectionRef}
+      id="catalogo"
+      className="py-24 lg:py-36 bg-gradient-to-b from-cream-100/60 via-cream-50 to-cream-50 border-t border-gold-300/35"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        {/* Editorial Section Header */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
+          <div className="max-w-2xl space-y-4">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold text-gold-600 tracking-wide">
+              <Sparkles className="w-3.5 h-3.5 text-gold-500" />
+              <span>
+                {lang === 'es'
+                  ? 'Curaduría Gastronómica · Louisville, KY'
+                  : 'Curated Grazing Collection · Louisville, KY'}
+              </span>
+            </div>
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-noir-900 leading-[1.03] max-w-none">
+              {lang === 'es' ? (
+                <>
+                  Colección de tablas,{' '}
+                  <span className="italic font-normal text-gold-600">
+                    cajas y experiencias
+                  </span>
+                </>
+              ) : (
+                <>
+                  Collection of boards,{' '}
+                  <span className="italic font-normal text-gold-600">
+                    gift boxes & events
+                  </span>
+                </>
+              )}
+            </h2>
+          </div>
+
+          <p className="text-noir-600 text-sm sm:text-base max-w-md leading-relaxed">
             {lang === 'es'
-              ? 'Catálogo de tablas, cajas y experiencias'
-              : 'Catalog of boards, gift boxes, and event experiences'}
-          </h2>
-          <p className="text-noir-700 text-base sm:text-lg leading-relaxed">
-            {lang === 'es'
-              ? 'Selecciona el formato y tamaño ideal para tu reunión o regalo en Louisville. Puedes agregar varias opciones a tu pedido o escribirnos directamente por WhatsApp.'
-              : 'Choose the ideal style and size for your gathering or gift in Louisville. Add multiple items to your order bag or message us directly on WhatsApp.'}
+              ? 'Pasa el cursor sobre cada creación para explorar sus detalles, elige el formato ideal y agrégalo a tu bolsa de pedido o consulta directo por WhatsApp.'
+              : 'Hover over each creation to inspect details, choose your ideal size, and add to your order bag or inquire directly via WhatsApp.'}
           </p>
         </div>
 
-        <div
-          role="tablist"
-          aria-label={lang === 'es' ? 'Categorías del catálogo' : 'Catalog categories'}
-          className="flex items-center justify-start gap-2.5 overflow-x-auto pb-4 mb-10 border-b border-gold-300/50"
-        >
-          {CATEGORIES.map((cat) => {
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`shrink-0 h-11 px-5 rounded-full text-sm font-semibold transition-colors border whitespace-nowrap ${
-                  isActive
-                    ? 'bg-noir-900 text-gold-200 border-noir-900'
-                    : 'bg-cream-100 text-noir-700 border-gold-400/60 hover:border-gold-600 hover:bg-cream-200/60'
-                }`}
-              >
-                {cat.label[lang]}
-              </button>
-            );
-          })}
+        {/* Floating Liquid Glass Filter Capsule */}
+        <div className="flex justify-start sm:justify-center mb-14 overflow-x-auto pb-2">
+          <div
+            role="tablist"
+            aria-label={lang === 'es' ? 'Categorías del catálogo' : 'Catalog categories'}
+            className="inline-flex items-center gap-1.5 p-1.5 rounded-full liquid-glass-light"
+          >
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`shrink-0 h-11 px-5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ${
+                    isActive
+                      ? 'bg-noir-900 text-gold-200 shadow-sm'
+                      : 'text-noir-700 hover:text-noir-950 hover:bg-cream-200/50'
+                  }`}
+                >
+                  {cat.label[lang]}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-          {filteredItems.map((item) => {
+        {/* Bento Boutique Grid */}
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10"
+        >
+          {filteredItems.map((item, idx) => {
             const currentSizeId = selectedSizes[item.id] || item.sizes[0].id;
             const currentSize =
               item.sizes.find((s) => s.id === currentSizeId) || item.sizes[0];
             const isAdded = addedFeedback === item.id;
 
+            // Asymmetric Bento spans when viewing Full Collection:
+            // First item (Signature Rose Board) and 7th item (Grazing Table) span 7 columns, paired with 5-column cards
+            const getBentoSpan = () => {
+              if (activeCategory !== 'all') return 'lg:col-span-6';
+              const pattern = [
+                'lg:col-span-7',
+                'lg:col-span-5',
+                'lg:col-span-5',
+                'lg:col-span-7',
+                'lg:col-span-6',
+                'lg:col-span-6',
+                'lg:col-span-7',
+                'lg:col-span-5',
+              ];
+              return pattern[idx % pattern.length];
+            };
+
             return (
               <article
                 key={item.id}
-                className="bg-cream-100/70 rounded-2xl border border-gold-400/55 overflow-hidden shadow-soft flex flex-col transition-colors hover:border-gold-600 p-3 sm:p-4"
+                className={`bento-card group flex flex-col justify-between ${getBentoSpan()}`}
               >
-                <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-cream-200">
-                  <img
-                    src={item.image}
-                    alt={item.name[lang]}
-                    decoding="async"
-                    className="w-full h-full object-cover object-center"
-                  />
+                {/* Frameless Sculptural Image Canvas */}
+                <div>
+                  <div className="relative aspect-[16/11] w-full rounded-[28px] overflow-hidden bg-noir-900 shadow-luxury">
+                    {/* Primary Image */}
+                    <img
+                      src={item.image}
+                      alt={item.name[lang]}
+                      decoding="async"
+                      className={`w-full h-full object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 ${
+                        item.secondaryImage ? 'group-hover:opacity-0' : ''
+                      }`}
+                    />
+                    {/* Secondary Hover Image Crossfade */}
+                    {item.secondaryImage && (
+                      <img
+                        src={item.secondaryImage}
+                        alt={`${item.name[lang]} detalle`}
+                        decoding="async"
+                        className="absolute inset-0 w-full h-full object-cover object-center opacity-0 scale-105 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:scale-100"
+                      />
+                    )}
 
-                  <button
-                    type="button"
-                    onClick={() => setDetailModalItem(item)}
-                    className="absolute bottom-3.5 right-3.5 inline-flex items-center gap-2 h-11 px-4 rounded-full bg-cream-50/95 hover:bg-cream-50 text-noir-900 border border-gold-400/60 text-xs font-semibold shadow-sm transition-colors whitespace-nowrap"
-                  >
-                    <Eye className="w-4 h-4 text-gold-600 shrink-0" />
-                    <span>{lang === 'es' ? 'Ver ingredientes' : 'View details'}</span>
-                  </button>
-                </div>
+                    {/* Subtle bottom gradient for floating glass controls */}
+                    <div
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        background:
+                          'linear-gradient(to top, rgba(13,10,11,0.78) 0%, rgba(13,10,11,0.12) 45%, rgba(13,10,11,0.25) 100%)',
+                      }}
+                    />
 
-                <div className="pt-5 px-2 pb-2 flex-1 flex flex-col justify-between space-y-5">
-                  <div className="space-y-2.5">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-noir-900 leading-snug max-w-none">
-                        {item.name[lang]}
-                      </h3>
-                      <span className="font-serif text-2xl sm:text-3xl font-bold text-noir-900 shrink-0 num">
-                        ${currentSize.price}
-                      </span>
+                    {/* Top Bar: Floating Badge & Quick-View Trigger */}
+                    <div className="absolute top-4 inset-x-4 flex items-center justify-between gap-2">
+                      {item.badge ? (
+                        <span className="inline-flex items-center px-3.5 py-1.5 rounded-full liquid-glass-pill text-[11px] font-semibold text-gold-200 tracking-wide whitespace-nowrap">
+                          {item.badge[lang]}
+                        </span>
+                      ) : (
+                        <span />
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => setDetailModalItem(item)}
+                        className="inline-flex items-center gap-1.5 h-10 px-4 rounded-full liquid-glass-pill text-cream-50 hover:bg-cream-50 hover:text-noir-950 text-xs font-semibold transition-all duration-300 whitespace-nowrap"
+                      >
+                        <Eye className="w-3.5 h-3.5 text-gold-300 group-hover:text-gold-600 shrink-0" />
+                        <span>{lang === 'es' ? 'Ingredientes' : 'Ingredients'}</span>
+                      </button>
                     </div>
 
-                    <p className="text-sm sm:text-base text-noir-700 leading-relaxed">
-                      {item.shortDescription[lang]}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 pt-4 border-t border-gold-300/50">
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between gap-2 text-xs text-noir-700">
-                        <span className="font-semibold text-noir-900">
-                          {lang === 'es' ? 'Formato y porciones:' : 'Format & servings:'}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 text-noir-700 font-normal">
-                          <Users className="w-3.5 h-3.5 text-gold-600 shrink-0" />
-                          <span>{currentSize.servings[lang]}</span>
-                        </span>
-                      </div>
-
+                    {/* Bottom Overlay: Interactive Liquid Glass Size Selector */}
+                    <div className="absolute bottom-4 inset-x-4 flex flex-wrap items-center justify-between gap-2">
                       <div
                         role="tablist"
                         aria-label={lang === 'es' ? 'Tamaños disponibles' : 'Available sizes'}
-                        className="flex flex-wrap gap-2"
+                        className="inline-flex flex-wrap items-center gap-1.5 p-1 rounded-full liquid-glass-dark"
                       >
                         {item.sizes.map((size) => {
                           const active = size.id === currentSize.id;
@@ -175,54 +260,81 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                               role="tab"
                               aria-selected={active}
                               onClick={() => handleSelectSize(item.id, size.id)}
-                              className={`inline-flex items-center gap-2 h-10 px-4 rounded-full text-xs transition-colors border whitespace-nowrap ${
+                              className={`inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full text-xs transition-all duration-200 whitespace-nowrap ${
                                 active
-                                  ? 'bg-noir-900 border-noir-900 text-gold-200 font-semibold'
-                                  : 'bg-cream-50 border-gold-400/70 text-noir-800 hover:border-noir-900 font-normal'
+                                  ? 'bg-gradient-to-r from-gold-200 to-gold-300 text-noir-950 font-bold shadow-sm'
+                                  : 'text-cream-100/85 hover:text-cream-50 font-medium'
                               }`}
                             >
                               <span>{size.label[lang]}</span>
-                              <span className="num font-semibold">${size.price}</span>
+                              <span className="num opacity-85">${size.price}</span>
                             </button>
                           );
                         })}
                       </div>
                     </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => handleAdd(item)}
-                        className={`inline-flex items-center justify-center gap-2 h-12 px-5 rounded-full text-xs font-semibold transition-colors border whitespace-nowrap ${
-                          isAdded
-                            ? 'bg-gold-500 text-cream-50 border-gold-500'
-                            : 'bg-noir-900 hover:bg-noir-800 text-gold-200 border-noir-900'
-                        }`}
-                      >
-                        {isAdded ? (
-                          <>
-                            <Check className="w-4 h-4 shrink-0" />
-                            <span>{lang === 'es' ? 'Agregado al pedido' : 'Added to bag'}</span>
-                          </>
-                        ) : (
-                          <>
-                            <ShoppingBag className="w-4 h-4 text-gold-300 shrink-0" />
-                            <span>{lang === 'es' ? 'Agregar al pedido' : 'Add to bag'}</span>
-                          </>
-                        )}
-                      </button>
-
-                      <a
-                        href={getDirectWhatsAppLink(item)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-full bg-cream-50 hover:bg-gold-200/40 text-noir-900 border border-gold-500/80 text-xs font-semibold transition-colors whitespace-nowrap"
-                      >
-                        <MessageCircle className="w-4 h-4 text-gold-600 shrink-0" />
-                        <span>{lang === 'es' ? 'Pedir por WhatsApp' : 'Order via WhatsApp'}</span>
-                      </a>
-                    </div>
                   </div>
+
+                  {/* Editorial Typography Below Image (Frameless Boutique Style) */}
+                  <div className="pt-5 px-1 space-y-2.5">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-noir-900 leading-tight group-hover:text-gold-600 transition-colors">
+                        {item.name[lang]}
+                      </h3>
+                      <div className="text-right shrink-0">
+                        <span className="font-serif text-3xl font-bold text-noir-900 num">
+                          ${currentSize.price}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-gold-600 font-semibold">
+                      <Users className="w-3.5 h-3.5 shrink-0" />
+                      <span>
+                        {currentSize.label[lang]} · {currentSize.servings[lang]}
+                      </span>
+                    </div>
+
+                    <p className="text-sm text-noir-600 leading-relaxed line-clamp-2">
+                      {item.shortDescription[lang]}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Tactile Action Row */}
+                <div className="pt-5 px-1 mt-4 border-t border-gold-300/45 flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleAdd(item)}
+                    className={`inline-flex items-center justify-center gap-2 h-11 px-6 rounded-full text-xs font-semibold transition-all duration-300 whitespace-nowrap ${
+                      isAdded
+                        ? 'bg-gold-500 text-cream-50 shadow-gold-glow scale-[1.02]'
+                        : 'bg-noir-900 hover:bg-noir-800 text-gold-200'
+                    }`}
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check className="w-4 h-4 shrink-0" />
+                        <span>{lang === 'es' ? 'Agregado a tu pedido' : 'Added to bag'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-4 h-4 text-gold-300 shrink-0" />
+                        <span>{lang === 'es' ? 'Agregar al pedido' : 'Add to order'}</span>
+                      </>
+                    )}
+                  </button>
+
+                  <a
+                    href={getDirectWhatsAppLink(item)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 h-11 px-4 rounded-full text-xs font-semibold text-noir-800 hover:text-gold-600 hover:bg-cream-200/50 transition-colors whitespace-nowrap"
+                  >
+                    <MessageCircle className="w-4 h-4 text-gold-600 shrink-0" />
+                    <span>{lang === 'es' ? 'Pedir por WhatsApp' : 'WhatsApp order'}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+                  </a>
                 </div>
               </article>
             );
@@ -230,18 +342,19 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
         </div>
       </div>
 
+      {/* Luxury Detail Modal */}
       {detailModalItem && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-noir-950/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-noir-950/75 backdrop-blur-md animate-fadeIn"
           onClick={() => setDetailModalItem(null)}
         >
           <div
-            className="bg-cream-50 border border-gold-400/60 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-luxury"
+            className="bg-cream-50 border border-gold-400/50 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-luxury"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-[16/10] bg-cream-200">
+            <div className="relative aspect-[16/10] bg-noir-900">
               <img
                 src={detailModalItem.image}
                 alt={detailModalItem.name[lang]}
@@ -249,7 +362,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
               />
               <button
                 onClick={() => setDetailModalItem(null)}
-                className="absolute top-4 right-4 w-11 h-11 rounded-full bg-noir-900/85 text-cream-50 flex items-center justify-center hover:bg-noir-900 transition-colors"
+                className="absolute top-4 right-4 w-11 h-11 rounded-full liquid-glass-dark text-cream-50 flex items-center justify-center hover:scale-105 transition-transform"
                 aria-label="Cerrar"
               >
                 <X className="w-5 h-5" />
@@ -258,7 +371,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
 
             <div className="p-6 sm:p-8 space-y-6">
               <div>
-                <h3 className="font-serif text-3xl font-semibold text-noir-900 max-w-none">
+                <h3 className="font-serif text-3xl sm:text-4xl font-semibold text-noir-900 max-w-none">
                   {detailModalItem.name[lang]}
                 </h3>
                 <p className="text-noir-700 text-sm sm:text-base leading-relaxed mt-2">
@@ -266,9 +379,11 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                 </p>
               </div>
 
-              <div className="bg-cream-100/80 p-5 rounded-xl border border-gold-300/50 space-y-3">
+              <div className="bg-cream-100/80 p-5 rounded-2xl border border-gold-300/50 space-y-3">
                 <h4 className="font-serif text-xl font-semibold text-noir-900">
-                  {lang === 'es' ? 'Ingredientes y detalles incluidos' : 'Included ingredients and details'}
+                  {lang === 'es'
+                    ? 'Ingredientes y detalles incluidos'
+                    : 'Included ingredients and details'}
                 </h4>
                 <ul className="space-y-2">
                   {detailModalItem.ingredients[lang].map((ing, i) => (
@@ -283,7 +398,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                 </ul>
               </div>
 
-              <div className="flex items-start gap-3 p-5 rounded-xl bg-cream-200/50 border border-gold-300/40">
+              <div className="flex items-start gap-3 p-5 rounded-2xl bg-cream-200/50 border border-gold-300/40">
                 <Wine className="w-5 h-5 text-gold-600 shrink-0 mt-0.5" />
                 <p className="text-xs sm:text-sm text-noir-700">
                   <strong className="text-noir-900 font-semibold">

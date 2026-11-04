@@ -6,6 +6,8 @@ import {
   MapPin,
   CheckCircle2,
   Mail,
+  Sparkles,
+  ArrowUpRight,
 } from 'lucide-react';
 import { Language } from '../types/catalog';
 import { BRAND_CONFIG } from '../data/catalog';
@@ -62,97 +64,120 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
   )}`;
 
   const fieldClasses =
-    'w-full h-12 px-4 rounded-xl bg-cream-50 border border-noir-600/80 text-noir-900 text-sm focus:outline-none focus:border-noir-900 transition-colors';
+    'w-full h-12 px-4 rounded-2xl bg-cream-50/90 border border-noir-600/40 text-noir-900 text-sm focus:outline-none focus:border-gold-600 transition-colors';
 
   return (
     <section
       id="cotizar"
-      className="py-20 lg:py-28 bg-cream-100/80 border-t border-gold-300/45"
+      className="relative py-24 lg:py-36 bg-gradient-to-b from-cream-50 to-cream-100/80 border-t border-gold-300/40 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column: Direct Concierge Cards */}
           <div className="lg:col-span-5 space-y-6">
-            <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-noir-900 leading-tight max-w-none">
-              {lang === 'es'
-                ? 'Hablemos de tu pedido o próxima celebración'
-                : 'Let us plan your order or next celebration'}
+            <div className="inline-flex items-center gap-2 text-xs font-semibold text-gold-600">
+              <Sparkles className="w-3.5 h-3.5 text-gold-500" />
+              <span>
+                {lang === 'es'
+                  ? 'Atención Personalizada · Louisville, KY'
+                  : 'Personal Concierge · Louisville, KY'}
+              </span>
+            </div>
+
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-noir-900 leading-[1.03] max-w-none">
+              {lang === 'es' ? (
+                <>
+                  Hablemos de tu{' '}
+                  <span className="italic font-normal text-gold-600">
+                    próxima celebración.
+                  </span>
+                </>
+              ) : (
+                <>
+                  Let’s plan your{' '}
+                  <span className="italic font-normal text-gold-600">
+                    next celebration.
+                  </span>
+                </>
+              )}
             </h2>
 
-            <p className="text-noir-700 text-base sm:text-lg leading-relaxed">
+            <p className="text-noir-700 text-base leading-relaxed">
               {lang === 'es'
-                ? '¿Tienes una reunión en casa, un regalo especial o un evento en Louisville? Escríbeme directamente por WhatsApp o Instagram, o completa el formulario para enviarte una propuesta personalizada.'
-                : 'Planning a gathering at home, a thoughtful gift, or an event in Louisville? Reach out directly via WhatsApp or Instagram, or fill out the form for a custom proposal.'}
+                ? '¿Planeas una reunión íntima, un regalo especial o un evento en Louisville? Escríbeme directamente por WhatsApp o Instagram, o completa el formulario para enviarte una propuesta a medida.'
+                : 'Planning an intimate gathering, a thoughtful gift, or an event in Louisville? Reach out directly via WhatsApp or Instagram, or complete the form for a bespoke proposal.'}
             </p>
 
-            <div className="space-y-3.5 pt-2">
+            <div className="space-y-4 pt-2">
               <a
                 href={directWhatsAppUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-5 rounded-2xl bg-noir-900 hover:bg-noir-800 text-cream-50 border border-gold-400/40 shadow-soft transition-colors"
+                className="group flex items-center justify-between p-5 rounded-3xl bg-noir-950 hover:bg-noir-900 text-cream-50 shadow-luxury transition-all"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold-200 text-noir-900 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-200 to-gold-400 text-noir-950 flex items-center justify-center shrink-0">
                     <MessageCircle className="w-6 h-6" />
                   </div>
                   <div>
                     <p className="font-serif text-2xl font-semibold text-cream-50">
                       {lang === 'es'
-                        ? 'Contactar por WhatsApp'
-                        : 'Chat on WhatsApp'}
+                        ? 'WhatsApp Directo'
+                        : 'Direct WhatsApp'}
                     </p>
-                    <p className="text-xs text-cream-200/85 mt-0.5">
+                    <p className="text-xs text-gold-200/80 mt-0.5">
                       {lang === 'es'
-                        ? 'Atención directa con Elianne en Louisville'
-                        : 'Direct chat with Elianne in Louisville'}
+                        ? 'Respuesta rápida con Elianne en Louisville'
+                        : 'Fast personal reply from Elianne in Louisville'}
                     </p>
                   </div>
                 </div>
+                <ArrowUpRight className="w-5 h-5 text-gold-300 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
 
               <a
                 href={BRAND_CONFIG.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-5 rounded-2xl bg-cream-50 hover:bg-gold-100/50 text-noir-900 border border-gold-500/60 shadow-soft transition-colors"
+                className="group flex items-center justify-between p-5 rounded-3xl liquid-glass-light hover:border-gold-500 text-noir-900 transition-all"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-cream-200 border border-gold-400/50 text-noir-900 flex items-center justify-center shrink-0">
-                    <Instagram className="w-6 h-6 text-gold-600" />
+                  <div className="w-12 h-12 rounded-2xl bg-noir-900 text-gold-200 flex items-center justify-center shrink-0">
+                    <Instagram className="w-6 h-6" />
                   </div>
                   <div>
                     <p className="font-serif text-2xl font-semibold text-noir-900">
                       {BRAND_CONFIG.instagramHandle}
                     </p>
-                    <p className="text-xs text-noir-700 mt-0.5">
+                    <p className="text-xs text-noir-600 mt-0.5">
                       {lang === 'es'
-                        ? 'Síguenos en Instagram y escríbenos por mensaje directo'
-                        : 'Follow our work on Instagram and send us a DM'}
+                        ? 'Descubre nuestras últimas mesas y escríbenos por DM'
+                        : 'See our latest setups and message us on Instagram'}
                     </p>
                   </div>
                 </div>
+                <ArrowUpRight className="w-5 h-5 text-gold-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             </div>
 
-            <div className="p-5 rounded-2xl bg-cream-50 border border-gold-400/50 flex items-start gap-3.5">
+            <div className="p-5 rounded-3xl liquid-glass-light flex items-start gap-3.5">
               <MapPin className="w-5 h-5 text-gold-600 shrink-0 mt-0.5" />
               <div className="text-xs sm:text-sm text-noir-700 space-y-1">
                 <p className="font-semibold text-noir-900">
-                  {lang === 'es'
-                    ? 'Ubicación: Louisville, Kentucky'
-                    : 'Location: Louisville, Kentucky'}
+                  Louisville, Kentucky
                 </p>
                 <p>
                   {lang === 'es'
-                    ? 'Entregas a domicilio, recogida coordinada y montaje de mesas en toda el área metropolitana de Louisville y alrededores.'
-                    : 'Coordinated pickup, local delivery, and on-site event styling across Greater Louisville and surrounding areas.'}
+                    ? 'Entregas a domicilio, recogida coordinada y montaje de mesas en toda el área metropolitana de Louisville.'
+                    : 'Coordinated pickup, local delivery, and on-site event styling across Greater Louisville.'}
                 </p>
               </div>
             </div>
           </div>
 
+          {/* Right Column: Sculptural Liquid Glass Form */}
           <div className="lg:col-span-7">
-            <div className="bg-cream-50 p-7 sm:p-10 rounded-2xl border border-gold-400/60 shadow-soft">
+            <div className="rounded-[32px] liquid-glass-light p-7 sm:p-10">
               {!submitted ? (
                 <form
                   onSubmit={handleSubmit}
@@ -160,14 +185,14 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                   className="space-y-5"
                 >
                   <div className="border-b border-gold-300/45 pb-4">
-                    <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-noir-900 max-w-none">
+                    <h3 className="font-serif text-3xl font-semibold text-noir-900 max-w-none">
                       {lang === 'es'
-                        ? 'Solicitar cotización'
+                        ? 'Solicitar cotización a medida'
                         : 'Request a custom quote'}
                     </h3>
-                    <p className="text-xs sm:text-sm text-noir-700 mt-1">
+                    <p className="text-xs sm:text-sm text-noir-600 mt-1">
                       {lang === 'es'
-                        ? 'Completa los datos de tu pedido o evento para preparar tu mensaje directo.'
+                        ? 'Completa los datos de tu pedido o evento para abrir tu solicitud lista para enviar.'
                         : 'Fill in your order or event details to prepare your direct inquiry.'}
                     </p>
                   </div>
@@ -346,13 +371,13 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                           ? 'Ej. Es para un aniversario o baby shower, nos encantan los quesos suaves y frutos rojos...'
                           : 'e.g. It is for a bridal shower or birthday, we love soft cheeses and berries...'
                       }
-                      className="w-full px-4 py-3 rounded-xl bg-cream-50 border border-noir-600/80 text-noir-900 text-sm focus:outline-none focus:border-noir-900 transition-colors"
+                      className="w-full px-4 py-3 rounded-2xl bg-cream-50/90 border border-noir-600/40 text-noir-900 text-sm focus:outline-none focus:border-gold-600 transition-colors"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2.5 h-12 px-6 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 border border-gold-400/50 text-sm font-semibold transition-colors whitespace-nowrap"
+                    className="w-full inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-full bg-noir-950 hover:bg-noir-900 text-gold-200 text-sm font-semibold shadow-luxury transition-all whitespace-nowrap"
                   >
                     <Send className="w-4 h-4 text-gold-300 shrink-0" />
                     <span>
@@ -386,7 +411,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({ lang }) => {
                       href={buildWhatsAppQuoteUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full bg-noir-900 hover:bg-noir-800 text-gold-200 text-xs font-semibold transition-colors whitespace-nowrap"
+                      className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full bg-noir-950 hover:bg-noir-900 text-gold-200 text-xs font-semibold transition-colors whitespace-nowrap"
                     >
                       <MessageCircle className="w-4 h-4 text-gold-300 shrink-0" />
                       <span>
