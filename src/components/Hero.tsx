@@ -17,7 +17,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
   const logoOvertureRef = useRef<HTMLDivElement>(null);
   const logoLockupWrapRef = useRef<HTMLDivElement>(null);
   const frameBorderRef = useRef<HTMLDivElement>(null);
-  const watermarkWrapRef = useRef<HTMLDivElement>(null);
+  const watermarkWrapRef = useRef<HTMLImageElement>(null);
   const logoMetaRef = useRef<HTMLDivElement>(null);
   const mainStageRef = useRef<HTMLDivElement>(null);
   const productWrapRef = useRef<HTMLDivElement>(null);
