@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Language } from '../types/catalog';
-import { BRAND_CONFIG, HERO_CONTENT, PRODUCTS } from '../data/catalog';
+import { HERO_CONTENT, PRODUCTS } from '../data/catalog';
+import { AnimatedVerticalLogo } from './AnimatedVerticalLogo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +15,9 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
   const heroRef = useRef<HTMLElement>(null);
   const logoOvertureRef = useRef<HTMLDivElement>(null);
-  const logoArtworkRef = useRef<HTMLImageElement>(null);
+  const logoLockupWrapRef = useRef<HTMLDivElement>(null);
+  const frameBorderRef = useRef<HTMLDivElement>(null);
+  const watermarkWrapRef = useRef<HTMLDivElement>(null);
   const logoMetaRef = useRef<HTMLDivElement>(null);
   const mainStageRef = useRef<HTMLDivElement>(null);
   const productWrapRef = useRef<HTMLDivElement>(null);
@@ -70,20 +73,115 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // 1. Initial sculptural entrance of the Grand Center Logo on page load
-      const introTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+      // =====================================================================
+      // 1. EXACT BRAND REVEAL REEL FINALE CHOREOGRAPHY (ACT 4 LOCKUP BLOOM)
+      //    - Oversized watermark rose rotates & scales in (-20deg -> 6deg)
+      //    - Delicate cream frame border expands smoothly
+      //    - 11 Burgundy Rose petals (.fin-petal-path) spiral & unfold with elastic back.out(1.45)
+      //    - 11 Arched "CHARCUTERIE" letters (.fin-arch-letter) fan in along the top arc
+      //    - 5 "Ely's" letters (.fin-elys-letter) rise into place with back.out(1.4)
+      //    - Whole lockup breathes subtly (scale: 0.97 -> 1.015)
+      // =====================================================================
+      const introTl = gsap.timeline();
+
       introTl
         .fromTo(
-          logoArtworkRef.current,
-          { scale: 0.84, y: 32, opacity: 0 },
-          { scale: 1, y: 0, opacity: 1, duration: 1.5 },
-          0.08
+          watermarkWrapRef.current,
+          { rotation: -20, scale: 0.9, opacity: 0 },
+          {
+            rotation: 6,
+            scale: 1,
+            opacity: 0.52,
+            duration: 2.8,
+            ease: 'sine.out',
+          },
+          0.05
+        )
+        .fromTo(
+          frameBorderRef.current,
+          { scale: 0.94, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.75,
+            ease: 'power2.out',
+          },
+          0.15
+        )
+        .fromTo(
+          '.fin-petal-path',
+          {
+            scale: 0.25,
+            rotation: -95,
+            opacity: 0,
+            transformOrigin: '50% 50%',
+          },
+          {
+            scale: 1,
+            rotation: 0,
+            opacity: 1,
+            duration: 0.78,
+            stagger: 0.045,
+            ease: 'back.out(1.45)',
+          },
+          0.12
+        )
+        .fromTo(
+          '.fin-arch-letter',
+          {
+            y: 220,
+            opacity: 0,
+            scale: 0.5,
+            transformOrigin: '50% 50%',
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.52,
+            stagger: 0.04,
+            ease: 'back.out(1.5)',
+          },
+          0.56
+        )
+        .fromTo(
+          '.fin-elys-letter',
+          {
+            y: 340,
+            opacity: 0,
+            scale: 0.65,
+            transformOrigin: '50% 50%',
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.56,
+            stagger: 0.075,
+            ease: 'back.out(1.4)',
+          },
+          0.66
+        )
+        .fromTo(
+          logoLockupWrapRef.current,
+          { scale: 0.97 },
+          {
+            scale: 1.015,
+            duration: 2.2,
+            ease: 'sine.out',
+          },
+          0.75
         )
         .fromTo(
           logoMetaRef.current,
           { y: 18, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
-          0.35
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+          },
+          1.05
         );
 
       // Set initial hidden state for Act II (Editorial + 3D Floating Board)
@@ -99,9 +197,11 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
       gsap.set(shadowRef.current, { scale: 0.55, opacity: 0 });
       gsap.set('.hero-editorial-item', { y: 32, opacity: 0 });
 
-      // 2. Two-Act Pinned Scroll Choreography:
-      // Act I (0.00 -> 0.32): Grand Vertical Logo scales forward & dissolves
-      // Act II (0.20 -> 1.00): Editorial Headline + 3D Board enter & rotate 360° with scroll
+      // =====================================================================
+      // 2. TWO-ACT PINNED SCROLL CHOREOGRAPHY:
+      //    Act I (0.00 -> 0.32): Grand Animated SVG Logo scales forward & dissolves
+      //    Act II (0.18 -> 1.00): Editorial Headline + 3D Board enter & rotate 360° with scroll
+      // =====================================================================
       const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
@@ -209,41 +309,52 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
       className="relative z-10 h-[100dvh] w-full flex flex-col justify-between pt-24 pb-10 sm:pt-28 sm:pb-12 overflow-hidden studio-perspective"
     >
       {/* =====================================================================
-          ACT I — GRAND BRAND OVERTURE (PROTAGONIST VERTICAL ELYS LOGO)
-          Occupies center stage on initial load; scales & dissolves on scroll
+          ACT I — GRAND BRAND OVERTURE (ANIMATED SVG FROM BRAND REVEAL REEL FINALE)
+          Plays the exact petal-by-petal + letter-by-letter animation on load,
+          then scales & dissolves into Act II as the user scrolls
       ===================================================================== */}
       <div
         ref={logoOvertureRef}
         className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 pointer-events-none select-none will-change-transform"
       >
-        {/* Warm Ivory Studio Spotlight Behind the Grand Emblem */}
+        {/* Finale Center Radial Spotlight (#finale-bg-glow) */}
         <div
           aria-hidden="true"
-          className="absolute w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] lg:w-[560px] lg:h-[560px] rounded-full blur-[90px] opacity-85"
+          className="absolute w-[380px] h-[380px] sm:w-[580px] sm:h-[580px] lg:w-[680px] lg:h-[680px] rounded-full pointer-events-none"
           style={{
             background:
-              'radial-gradient(circle, rgba(250, 245, 232, 0.88) 0%, rgba(240, 224, 178, 0.42) 52%, transparent 75%)',
+              'radial-gradient(circle, rgba(255, 250, 238, 0.52) 0%, rgba(229, 206, 154, 0) 70%)',
           }}
         />
 
-        {/* Delicate Architectural Ring Around the Emblem */}
-        <div
-          aria-hidden="true"
-          className="absolute w-[300px] h-[300px] sm:w-[430px] sm:h-[430px] lg:w-[490px] lg:h-[490px] rounded-full border border-[#841F17]/12"
-        />
-
-        {/* Original Supplied Elys Vertical Emblem (Unmodified Artwork) */}
+        {/* Animated Oversized Rose Watermark on the Right (#finale-watermark-wrap) */}
         <img
-          ref={logoArtworkRef}
-          src={BRAND_CONFIG.logoVertical}
-          alt={BRAND_CONFIG.businessName}
-          className="relative z-10 w-[220px] sm:w-[300px] lg:w-[350px] h-auto object-contain drop-shadow-[0_18px_36px_rgba(96,26,18,0.14)]"
+          ref={watermarkWrapRef}
+          src="./brand/isotipo-rosa-watermark.svg"
+          alt=""
+          aria-hidden="true"
+          className="absolute -right-[22vw] sm:-right-[12vw] lg:-right-[8vw] bottom-[6vh] sm:bottom-[4vh] w-[82vw] sm:w-[56vw] max-w-[780px] h-auto object-contain opacity-50 pointer-events-none will-change-transform"
         />
 
-        {/* Editorial Atelier Signature & Scroll Prompt Below Grand Logo */}
+        {/* Delicate Cream Architectural Frame Border (#finale-frame-border) */}
+        <div
+          ref={frameBorderRef}
+          aria-hidden="true"
+          className="absolute inset-4 sm:inset-7 lg:inset-9 rounded-[24px] sm:rounded-[28px] border-[1.5px] sm:border-2 border-[#FAF5EA]/55 pointer-events-none"
+        />
+
+        {/* Animated Inline SVG Vertical Lockup (#finale-lockup-wrap) */}
+        <div
+          ref={logoLockupWrapRef}
+          className="relative z-10 w-[235px] sm:w-[315px] lg:w-[365px] aspect-[660/857] flex items-center justify-center drop-shadow-[0_18px_36px_rgba(96,26,18,0.13)] will-change-transform"
+        >
+          <AnimatedVerticalLogo className="w-full h-full" />
+        </div>
+
+        {/* Editorial Atelier Signature & Scroll Prompt Below Grand Animated Logo */}
         <div
           ref={logoMetaRef}
-          className="relative z-10 mt-7 sm:mt-9 flex flex-col items-center gap-3 text-center"
+          className="relative z-10 mt-6 sm:mt-8 flex flex-col items-center gap-2.5 text-center"
         >
           <div className="flex items-center gap-3.5">
             <span className="w-8 sm:w-12 h-px bg-[#841F17]/40" />
