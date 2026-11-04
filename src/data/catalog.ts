@@ -19,10 +19,10 @@ export const BRAND_CONFIG = {
   instagramHandle: '@elyscharcuterie',
   instagramUrl: 'https://instagram.com/',
   email: 'orders@elyscharcuterie.com',
-  // Original supplied logo file — NEVER modify or redraw
-  logoHorizontal: './logos/logo.png',
-  logoVertical: './logos/logo.png',
-  logoIsotipo: './logos/logo.png',
+  // Official Brand Sheet Logo SVGs (Cream-Gold #E7D095 & Burgundy Red #841F17)
+  logoHorizontal: './brand/logo-horizontal-crema.svg',
+  logoVertical: './brand/logo-vertical-crema.svg',
+  logoIsotipo: './brand/isotipo-rosa-burgundy.svg',
 };
 
 export const HERO_CONTENT: Record<

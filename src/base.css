@@ -8,8 +8,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background-color: #222326;
-  color: #F3EBDD;
+  background-color: #E7D095;
+  color: #4A120E;
   overflow-x: clip;
   scroll-behavior: smooth;
 }
@@ -17,8 +17,8 @@ html {
 body {
   min-height: 100vh;
   line-height: 1.6;
-  background-color: #222326;
-  color: #F3EBDD;
+  background-color: #E7D095;
+  color: #4A120E;
   overflow-x: clip;
 }
 
@@ -50,10 +50,10 @@ p {
   font-variant-numeric: tabular-nums;
 }
 
-/* Floating 3D Studio Product Drop Shadow — applied directly to alpha video/image elements */
+/* Floating 3D Studio Product Drop Shadow — calibrated for Warm Cream-Gold (#E7D095) studio */
 .floating-product-shadow {
-  filter: drop-shadow(0 38px 44px rgba(10, 11, 13, 0.85))
-          drop-shadow(0 12px 18px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 32px 38px rgba(84, 24, 16, 0.28))
+          drop-shadow(0 12px 16px rgba(58, 18, 12, 0.18));
 }
 
 /* Soft edge mask fallback if a browser ever falls back from WebM Alpha to MP4 */

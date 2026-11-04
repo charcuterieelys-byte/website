@@ -13,7 +13,7 @@ interface TheElysExperienceProps {
 /**
  * SECTION 9 — THE ELYS EXPERIENCE
  * A short, human, warm, and sophisticated brand story integrated seamlessly
- * into the dark studio environment.
+ * into the Warm Cream-Gold & Burgundy studio environment.
  */
 export const TheElysExperience: React.FC<TheElysExperienceProps> = ({ lang }) => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -57,10 +57,10 @@ export const TheElysExperience: React.FC<TheElysExperienceProps> = ({ lang }) =>
           <div className="lg:col-span-6 experience-reveal relative flex flex-col items-center justify-center">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute w-[75%] h-[75%] rounded-full blur-[95px] opacity-40"
+              className="pointer-events-none absolute w-[75%] h-[75%] rounded-full blur-[85px] opacity-70"
               style={{
                 background:
-                  'radial-gradient(circle, rgba(201, 169, 110, 0.14) 0%, transparent 72%)',
+                  'radial-gradient(circle, rgba(250, 245, 232, 0.7) 0%, rgba(240, 224, 178, 0.3) 50%, transparent 74%)',
               }}
             />
             <img
@@ -74,33 +74,33 @@ export const TheElysExperience: React.FC<TheElysExperienceProps> = ({ lang }) =>
           {/* Right Editorial Brand Narrative */}
           <div className="lg:col-span-6 space-y-7">
             <div className="experience-reveal flex items-center gap-3">
-              <span className="text-[10px] sm:text-[11px] font-medium tracking-[0.3em] uppercase text-[#C9A96E]">
+              <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.3em] uppercase text-[#841F17]">
                 {story.eyebrow}
               </span>
-              <span className="w-8 h-px bg-[#C9A96E]/40" />
+              <span className="w-8 h-px bg-[#841F17]/45" />
             </div>
 
-            <h2 className="experience-reveal font-serif font-light text-4xl sm:text-5xl xl:text-6xl text-[#F3EBDD] tracking-[-0.02em] leading-[1.04]">
+            <h2 className="experience-reveal font-serif font-normal text-4xl sm:text-5xl xl:text-6xl text-[#841F17] tracking-[-0.02em] leading-[1.04]">
               {story.title}
             </h2>
 
-            <p className="experience-reveal font-serif italic text-xl sm:text-2xl text-[#C9A96E]/90 font-light leading-relaxed">
+            <p className="experience-reveal font-serif italic text-xl sm:text-2xl text-[#63150F] font-normal leading-relaxed">
               {story.lead}
             </p>
 
-            <div className="experience-reveal space-y-4 text-sm sm:text-[15px] text-[#F3EBDD]/75 font-light leading-relaxed">
+            <div className="experience-reveal space-y-4 text-sm sm:text-[15px] text-[#4A120E]/85 font-normal leading-relaxed">
               <p>{story.paragraph1}</p>
               <p>{story.paragraph2}</p>
             </div>
 
             {/* Three Editorial Pillars */}
-            <div className="experience-reveal pt-6 border-t border-[#F3EBDD]/10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="experience-reveal pt-6 border-t border-[#841F17]/20 grid grid-cols-1 sm:grid-cols-3 gap-6">
               {story.pillars.map((pillar) => (
                 <div key={pillar.label} className="space-y-2">
-                  <p className="text-[10px] tracking-[0.24em] uppercase text-[#C9A96E] font-medium num">
+                  <p className="text-[10px] tracking-[0.24em] uppercase text-[#841F17] font-bold num">
                     {pillar.label}
                   </p>
-                  <p className="text-xs text-[#F3EBDD]/65 font-light leading-relaxed">
+                  <p className="text-xs text-[#4A120E]/80 font-normal leading-relaxed">
                     {pillar.text}
                   </p>
                 </div>

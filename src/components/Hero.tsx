@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Language } from '../types/catalog';
-import { BRAND_CONFIG, HERO_CONTENT, PRODUCTS } from '../data/catalog';
+import { HERO_CONTENT, PRODUCTS } from '../data/catalog';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -165,23 +165,23 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
           {/* Left Editorial Composition */}
           <div
             ref={textWrapRef}
-            className="lg:col-span-5 space-y-7 text-center lg:text-left order-2 lg:order-1"
+            className="lg:col-span-5 space-y-6 sm:space-y-7 text-center lg:text-left order-2 lg:order-1"
           >
-            {/* Editorial Eyebrow */}
+            {/* Editorial Eyebrow with Burgundy Rose Accent */}
             <div className="hero-editorial-item flex items-center justify-center lg:justify-start gap-3">
-              <span className="w-8 h-px bg-[#C9A96E]/55" />
-              <span className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-[#C9A96E]/90 font-medium">
+              <span className="w-8 h-px bg-[#841F17]/55" />
+              <span className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-[#841F17] font-semibold">
                 {content.eyebrow}
               </span>
             </div>
 
-            {/* Large Editorial Headline */}
-            <h1 className="hero-editorial-item font-serif font-light text-4xl sm:text-6xl xl:text-[4.4rem] text-[#F3EBDD] leading-[1.03] tracking-[-0.02em]">
+            {/* Large Editorial Headline in Signature Burgundy Red */}
+            <h1 className="hero-editorial-item font-serif font-normal text-4xl sm:text-6xl xl:text-[4.4rem] text-[#841F17] leading-[1.02] tracking-[-0.02em]">
               {content.headline}
             </h1>
 
             {/* Supporting Text */}
-            <p className="hero-editorial-item text-sm sm:text-base text-[#F3EBDD]/75 font-light leading-relaxed max-w-md mx-auto lg:mx-0">
+            <p className="hero-editorial-item text-sm sm:text-base text-[#4A120E]/85 font-normal leading-relaxed max-w-md mx-auto lg:mx-0">
               {content.supportingText}
             </p>
 
@@ -189,7 +189,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
             <div className="hero-editorial-item pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <a
                 href="#collection"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-[#C9A96E] hover:bg-[#d6b77d] text-[#17181A] text-[11px] font-semibold tracking-[0.24em] uppercase transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-[#841F17] hover:bg-[#68160F] text-[#FAF5E8] text-[11px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 shadow-sm"
               >
                 {content.primaryCta}
               </a>
@@ -197,7 +197,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
               <button
                 type="button"
                 onClick={onOpenOrderModal}
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-[#F3EBDD]/25 hover:border-[#C9A96E] text-[#F3EBDD] hover:text-[#C9A96E] text-[11px] font-medium tracking-[0.24em] uppercase transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-[#841F17]/55 hover:border-[#841F17] bg-[#FAF5E8]/35 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[11px] font-semibold tracking-[0.24em] uppercase transition-all duration-300"
               >
                 {content.secondaryCta}
               </button>
@@ -206,13 +206,13 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
 
           {/* Right Floating 3D Charcuterie Sculpture (Scroll-Controlled 3D Rotation) */}
           <div className="lg:col-span-7 relative flex flex-col items-center justify-center order-1 lg:order-2">
-            {/* Soft Studio Atmospheric Backlight behind the floating board */}
+            {/* Soft Warm Ivory Studio Backlight behind the floating board */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute w-[78%] h-[78%] rounded-full blur-[90px] opacity-45"
+              className="pointer-events-none absolute w-[78%] h-[78%] rounded-full blur-[85px] opacity-75"
               style={{
                 background:
-                  'radial-gradient(circle, rgba(201, 169, 110, 0.14) 0%, rgba(243, 235, 221, 0.05) 45%, transparent 72%)',
+                  'radial-gradient(circle, rgba(250, 245, 232, 0.75) 0%, rgba(240, 224, 178, 0.35) 48%, transparent 74%)',
               }}
             />
 
@@ -249,10 +249,10 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
             <div
               ref={shadowRef}
               aria-hidden="true"
-              className="w-[62%] h-8 -mt-4 rounded-full blur-2xl pointer-events-none"
+              className="w-[60%] h-7 -mt-3 rounded-full blur-2xl pointer-events-none"
               style={{
                 background:
-                  'radial-gradient(ellipse at center, rgba(10, 11, 13, 0.92) 0%, rgba(10, 11, 13, 0.45) 55%, transparent 80%)',
+                  'radial-gradient(ellipse at center, rgba(96, 26, 18, 0.34) 0%, rgba(96, 26, 18, 0.14) 55%, transparent 80%)',
               }}
             />
           </div>
@@ -260,11 +260,11 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
       </div>
 
       {/* Minimal Scroll Invitation */}
-      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[10px] tracking-[0.28em] uppercase text-[#F3EBDD]/45">
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[10px] font-semibold tracking-[0.28em] uppercase text-[#841F17]/70">
         <span>{content.scrollHint}</span>
         <div className="flex items-center gap-3">
-          <span className="num text-[#C9A96E]">360° SCROLL MOTION</span>
-          <span className="w-10 h-px bg-[#C9A96E]/40" />
+          <span className="num text-[#841F17]">360° SCROLL MOTION</span>
+          <span className="w-10 h-px bg-[#841F17]/45" />
         </div>
       </div>
     </section>

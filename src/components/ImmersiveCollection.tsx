@@ -248,19 +248,19 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
       className="relative z-10 w-full h-[100dvh] overflow-hidden studio-perspective"
     >
       {/* Top Studio Section & 3D Rotation Progress Bar */}
-      <div className="pointer-events-none absolute top-24 left-6 sm:left-10 lg:left-16 z-30 hidden sm:flex items-center gap-4 text-[10px] tracking-[0.28em] uppercase text-[#F3EBDD]/40">
+      <div className="pointer-events-none absolute top-24 left-6 sm:left-10 lg:left-16 z-30 hidden sm:flex items-center gap-4 text-[10px] font-semibold tracking-[0.28em] uppercase text-[#5A120D]/65">
         <span>{lang === 'en' ? 'CURATED COLLECTION' : 'COLECCIÓN CURADA'}</span>
-        <span className="num text-[#C9A96E]/90">
+        <span className="num text-[#841F17]">
           {PRODUCTS[activeIndex]?.id} / 0{totalProducts}
         </span>
-        <div className="w-20 h-[1.5px] bg-[#F3EBDD]/15 overflow-hidden">
+        <div className="w-20 h-[2px] bg-[#841F17]/20 overflow-hidden">
           <div
             ref={rotationBarRef}
-            className="w-full h-full bg-[#C9A96E] origin-left"
+            className="w-full h-full bg-[#841F17] origin-left"
             style={{ transform: 'scaleX(0)' }}
           />
         </div>
-        <span className="text-[9px] tracking-[0.24em] text-[#C9A96E]/75">
+        <span className="text-[9px] tracking-[0.24em] text-[#841F17]/85">
           {lang === 'en' ? '3D ROTATION' : 'GIRO 3D'}
         </span>
       </div>
@@ -299,17 +299,17 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
               className="group flex items-center gap-2.5 py-0.5 focus:outline-none"
             >
               <span
-                className={`h-px transition-all duration-300 ${
+                className={`h-[1.5px] transition-all duration-300 ${
                   isCurrent
-                    ? 'w-5 bg-[#C9A96E]'
-                    : 'w-2 bg-[#F3EBDD]/20 group-hover:w-3.5 group-hover:bg-[#F3EBDD]/60'
+                    ? 'w-6 bg-[#841F17]'
+                    : 'w-2.5 bg-[#841F17]/30 group-hover:w-4 group-hover:bg-[#841F17]/75'
                 }`}
               />
               <span
                 className={`num text-[11px] tracking-[0.2em] transition-colors duration-300 ${
                   isCurrent
-                    ? 'text-[#C9A96E] font-semibold'
-                    : 'text-[#F3EBDD]/35 group-hover:text-[#F3EBDD]/85'
+                    ? 'text-[#841F17] font-bold'
+                    : 'text-[#841F17]/45 group-hover:text-[#841F17]'
                 }`}
               >
                 {item.id}

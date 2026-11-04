@@ -88,13 +88,13 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
             isRightAlignedInfo ? 'lg:order-1' : 'lg:order-2'
           }`}
         >
-          {/* Soft atmospheric studio spotlight behind the floating sculpture */}
+          {/* Soft warm ivory studio spotlight behind the floating sculpture */}
           <div
             aria-hidden="true"
-            className={`product-glow-${index} pointer-events-none absolute w-[76%] h-[76%] rounded-full blur-[95px] opacity-50`}
+            className={`product-glow-${index} pointer-events-none absolute w-[76%] h-[76%] rounded-full blur-[85px] opacity-75`}
             style={{
               background:
-                'radial-gradient(circle, rgba(201, 169, 110, 0.13) 0%, rgba(243, 235, 221, 0.05) 48%, transparent 74%)',
+                'radial-gradient(circle, rgba(250, 245, 232, 0.72) 0%, rgba(240, 224, 178, 0.35) 48%, transparent 74%)',
             }}
           />
 
@@ -142,10 +142,10 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
           {/* Grounded Studio Floor Shadow */}
           <div
             aria-hidden="true"
-            className={`product-shadow-${index} w-[58%] h-7 sm:h-9 -mt-3 sm:-mt-5 rounded-full blur-2xl pointer-events-none will-change-transform`}
+            className={`product-shadow-${index} w-[56%] h-7 sm:h-8 -mt-3 sm:-mt-4 rounded-full blur-2xl pointer-events-none will-change-transform`}
             style={{
               background:
-                'radial-gradient(ellipse at center, rgba(12, 13, 15, 0.92) 0%, rgba(12, 13, 15, 0.45) 55%, transparent 80%)',
+                'radial-gradient(ellipse at center, rgba(96, 26, 18, 0.34) 0%, rgba(96, 26, 18, 0.14) 55%, transparent 80%)',
             }}
           />
         </div>
@@ -158,36 +158,36 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
         >
           {/* Small Product Index */}
           <div className="flex items-center justify-center lg:justify-start gap-3">
-            <span className="text-[10px] sm:text-[11px] font-medium tracking-[0.3em] uppercase text-[#C9A96E] num">
+            <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.3em] uppercase text-[#841F17] num">
               {product.indexLabel[lang]}
             </span>
-            <span className="w-8 h-px bg-[#C9A96E]/40" />
+            <span className="w-8 h-px bg-[#841F17]/45" />
           </div>
 
-          {/* Large Elegant Serif Product Heading */}
+          {/* Large Elegant Serif Product Heading in Signature Burgundy Red */}
           <div className="space-y-1.5">
-            <h2 className="font-serif font-light text-4xl sm:text-5xl xl:text-[4.1rem] text-[#F3EBDD] tracking-[-0.02em] leading-[0.98] uppercase">
+            <h2 className="font-serif font-normal text-4xl sm:text-5xl xl:text-[4.1rem] text-[#841F17] tracking-[-0.02em] leading-[0.98] uppercase">
               {product.shortTitle[lang]}
             </h2>
-            <p className="font-serif italic text-lg sm:text-2xl text-[#C9A96E]/90 font-light">
+            <p className="font-serif italic text-lg sm:text-2xl text-[#63150F] font-normal">
               {product.name[lang]}
             </p>
           </div>
 
           {/* Short Editorial Description */}
-          <p className="text-xs sm:text-sm md:text-[15px] text-[#F3EBDD]/75 font-light leading-relaxed max-w-md mx-auto lg:mx-0">
+          <p className="text-xs sm:text-sm md:text-[15px] text-[#4A120E]/85 font-normal leading-relaxed max-w-md mx-auto lg:mx-0">
             {product.description[lang]}
           </p>
 
           {/* Optional Curated Details */}
           {product.details && product.details[lang] && (
-            <ul className="hidden sm:flex flex-col gap-1.5 pt-1 text-xs text-[#F3EBDD]/60 font-light max-w-md mx-auto lg:mx-0">
+            <ul className="hidden sm:flex flex-col gap-1.5 pt-1 text-xs text-[#5A120D]/80 font-normal max-w-md mx-auto lg:mx-0">
               {product.details[lang].map((line, i) => (
                 <li
                   key={i}
                   className="flex items-center justify-center lg:justify-start gap-2.5"
                 >
-                  <span className="w-1 h-1 rounded-full bg-[#C9A96E]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#841F17]" />
                   <span>{line}</span>
                 </li>
               ))}
@@ -195,16 +195,18 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
           )}
 
           {/* Dimensions, Servings & Editable Price Typography */}
-          <div className="pt-2 sm:pt-3 border-t border-[#F3EBDD]/10 flex flex-wrap items-center justify-center lg:justify-start gap-x-7 gap-y-2 text-[11px] tracking-[0.24em] uppercase">
-            <span className="text-[#F3EBDD] font-medium">
+          <div className="pt-2 sm:pt-3 border-t border-[#841F17]/20 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-[11px] tracking-[0.22em] uppercase">
+            <span className="text-[#841F17] font-semibold">
               {product.dimensions[lang]}
             </span>
-            <span className="text-[#F3EBDD]/30">·</span>
-            <span className="text-[#F3EBDD]/80">{product.servings[lang]}</span>
-            <span className="text-[#F3EBDD]/30">·</span>
+            <span className="text-[#841F17]/40">·</span>
+            <span className="text-[#5A120D]/90 font-medium">
+              {product.servings[lang]}
+            </span>
+            <span className="text-[#841F17]/40">·</span>
             <span
               data-editable-field={`product-${product.id}-price`}
-              className="text-[#C9A96E] font-semibold num"
+              className="text-[#841F17] font-bold num bg-[#FAF5E8]/55 px-2.5 py-0.5 border border-[#841F17]/25"
             >
               {product.price[lang]}
             </span>
@@ -215,7 +217,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
             <button
               type="button"
               onClick={() => onOrderProduct(product)}
-              className="inline-flex items-center justify-center px-7 sm:px-8 py-3.5 sm:py-4 border border-[#C9A96E]/70 hover:border-[#C9A96E] bg-transparent hover:bg-[#C9A96E] text-[#F3EBDD] hover:text-[#17181A] text-[11px] font-medium tracking-[0.26em] uppercase transition-all duration-300"
+              className="inline-flex items-center justify-center px-7 sm:px-8 py-3.5 sm:py-4 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-[11px] font-semibold tracking-[0.26em] uppercase transition-all duration-300 shadow-sm"
             >
               {product.ctaLabel[lang]}
             </button>

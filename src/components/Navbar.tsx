@@ -46,21 +46,21 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#17181A]/75 backdrop-blur-md border-b border-[#F3EBDD]/[0.06] py-3.5'
-          : 'bg-transparent py-5 sm:py-7'
+          ? 'bg-[#E7D095]/85 backdrop-blur-md border-b border-[#841F17]/15 py-3'
+          : 'bg-transparent py-4 sm:py-6'
       }`}
     >
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between">
-        {/* Original Elys Logo on the left — completely unchanged */}
+        {/* Official Elys Brand Sheet Logo on the left */}
         <a
           href="#top"
-          className="inline-flex items-center focus:outline-none group"
+          className="inline-flex items-center gap-3 focus:outline-none group"
           aria-label={BRAND_CONFIG.businessName}
         >
           <img
-            src={BRAND_CONFIG.logoHorizontal}
+            src={BRAND_CONFIG.logoVertical}
             alt={BRAND_CONFIG.businessName}
-            className="h-11 sm:h-14 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+            className="h-14 sm:h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </a>
 
@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <a
               key={item.href}
               href={item.href}
-              className="text-[11px] font-medium tracking-[0.26em] uppercase text-[#F3EBDD]/75 hover:text-[#C9A96E] transition-colors duration-300"
+              className="text-[11px] font-semibold tracking-[0.26em] uppercase text-[#5A120D]/80 hover:text-[#841F17] transition-colors duration-300"
             >
               {item.label}
             </a>
@@ -85,7 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={onToggleLang}
-            className="text-[11px] tracking-[0.22em] uppercase text-[#F3EBDD]/60 hover:text-[#F3EBDD] transition-colors px-2 py-1"
+            className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#841F17]/75 hover:text-[#841F17] transition-colors px-2 py-1"
             aria-label="Switch language"
           >
             {lang === 'en' ? 'ES' : 'EN'}
@@ -94,7 +94,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => onOpenOrderModal()}
-            className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 text-[11px] font-medium tracking-[0.24em] uppercase text-[#F3EBDD] border border-[#C9A96E]/55 hover:border-[#C9A96E] hover:bg-[#C9A96E]/10 transition-all duration-300"
+            className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 text-[11px] font-semibold tracking-[0.24em] uppercase text-[#FAF5E8] bg-[#841F17] hover:bg-[#68160F] border border-[#841F17] transition-all duration-300 shadow-sm"
           >
             {lang === 'en' ? 'ORDER' : 'ORDENAR'}
           </button>
@@ -102,7 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="md:hidden p-2 text-[#F3EBDD]/80 hover:text-[#C9A96E] transition-colors"
+            className="md:hidden p-2 text-[#841F17] hover:text-[#5A120D] transition-colors"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -112,14 +112,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Minimal Mobile Overlay Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#17181A]/95 backdrop-blur-xl border-b border-[#F3EBDD]/10 px-6 py-8">
+        <div className="md:hidden bg-[#E7D095]/95 backdrop-blur-xl border-b border-[#841F17]/20 px-6 py-8">
           <nav className="flex flex-col gap-5">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-xs tracking-[0.26em] uppercase text-[#F3EBDD]/85 hover:text-[#C9A96E] py-1 transition-colors"
+                className="text-xs font-semibold tracking-[0.26em] uppercase text-[#841F17] hover:text-[#5A120D] py-1 transition-colors"
               >
                 {item.label}
               </a>

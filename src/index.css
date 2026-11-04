@@ -3,20 +3,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar for dark luxury studio */
+/* Custom scrollbar for Warm Cream-Gold & Burgundy studio */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #17181A;
+  background: #DFC484;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #303136;
+  background: #841F17;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9A96E;
+  background: #63150F;
 }

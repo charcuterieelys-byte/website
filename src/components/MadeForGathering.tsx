@@ -14,8 +14,8 @@ interface MadeForGatheringProps {
 /**
  * SECTION 9 — MADE FOR GATHERING
  * Editorial presentation of the occasions Elys serves inside the same
- * continuous dark studio environment, pairing large interactive typography
- * with Elianne's real photography.
+ * continuous Warm Cream-Gold & Burgundy studio environment, pairing large
+ * interactive typography with Elianne's real photography.
  */
 export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
   lang,
@@ -60,15 +60,15 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
         {/* Editorial Header */}
         <div className="gathering-reveal max-w-2xl mb-16 sm:mb-24 space-y-4">
           <div className="flex items-center gap-3">
-            <span className="text-[10px] sm:text-[11px] font-medium tracking-[0.3em] uppercase text-[#C9A96E]">
+            <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.3em] uppercase text-[#841F17]">
               {lang === 'en' ? 'OCCASIONS' : 'OCASIONES'}
             </span>
-            <span className="w-8 h-px bg-[#C9A96E]/40" />
+            <span className="w-8 h-px bg-[#841F17]/45" />
           </div>
-          <h2 className="font-serif font-light text-4xl sm:text-6xl text-[#F3EBDD] tracking-[-0.02em] leading-[1.03]">
+          <h2 className="font-serif font-normal text-4xl sm:text-6xl text-[#841F17] tracking-[-0.02em] leading-[1.03]">
             {lang === 'en' ? 'Made for gathering.' : 'Creado para reunir.'}
           </h2>
-          <p className="text-sm sm:text-base text-[#F3EBDD]/70 font-light leading-relaxed">
+          <p className="text-sm sm:text-base text-[#4A120E]/85 font-normal leading-relaxed">
             {lang === 'en'
               ? 'From intimate toasts for two to abundant grazing tables for life’s milestone celebrations.'
               : 'Desde brindis íntimos para dos hasta mesas abundantes para las celebraciones más memorables.'}
@@ -78,7 +78,7 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
         {/* Two-Column Studio Composition: Interactive Editorial Index + Real Photography Stage */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left: Interactive Editorial Occasion List */}
-          <div className="lg:col-span-7 divide-y divide-[#F3EBDD]/10 border-t border-b border-[#F3EBDD]/10">
+          <div className="lg:col-span-7 divide-y divide-[#841F17]/15 border-t border-b border-[#841F17]/20">
             {OCCASIONS_DATA.map((item, idx) => {
               const isSelected = idx === activeOccasion;
               return (
@@ -92,19 +92,19 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
                   <div className="flex items-baseline justify-between gap-4">
                     <div className="flex items-baseline gap-5 sm:gap-7">
                       <span
-                        className={`num text-xs tracking-[0.24em] transition-colors duration-300 ${
+                        className={`num text-xs font-semibold tracking-[0.24em] transition-colors duration-300 ${
                           isSelected
-                            ? 'text-[#C9A96E]'
-                            : 'text-[#F3EBDD]/35 group-hover:text-[#C9A96E]/80'
+                            ? 'text-[#841F17]'
+                            : 'text-[#841F17]/40 group-hover:text-[#841F17]/80'
                         }`}
                       >
                         {item.index}
                       </span>
                       <h3
-                        className={`font-serif font-light text-2xl sm:text-4xl transition-all duration-300 ${
+                        className={`font-serif font-normal text-2xl sm:text-4xl transition-all duration-300 ${
                           isSelected
-                            ? 'text-[#F3EBDD] translate-x-1'
-                            : 'text-[#F3EBDD]/55 group-hover:text-[#F3EBDD]'
+                            ? 'text-[#841F17] translate-x-1'
+                            : 'text-[#5A120D]/60 group-hover:text-[#841F17]'
                         }`}
                       >
                         {item.title[lang]}
@@ -117,10 +117,10 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
                         e.stopPropagation();
                         onSelectOccasion(item.title[lang]);
                       }}
-                      className={`text-[10px] tracking-[0.24em] uppercase transition-all duration-300 ${
+                      className={`text-[10px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 ${
                         isSelected
-                          ? 'opacity-100 text-[#C9A96E] hover:underline'
-                          : 'opacity-0 group-hover:opacity-100 text-[#F3EBDD]/70'
+                          ? 'opacity-100 text-[#841F17] hover:underline'
+                          : 'opacity-0 group-hover:opacity-100 text-[#841F17]/80'
                       }`}
                     >
                       {lang === 'en' ? 'INQUIRE →' : 'CONSULTAR →'}
@@ -132,7 +132,7 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
                       isSelected ? 'max-h-24 opacity-100 mt-2.5' : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <p className="pl-10 sm:pl-12 text-xs sm:text-sm text-[#F3EBDD]/65 font-light max-w-xl">
+                    <p className="pl-10 sm:pl-12 text-xs sm:text-sm text-[#4A120E]/80 font-normal max-w-xl">
                       {item.subtitle[lang]}
                     </p>
                   </div>
@@ -141,9 +141,9 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
             })}
           </div>
 
-          {/* Right: Selected Real Photograph Floating in the Dark Studio */}
+          {/* Right: Selected Real Photograph Floating in the Cream-Gold Studio */}
           <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
-            <div className="relative w-full max-w-[460px] aspect-[4/5] overflow-hidden floating-product-shadow">
+            <div className="relative w-full max-w-[460px] aspect-[4/5] overflow-hidden border border-[#841F17]/20 floating-product-shadow">
               {OCCASIONS_DATA.map((item, idx) => (
                 <img
                   key={item.id}
@@ -157,19 +157,19 @@ export const MadeForGathering: React.FC<MadeForGatheringProps> = ({
                   }`}
                 />
               ))}
-              {/* Subtle inner vignette to blend real photo into the dark studio */}
+              {/* Subtle warm inner frame */}
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0"
                 style={{
-                  boxShadow: 'inset 0 0 70px rgba(23, 24, 26, 0.65)',
+                  boxShadow: 'inset 0 0 40px rgba(84, 24, 16, 0.22)',
                 }}
               />
             </div>
 
-            <div className="mt-5 w-full max-w-[460px] flex items-center justify-between text-[10px] tracking-[0.24em] uppercase text-[#F3EBDD]/50">
+            <div className="mt-5 w-full max-w-[460px] flex items-center justify-between text-[10px] font-semibold tracking-[0.24em] uppercase text-[#5A120D]/75">
               <span>{currentItem.title[lang]}</span>
-              <span className="num text-[#C9A96E]">
+              <span className="num text-[#841F17]">
                 {currentItem.index} / 0{OCCASIONS_DATA.length}
               </span>
             </div>
