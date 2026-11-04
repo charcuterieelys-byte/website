@@ -15,10 +15,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenOrderModal,
 }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [showNavLogo, setShowNavLogo] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      setShowNavLogo(window.scrollY > 180);
+    };
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -51,16 +56,20 @@ export const Navbar: React.FC<NavbarProps> = ({
       }`}
     >
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between">
-        {/* Official Elys Brand Sheet Logo on the left */}
+        {/* Official Elys Brand Sheet Logo on the left — emerges smoothly as the grand Hero logo recedes */}
         <a
           href="#top"
-          className="inline-flex items-center gap-3 focus:outline-none group"
+          className={`inline-flex items-center gap-3 focus:outline-none group transition-all duration-500 ${
+            showNavLogo
+              ? 'opacity-100 translate-y-0 pointer-events-auto'
+              : 'opacity-0 -translate-y-2 pointer-events-none'
+          }`}
           aria-label={BRAND_CONFIG.businessName}
         >
           <img
             src={BRAND_CONFIG.logoVertical}
             alt={BRAND_CONFIG.businessName}
-            className="h-14 sm:h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+            className="h-13 sm:h-15 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </a>
 

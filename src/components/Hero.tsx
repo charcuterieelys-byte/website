@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Language } from '../types/catalog';
-import { HERO_CONTENT, PRODUCTS } from '../data/catalog';
+import { BRAND_CONFIG, HERO_CONTENT, PRODUCTS } from '../data/catalog';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +13,10 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
   const heroRef = useRef<HTMLElement>(null);
+  const logoOvertureRef = useRef<HTMLDivElement>(null);
+  const logoArtworkRef = useRef<HTMLImageElement>(null);
+  const logoMetaRef = useRef<HTMLDivElement>(null);
+  const mainStageRef = useRef<HTMLDivElement>(null);
   const productWrapRef = useRef<HTMLDivElement>(null);
   const shadowRef = useRef<HTMLDivElement>(null);
   const textWrapRef = useRef<HTMLDivElement>(null);
@@ -66,21 +70,79 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Physical, dimensional 3D entrance of the featured product and editorial text
-      const entranceTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      entranceTl
+      // 1. Initial sculptural entrance of the Grand Center Logo on page load
+      const introTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+      introTl
         .fromTo(
-          productWrapRef.current,
-          {
-            y: 95,
-            z: -160,
-            scale: 0.78,
-            rotationX: 16,
-            rotationY: -14,
-            rotationZ: -4,
-            opacity: 0,
+          logoArtworkRef.current,
+          { scale: 0.84, y: 32, opacity: 0 },
+          { scale: 1, y: 0, opacity: 1, duration: 1.5 },
+          0.08
+        )
+        .fromTo(
+          logoMetaRef.current,
+          { y: 18, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
+          0.35
+        );
+
+      // Set initial hidden state for Act II (Editorial + 3D Floating Board)
+      gsap.set(mainStageRef.current, { autoAlpha: 0 });
+      gsap.set(productWrapRef.current, {
+        y: 85,
+        z: -150,
+        scale: 0.8,
+        rotationX: 15,
+        rotationY: -12,
+        rotationZ: -3,
+      });
+      gsap.set(shadowRef.current, { scale: 0.55, opacity: 0 });
+      gsap.set('.hero-editorial-item', { y: 32, opacity: 0 });
+
+      // 2. Two-Act Pinned Scroll Choreography:
+      // Act I (0.00 -> 0.32): Grand Vertical Logo scales forward & dissolves
+      // Act II (0.20 -> 1.00): Editorial Headline + 3D Board enter & rotate 360° with scroll
+      const masterTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: '+=155%',
+          pin: true,
+          scrub: 0.55,
+          onUpdate: (self) => {
+            // Scrub 3D board rotation once Act II begins (from 24% to 100% of Hero scroll)
+            const rotP = Math.max(0, Math.min(1, (self.progress - 0.24) / 0.76));
+            targetProgressRef.current = rotP;
           },
+        },
+      });
+
+      // Act I: Grand Logo Overture zooms gently toward viewer and dissolves
+      masterTl
+        .to(
+          logoOvertureRef.current,
+          {
+            scale: 1.24,
+            y: -48,
+            autoAlpha: 0,
+            duration: 0.32,
+            ease: 'power2.inOut',
+          },
+          0
+        )
+        // Act II: Reveal Main Hero Stage container
+        .to(
+          mainStageRef.current,
+          {
+            autoAlpha: 1,
+            duration: 0.22,
+            ease: 'power2.out',
+          },
+          0.18
+        )
+        // Dimensional 3D entrance of the floating charcuterie board
+        .to(
+          productWrapRef.current,
           {
             y: 0,
             z: 0,
@@ -88,67 +150,53 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
             rotationX: 0,
             rotationY: 0,
             rotationZ: 0,
-            opacity: 1,
-            duration: 1.6,
-            ease: 'expo.out',
+            duration: 0.34,
+            ease: 'power3.out',
           },
-          0.1
+          0.18
         )
-        .fromTo(
+        .to(
           shadowRef.current,
-          { scale: 0.55, opacity: 0 },
-          { scale: 1, opacity: 0.75, duration: 1.6, ease: 'expo.out' },
-          0.15
+          {
+            scale: 1,
+            opacity: 0.78,
+            duration: 0.34,
+            ease: 'power3.out',
+          },
+          0.2
         )
-        .fromTo(
+        .to(
           '.hero-editorial-item',
-          { y: 34, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 1.1,
-            stagger: 0.1,
+            stagger: 0.035,
+            duration: 0.26,
             ease: 'power3.out',
           },
-          0.3
+          0.22
+        )
+        // Subtle parallax lift during the final 3D rotation hold (0.55 -> 1.00)
+        .to(
+          productWrapRef.current,
+          {
+            y: -28,
+            scale: 1.05,
+            duration: 0.45,
+            ease: 'none',
+          },
+          0.55
+        )
+        .to(
+          textWrapRef.current,
+          {
+            y: -24,
+            opacity: 0.35,
+            duration: 0.35,
+            ease: 'none',
+          },
+          0.65
         );
-
-      // Pinned Hero stage where scrolling first rotates the 3D board, then transitions to Collection
-      ScrollTrigger.create({
-        trigger: heroRef.current,
-        start: 'top top',
-        end: '+=95%',
-        pin: true,
-        scrub: 0.5,
-        onUpdate: (self) => {
-          // Scrub the 3D video rotation from 0% to 100% as the user scrolls through the Hero
-          targetProgressRef.current = self.progress;
-        },
-      });
-
-      gsap.to(productWrapRef.current, {
-        y: -45,
-        scale: 1.05,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: '+=95%',
-          scrub: true,
-        },
-      });
-
-      gsap.to(textWrapRef.current, {
-        y: -40,
-        opacity: 0.2,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: '45% top',
-          end: '+=50%',
-          scrub: true,
-        },
-      });
     }, heroRef);
 
     return () => ctx.revert();
@@ -158,9 +206,66 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
     <section
       id="top"
       ref={heroRef}
-      className="relative z-10 h-[100dvh] w-full flex flex-col justify-between pt-28 pb-10 sm:pt-32 sm:pb-14 overflow-hidden studio-perspective"
+      className="relative z-10 h-[100dvh] w-full flex flex-col justify-between pt-24 pb-10 sm:pt-28 sm:pb-12 overflow-hidden studio-perspective"
     >
-      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 my-auto">
+      {/* =====================================================================
+          ACT I — GRAND BRAND OVERTURE (PROTAGONIST VERTICAL ELYS LOGO)
+          Occupies center stage on initial load; scales & dissolves on scroll
+      ===================================================================== */}
+      <div
+        ref={logoOvertureRef}
+        className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 pointer-events-none select-none will-change-transform"
+      >
+        {/* Warm Ivory Studio Spotlight Behind the Grand Emblem */}
+        <div
+          aria-hidden="true"
+          className="absolute w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] lg:w-[560px] lg:h-[560px] rounded-full blur-[90px] opacity-85"
+          style={{
+            background:
+              'radial-gradient(circle, rgba(250, 245, 232, 0.88) 0%, rgba(240, 224, 178, 0.42) 52%, transparent 75%)',
+          }}
+        />
+
+        {/* Delicate Architectural Ring Around the Emblem */}
+        <div
+          aria-hidden="true"
+          className="absolute w-[300px] h-[300px] sm:w-[430px] sm:h-[430px] lg:w-[490px] lg:h-[490px] rounded-full border border-[#841F17]/12"
+        />
+
+        {/* Original Supplied Elys Vertical Emblem (Unmodified Artwork) */}
+        <img
+          ref={logoArtworkRef}
+          src={BRAND_CONFIG.logoVertical}
+          alt={BRAND_CONFIG.businessName}
+          className="relative z-10 w-[220px] sm:w-[300px] lg:w-[350px] h-auto object-contain drop-shadow-[0_18px_36px_rgba(96,26,18,0.14)]"
+        />
+
+        {/* Editorial Atelier Signature & Scroll Prompt Below Grand Logo */}
+        <div
+          ref={logoMetaRef}
+          className="relative z-10 mt-7 sm:mt-9 flex flex-col items-center gap-3 text-center"
+        >
+          <div className="flex items-center gap-3.5">
+            <span className="w-8 sm:w-12 h-px bg-[#841F17]/40" />
+            <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.34em] uppercase text-[#841F17]">
+              {content.eyebrow}
+            </span>
+            <span className="w-8 sm:w-12 h-px bg-[#841F17]/40" />
+          </div>
+          <p className="font-serif italic text-base sm:text-xl text-[#63150F]/90">
+            {content.headline}
+          </p>
+        </div>
+      </div>
+
+      {/* =====================================================================
+          ACT II — HERO EDITORIAL & 3D FLOATING CHARCUTERIE SCULPTURE
+          Emerges physically as the Grand Logo opens on scroll
+      ===================================================================== */}
+      <div
+        ref={mainStageRef}
+        className="relative z-10 max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 my-auto"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
           {/* Left Editorial Composition */}
           <div
@@ -260,7 +365,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
       </div>
 
       {/* Minimal Scroll Invitation */}
-      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[10px] font-semibold tracking-[0.28em] uppercase text-[#841F17]/70">
+      <div className="relative z-30 max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[10px] font-semibold tracking-[0.28em] uppercase text-[#841F17]/75">
         <span>{content.scrollHint}</span>
         <div className="flex items-center gap-3">
           <span className="num text-[#841F17]">360° SCROLL MOTION</span>
