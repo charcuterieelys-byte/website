@@ -6,6 +6,7 @@ interface ProductStageItemProps {
   index: number;
   activeIndex: number;
   lang: Language;
+  rotationProgressRef: React.MutableRefObject<number[]>;
   onOrderProduct: (product: Product) => void;
 }
 
@@ -14,38 +15,59 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
   index,
   activeIndex,
   lang,
+  rotationProgressRef,
   onOrderProduct,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const smoothProgressRef = useRef<number>(0);
   const [videoFailed, setVideoFailed] = useState(false);
-  const [usingMp4Fallback, setUsingMp4Fallback] = useState(false);
 
   const isActive = index === activeIndex;
   const isAdjacent = Math.abs(index - activeIndex) <= 1;
 
-  // Video Performance Controller: play ONLY when active or adjacent; pause otherwise
+  // Initialize video for scroll-controlled 3D scrubbing
   useEffect(() => {
     const vid = videoRef.current;
     if (!vid || videoFailed) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    vid.muted = true;
+    vid.defaultMuted = true;
+    vid.playsInline = true;
+    vid.pause();
+  }, [videoFailed]);
 
-    if (isActive && !prefersReducedMotion) {
-      const playPromise = vid.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay prevented or not yet loaded
-        });
+  // High-frequency 60fps requestAnimationFrame Lerp Scrubbing Engine
+  // Scrubs video.currentTime directly according to scroll progress for this product
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid || videoFailed || (!isActive && !isAdjacent)) return;
+
+    let rafId: number;
+    const updateVideoFrame = () => {
+      const targetP = rotationProgressRef.current[index] ?? 0;
+      const currentP = smoothProgressRef.current;
+      const nextP = currentP + (targetP - currentP) * 0.22;
+      smoothProgressRef.current = nextP;
+
+      if (vid.readyState >= 2 && vid.duration && Number.isFinite(vid.duration)) {
+        const clampedP = Math.min(1, Math.max(0, nextP));
+        const targetTime = clampedP * Math.max(0, vid.duration - 0.04);
+
+        if (!vid.seeking && Math.abs(vid.currentTime - targetTime) > 0.012) {
+          try {
+            vid.currentTime = targetTime;
+          } catch {
+            // Ignore transient seek exception while buffering
+          }
+        }
       }
-    } else {
-      vid.pause();
-      if (!isAdjacent && vid.currentTime > 0) {
-        vid.currentTime = 0;
-      }
-    }
-  }, [isActive, isAdjacent, videoFailed]);
+
+      rafId = requestAnimationFrame(updateVideoFrame);
+    };
+
+    rafId = requestAnimationFrame(updateVideoFrame);
+    return () => cancelAnimationFrame(rafId);
+  }, [index, isActive, isAdjacent, rotationProgressRef, videoFailed]);
 
   const isRightAlignedInfo = product.layoutAlign === 'right';
 
@@ -60,8 +82,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
     >
       <div className="max-w-[1440px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-10 items-center">
         {/* FLOATING 3D PRODUCT SCULPTURE (58-65% visual attention)
-            On mobile: always top (order-1) so floating product is large & dominant.
-            On desktop: alternates right (lg:order-2) or left (lg:order-1) for editorial rhythm. */}
+            Scroll directly controls the 3D rotation of the video frames */}
         <div
           className={`lg:col-span-7 relative flex flex-col items-center justify-center order-1 ${
             isRightAlignedInfo ? 'lg:order-1' : 'lg:order-2'
@@ -92,13 +113,14 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                 <video
                   ref={videoRef}
                   muted
-                  loop
                   playsInline
-                  preload={index <= 1 || isAdjacent ? 'auto' : 'metadata'}
-                  poster={product.posterSrc}
-                  className={`w-full h-full object-contain pointer-events-none select-none floating-product-shadow ${
-                    usingMp4Fallback ? 'video-feather-mask' : ''
-                  }`}
+                  preload="auto"
+                  onLoadedData={(e) => {
+                    const v = e.currentTarget;
+                    v.pause();
+                    v.currentTime = 0.01;
+                  }}
+                  className="w-full h-full object-contain pointer-events-none select-none floating-product-shadow"
                 >
                   <source src={product.videoSrc} type="video/webm" />
                   <source

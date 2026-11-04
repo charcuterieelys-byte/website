@@ -16,17 +16,54 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
   const productWrapRef = useRef<HTMLDivElement>(null);
   const shadowRef = useRef<HTMLDivElement>(null);
   const textWrapRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const targetProgressRef = useRef<number>(0);
+  const smoothProgressRef = useRef<number>(0);
   const [useMp4Fallback, setUseMp4Fallback] = useState(false);
 
   const content = HERO_CONTENT[lang];
   // Featured hero floating sculpture: 03 Rectangular Charcuterie Board
   const featuredProduct = PRODUCTS[2];
 
+  // Scroll-scrubbed 3D video rotation loop (60fps Lerp Engine)
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (prefersReducedMotion || !heroRef.current) return;
+    const vid = videoRef.current;
+    if (!vid) return;
+
+    vid.muted = true;
+    vid.defaultMuted = true;
+    vid.playsInline = true;
+    vid.pause();
+
+    let rafId: number;
+    const tick = () => {
+      const target = targetProgressRef.current;
+      const current = smoothProgressRef.current;
+      const next = current + (target - current) * 0.18;
+      smoothProgressRef.current = next;
+
+      if (vid.readyState >= 2 && vid.duration && Number.isFinite(vid.duration)) {
+        const desiredTime = Math.min(
+          vid.duration - 0.04,
+          Math.max(0, next * vid.duration)
+        );
+        if (!vid.seeking && Math.abs(vid.currentTime - desiredTime) > 0.015) {
+          try {
+            vid.currentTime = desiredTime;
+          } catch {
+            // Ignore transient seek errors before buffer ready
+          }
+        }
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
+  useEffect(() => {
+    if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
       // Physical, dimensional 3D entrance of the featured product and editorial text
@@ -52,7 +89,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
             rotationY: 0,
             rotationZ: 0,
             opacity: 1,
-            duration: 1.8,
+            duration: 1.6,
             ease: 'expo.out',
           },
           0.1
@@ -60,7 +97,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
         .fromTo(
           shadowRef.current,
           { scale: 0.55, opacity: 0 },
-          { scale: 1, opacity: 0.75, duration: 1.8, ease: 'expo.out' },
+          { scale: 1, opacity: 0.75, duration: 1.6, ease: 'expo.out' },
           0.15
         )
         .fromTo(
@@ -69,46 +106,46 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
           {
             y: 0,
             opacity: 1,
-            duration: 1.2,
-            stagger: 0.12,
+            duration: 1.1,
+            stagger: 0.1,
             ease: 'power3.out',
           },
-          0.35
+          0.3
         );
 
-      // Subtle continuous levitation while in the Hero
-      gsap.to(productWrapRef.current, {
-        y: -12,
-        rotationZ: 0.8,
-        duration: 3.8,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
+      // Pinned Hero stage where scrolling first rotates the 3D board, then transitions to Collection
+      ScrollTrigger.create({
+        trigger: heroRef.current,
+        start: 'top top',
+        end: '+=95%',
+        pin: true,
+        scrub: 0.5,
+        onUpdate: (self) => {
+          // Scrub the 3D video rotation from 0% to 100% as the user scrolls through the Hero
+          targetProgressRef.current = self.progress;
+        },
       });
 
-      // Scroll-controlled dimensional exit as the visitor scrolls into the Collection
       gsap.to(productWrapRef.current, {
-        y: -110,
-        scale: 0.9,
-        rotationX: 10,
-        opacity: 0.15,
+        y: -45,
+        scale: 1.05,
         ease: 'none',
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
-          end: 'bottom top',
+          end: '+=95%',
           scrub: true,
         },
       });
 
       gsap.to(textWrapRef.current, {
-        y: -70,
-        opacity: 0,
+        y: -40,
+        opacity: 0.2,
         ease: 'none',
         scrollTrigger: {
           trigger: heroRef.current,
-          start: '15% top',
-          end: '85% top',
+          start: '45% top',
+          end: '+=50%',
           scrub: true,
         },
       });
@@ -121,7 +158,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
     <section
       id="top"
       ref={heroRef}
-      className="relative z-10 min-h-[100dvh] w-full flex flex-col justify-between pt-28 pb-10 sm:pt-32 sm:pb-14 overflow-hidden studio-perspective"
+      className="relative z-10 h-[100dvh] w-full flex flex-col justify-between pt-28 pb-10 sm:pt-32 sm:pb-14 overflow-hidden studio-perspective"
     >
       <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
@@ -167,7 +204,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
             </div>
           </div>
 
-          {/* Right Floating 3D Charcuterie Sculpture (58%+ visual prominence) */}
+          {/* Right Floating 3D Charcuterie Sculpture (Scroll-Controlled 3D Rotation) */}
           <div className="lg:col-span-7 relative flex flex-col items-center justify-center order-1 lg:order-2">
             {/* Soft Studio Atmospheric Backlight behind the floating board */}
             <div
@@ -179,19 +216,22 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
               }}
             />
 
-            {/* Floating 3D Product Video — NO container box, NO borders */}
+            {/* Floating 3D Product Video — Scrubbed by Scroll */}
             <div
               ref={productWrapRef}
               className="relative w-full max-w-[780px] aspect-[16/9] flex items-center justify-center will-change-transform"
               style={{ transformStyle: 'preserve-3d' }}
             >
               <video
-                autoPlay
+                ref={videoRef}
                 muted
-                loop
                 playsInline
                 preload="auto"
-                poster={featuredProduct.posterSrc}
+                onLoadedData={(e) => {
+                  const v = e.currentTarget;
+                  v.pause();
+                  v.currentTime = 0.01;
+                }}
                 className={`w-full h-full object-contain pointer-events-none select-none floating-product-shadow scale-[1.08] sm:scale-[1.14] ${
                   useMp4Fallback ? 'video-feather-mask' : ''
                 }`}
@@ -223,7 +263,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
       <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[10px] tracking-[0.28em] uppercase text-[#F3EBDD]/45">
         <span>{content.scrollHint}</span>
         <div className="flex items-center gap-3">
-          <span className="num text-[#C9A96E]">01 — 07</span>
+          <span className="num text-[#C9A96E]">360° SCROLL MOTION</span>
           <span className="w-10 h-px bg-[#C9A96E]/40" />
         </div>
       </div>
