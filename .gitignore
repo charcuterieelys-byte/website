@@ -3,10 +3,12 @@ node_modules
 .pnp
 .pnp.js
 
-# Build output
+# Build output & Environment Secrets
 dist
 dist-ssr
 *.local
+.env
+.env.*
 *.tsbuildinfo
 
 # Local design & print files (excluded from web repo)

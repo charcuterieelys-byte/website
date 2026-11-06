@@ -6,6 +6,21 @@ const MIN_CMS_VERSION = 2;
 
 const DEFAULT_STRIPE_QUOTE_LINK = 'https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005';
 
+const ALLOWED_ORIGINS = new Set([
+  'https://www.elyscharcuterie.com',
+  'https://elyscharcuterie.com',
+  'http://localhost:5173',
+  'http://localhost:3000',
+]);
+
+function getSafeOrigin(req) {
+  const raw = req.headers.origin ? String(req.headers.origin).trim().toLowerCase() : '';
+  if (raw && (ALLOWED_ORIGINS.has(raw) || /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(raw))) {
+    return raw;
+  }
+  return 'https://www.elyscharcuterie.com';
+}
+
 const DEFAULT_PRODUCTS = [
   {
     id: '01',
@@ -89,31 +104,60 @@ const DEFAULT_PRODUCTS = [
 
 function parseNumericUsd(priceStr) {
   if (!priceStr) return null;
-  const match = String(priceStr).match(/\d+(\.\d+)?/);
-  if (!match) return null;
-  const val = Number(match[0]);
-  return Number.isFinite(val) && val > 0 ? val : null;
+  const str = String(priceStr).trim();
+  const dollarMatch = str.match(/\$\s*(\d+(?:\.\d{1,2})?)/);
+  if (dollarMatch) {
+    const val = Number(dollarMatch[1]);
+    return Number.isFinite(val) && val > 0 ? val : null;
+  }
+  const endMatch = str.match(/(\d+(?:\.\d{1,2})?)\s*(?:USD)?$/i);
+  if (endMatch) {
+    const val = Number(endMatch[1]);
+    return Number.isFinite(val) && val > 0 ? val : null;
+  }
+  return null;
 }
 
 function isSafeStripeUrl(url) {
   return Boolean(url && /^https:\/\/buy\.stripe\.com\//i.test(String(url).trim()));
 }
 
+let cachedProducts = null;
+let cachedAt = 0;
+const CACHE_TTL_MS = 15_000;
+
 async function loadAuthoritativeProducts() {
+  if (cachedProducts && Date.now() - cachedAt < CACHE_TTL_MS) {
+    return cachedProducts;
+  }
   try {
     const ghToken = process.env.GITHUB_CMS_TOKEN || '';
-    const headers = {
-      Accept: 'application/vnd.github.v3.raw',
-      'User-Agent': 'Elys-Charcuterie-Checkout',
-    };
     if (ghToken) {
-      headers.Authorization = `Bearer ${ghToken}`;
+      const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${CMS_FILE_PATH}?ref=${CMS_BRANCH}`;
+      const res = await fetch(apiUrl, {
+        headers: {
+          Accept: 'application/vnd.github.v3.raw',
+          Authorization: `Bearer ${ghToken}`,
+          'User-Agent': 'Elys-Charcuterie-Checkout',
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data?.products) && (data.version || 1) >= MIN_CMS_VERSION) {
+          cachedProducts = data.products;
+          cachedAt = Date.now();
+          return data.products;
+        }
+      }
     }
-    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${CMS_FILE_PATH}?ref=${CMS_BRANCH}`;
-    const res = await fetch(url, { headers });
-    if (res.ok) {
-      const data = await res.json();
+
+    const rawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${CMS_BRANCH}/${CMS_FILE_PATH}?t=${Date.now()}`;
+    const rawRes = await fetch(rawUrl);
+    if (rawRes.ok) {
+      const data = await rawRes.json();
       if (Array.isArray(data?.products) && (data.version || 1) >= MIN_CMS_VERSION) {
+        cachedProducts = data.products;
+        cachedAt = Date.now();
         return data.products;
       }
     }
@@ -135,22 +179,25 @@ export default async function handler(req, res) {
     const { productId, productSlug, lang = 'es', customerEmail } = body;
 
     const products = await loadAuthoritativeProducts();
-    const product =
-      products.find(
-        (p) =>
-          (productSlug && p.slug === productSlug) ||
-          (productId && String(p.id) === String(productId))
-      ) || products[0];
+    const product = products.find(
+      (p) =>
+        (productSlug && p.slug === productSlug) ||
+        (productId && String(p.id) === String(productId))
+    );
 
-    const fallbackLink = isSafeStripeUrl(product?.stripePaymentLink)
+    if (!product) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    const fallbackLink = isSafeStripeUrl(product.stripePaymentLink)
       ? product.stripePaymentLink
       : DEFAULT_STRIPE_QUOTE_LINK;
 
-    const numericPrice = parseNumericUsd(product?.price?.es || product?.price?.en);
+    const numericPrice = parseNumericUsd(product.price?.es || product.price?.en);
     const activeStripeKey = process.env.STRIPE_SECRET_KEY || '';
 
-    // If STRIPE_SECRET_KEY is not configured or package is custom quote, return fallback Payment Link
-    if (!activeStripeKey || product?.isCustomQuote || !numericPrice) {
+    // If STRIPE_SECRET_KEY is not configured or package is custom quote, return the synced Payment Link
+    if (!activeStripeKey || product.isCustomQuote || !numericPrice) {
       return res.status(200).json({
         ok: true,
         url: fallbackLink,
@@ -158,11 +205,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const originUrl =
-      req.headers.origin && /^https:\/\//i.test(req.headers.origin)
-        ? req.headers.origin
-        : 'https://www.elyscharcuterie.com';
-
+    const originUrl = getSafeOrigin(req);
     const unitAmount = Math.round(numericPrice * 100);
     const displayName =
       (lang === 'en' ? product.name?.en : product.name?.es) ||
@@ -222,7 +265,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // Fallback to static payment link if Stripe API returned an error
+    // Fallback to the product's synced Stripe Payment Link if Checkout Session API is restricted on rk_live_
     return res.status(200).json({
       ok: true,
       url: fallbackLink,

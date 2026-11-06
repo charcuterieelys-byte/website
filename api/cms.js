@@ -7,6 +7,21 @@ const CMS_FILE_PATH = 'cms-state.json';
 const ALLOWED_IMAGE_EXTENSIONS = new Set(['webp', 'jpg', 'jpeg', 'png']);
 const MAX_BASE64_LENGTH = 4 * 1024 * 1024; // ~3MB binary image limit
 
+const ALLOWED_ORIGINS = new Set([
+  'https://www.elyscharcuterie.com',
+  'https://elyscharcuterie.com',
+  'http://localhost:5173',
+  'http://localhost:3000',
+]);
+
+function getSafeOrigin(req) {
+  const raw = req.headers.origin ? String(req.headers.origin).trim().toLowerCase() : '';
+  if (raw && (ALLOWED_ORIGINS.has(raw) || /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(raw))) {
+    return raw;
+  }
+  return 'https://www.elyscharcuterie.com';
+}
+
 function getGithubHeaders(token) {
   const headers = {
     Accept: 'application/vnd.github.v3+json',
@@ -39,10 +54,18 @@ function isSafeUrl(url) {
 
 function parseNumericUsd(priceStr) {
   if (!priceStr) return null;
-  const match = String(priceStr).match(/\d+(\.\d+)?/);
-  if (!match) return null;
-  const val = Number(match[0]);
-  return Number.isFinite(val) && val > 0 ? val : null;
+  const str = String(priceStr).trim();
+  const dollarMatch = str.match(/\$\s*(\d+(?:\.\d{1,2})?)/);
+  if (dollarMatch) {
+    const val = Number(dollarMatch[1]);
+    return Number.isFinite(val) && val > 0 ? val : null;
+  }
+  const endMatch = str.match(/(\d+(?:\.\d{1,2})?)\s*(?:USD)?$/i);
+  if (endMatch) {
+    const val = Number(endMatch[1]);
+    return Number.isFinite(val) && val > 0 ? val : null;
+  }
+  return null;
 }
 
 async function createStripePaymentLink({ stripeKey, productName, priceUsd, originUrl }) {
@@ -153,11 +176,7 @@ export default async function handler(req, res) {
 
     const activeGhToken = process.env.GITHUB_CMS_TOKEN || '';
     const activeStripeKey = process.env.STRIPE_SECRET_KEY || '';
-
-    const originUrl =
-      req.headers.origin && /^https:\/\//i.test(req.headers.origin)
-        ? req.headers.origin
-        : 'https://www.elyscharcuterie.com';
+    const originUrl = getSafeOrigin(req);
 
     // 1. Create a new Stripe Payment Link when a product's price is updated
     if (action === 'create_stripe_link') {
@@ -168,8 +187,8 @@ export default async function handler(req, res) {
       }
 
       const { productName, priceUsd } = body;
-      const numericPrice = Number(String(priceUsd).replace(/[^0-9.]/g, ''));
-      if (!productName || !Number.isFinite(numericPrice) || numericPrice <= 0) {
+      const numericPrice = parseNumericUsd(priceUsd);
+      if (!productName || !numericPrice) {
         return res.status(400).json({ error: 'Nombre y precio válido en USD son requeridos' });
       }
 
@@ -280,12 +299,12 @@ export default async function handler(req, res) {
         }
       }
 
-      // Automatically regenerate Stripe Payment Links for any product whose USD price changed
+      // Automatically regenerate Stripe Payment Links in parallel for any product whose USD price changed
       let stripeSyncedCount = 0;
       if (activeStripeKey) {
-        for (const p of state.products) {
+        const syncTasks = state.products.map(async (p) => {
           const numericPrice = parseNumericUsd(p.price?.es || p.price?.en);
-          if (p.isCustomQuote || !numericPrice) continue;
+          if (p.isCustomQuote || !numericPrice) return;
 
           const prevProd = existingProducts.find(
             (oldP) => oldP.slug === p.slug || String(oldP.id) === String(p.id)
@@ -313,7 +332,8 @@ export default async function handler(req, res) {
               console.warn('Auto Stripe sync skipped for product:', p.slug, stripeErr);
             }
           }
-        }
+        });
+        await Promise.allSettled(syncTasks);
       }
 
       const updatedState = {
