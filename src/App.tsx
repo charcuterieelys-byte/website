@@ -12,12 +12,16 @@ import { Footer } from './components/Footer';
 import { OrderInquiryModal } from './components/OrderInquiryModal';
 
 export function App() {
-  const [lang, setLang] = useState<Language>('en');
+  const [lang, setLang] = useState<Language>('es');
   const [orderModalOpen, setOrderModalOpen] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [selectedInquiry, setSelectedInquiry] = useState<string | undefined>(
     undefined
   );
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
