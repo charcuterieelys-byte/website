@@ -10,8 +10,33 @@ const REPO_NAME = 'website';
 const CMS_BRANCH = 'cms-data';
 const CMS_FILE_PATH = 'cms-state.json';
 
+export type StripePaymentMode = 'full' | 'deposit50';
+
 export function isSafeHttpsUrl(url?: string): boolean {
   return Boolean(url && /^https:\/\//i.test(url.trim()));
+}
+
+export function extractNumericUsd(priceStr?: string): number | null {
+  if (!priceStr) return null;
+  const str = String(priceStr).trim();
+  const dollarMatch = str.match(/\$\s*(\d+(?:\.\d{1,2})?)/);
+  if (dollarMatch) {
+    const val = Number(dollarMatch[1]);
+    return Number.isFinite(val) && val > 0 ? val : null;
+  }
+  const endMatch = str.match(/(\d+(?:\.\d{1,2})?)\s*(?:USD)?$/i);
+  if (endMatch) {
+    const val = Number(endMatch[1]);
+    return Number.isFinite(val) && val > 0 ? val : null;
+  }
+  return null;
+}
+
+export function formatHalfUsdPrice(priceStr?: string): string | null {
+  const numeric = extractNumericUsd(priceStr);
+  if (!numeric) return null;
+  const half = Math.round(numeric * 50) / 100;
+  return Number.isInteger(half) ? `$${half}` : `$${half.toFixed(2)}`;
 }
 
 export function getDefaultCmsState(): CmsState {
@@ -215,14 +240,20 @@ export async function publishCmsState(
 }
 
 /**
- * Initiates a dynamic Stripe Checkout session with the latest price stored in the CMS,
+ * Initiates a dynamic Stripe Checkout session with the latest price stored in the CMS
+ * (either 100% full payment or 50% reservation deposit),
  * falling back seamlessly to the product's static Stripe Payment Link if needed.
  */
 export async function startStripeCheckout(
   product: Product,
   lang: Language,
-  customerEmail?: string
+  options?: {
+    paymentMode?: StripePaymentMode;
+    customerEmail?: string;
+  }
 ): Promise<void> {
+  const paymentMode: StripePaymentMode = options?.paymentMode || 'full';
+  const customerEmail = options?.customerEmail;
   const fallbackUrl = isSafeHttpsUrl(product.stripePaymentLink)
     ? product.stripePaymentLink!
     : BRAND_CONFIG.stripeCustomQuoteLink;
@@ -235,6 +266,7 @@ export async function startStripeCheckout(
         productId: product.id,
         productSlug: product.slug,
         lang,
+        paymentMode,
         customerEmail,
       }),
     });

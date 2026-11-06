@@ -71,6 +71,15 @@ export default async function handler(req, res) {
     const customerEmail = session.customer_details?.email || '';
     const customerPhone = session.customer_details?.phone || '';
 
+    const metadata = session.metadata || {};
+    const isDeposit50 = metadata.payment_mode === 'deposit50';
+    const paymentModeLabel = isDeposit50
+      ? 'Anticipo de Reserva (50%)'
+      : 'Pago Completo (100%)';
+    const productNameMeta = metadata.product_name || '';
+    const totalPackageUsd = metadata.total_package_usd || '';
+    const remainingBalanceUsd = metadata.remaining_balance_usd || '';
+
     const customFields = Array.isArray(session.custom_fields)
       ? session.custom_fields
       : [];
@@ -106,15 +115,35 @@ export default async function handler(req, res) {
         PAGO RECIBIDO EN STRIPE &middot; ELY&rsquo;S CHARCUTERIE
       </p>
       <h2 style="font-family: Georgia, 'Times New Roman', serif; color: #841F17; font-weight: normal; margin: 8px 0 0; font-size: 26px;">
-        Nuevo Pedido Pagado (${escapeHtml(amountTotal)})
+        ${isDeposit50 ? `Reserva 50% Pagada (${escapeHtml(amountTotal)})` : `Nuevo Pedido Pagado (${escapeHtml(amountTotal)})`}
       </h2>
     </div>
 
     <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6; color: #4A120E;">
+      ${
+        productNameMeta
+          ? `<tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17; width: 38%;">Paquete:</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600;">${escapeHtml(productNameMeta)}</td>
+      </tr>`
+          : ''
+      }
       <tr>
-        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17; width: 38%;">Monto Pagado:</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17; width: 38%;">Modalidad:</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 700;">${escapeHtml(paymentModeLabel)}</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17; width: 38%;">Monto Cobrado Hoy:</td>
         <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 700;">${escapeHtml(amountTotal)}</td>
       </tr>
+      ${
+        isDeposit50 && remainingBalanceUsd
+          ? `<tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17; width: 38%;">Saldo Pendiente (50%):</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 700; color: #841F17;">${escapeHtml(remainingBalanceUsd)} (Total: ${escapeHtml(totalPackageUsd)})</td>
+      </tr>`
+          : ''
+      }
       <tr>
         <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17;">Cliente:</td>
         <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15);">${escapeHtml(customerName)}</td>
@@ -151,7 +180,9 @@ export default async function handler(req, res) {
         from: SENDER_EMAIL,
         to: [DESTINATION_EMAIL],
         reply_to: customerEmail || undefined,
-        subject: `Pago Recibido (${amountTotal}) - ${customerName}`,
+        subject: isDeposit50
+          ? `Reserva 50% Recibida (${amountTotal}) - ${customerName}`
+          : `Pago Completo Recibido (${amountTotal}) - ${customerName}`,
         html: ownerHtml,
       }),
     });
@@ -178,7 +209,7 @@ export default async function handler(req, res) {
       Thank you for your order / Gracias por tu pedido
     </h2>
     <p style="line-height: 1.6; font-size: 14px; margin: 0 0 14px;">
-      Hola <strong>${escapeHtml(customerName)}</strong>, hemos recibido tu pago por <strong>${escapeHtml(amountTotal)}</strong>. Elianne preparar&aacute; tu pedido fresco bajo reserva en Louisville, Kentucky.
+      Hola <strong>${escapeHtml(customerName)}</strong>, hemos recibido tu ${isDeposit50 ? 'anticipo de reserva del 50%' : 'pago completo'} por <strong>${escapeHtml(amountTotal)}</strong>${isDeposit50 && remainingBalanceUsd ? ` (saldo restante al entregar: <strong>${escapeHtml(remainingBalanceUsd)}</strong>)` : ''}. Elianne preparar&aacute; tu pedido fresco bajo reserva en Louisville, Kentucky.
     </p>
     <p style="line-height: 1.6; font-size: 14px; margin: 0;">
       Si deseas coordinar alg&uacute;n detalle adicional de entrega, puedes escribirnos directamente por WhatsApp al <a href="https://wa.me/15023454063" style="color: #841F17; font-weight: bold;">+1 (502) 345-4063</a>.

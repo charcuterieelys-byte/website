@@ -1,6 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { Language, Product } from '../types/catalog';
-import { isSafeHttpsUrl, startStripeCheckout } from '../utils/cmsStore';
+import {
+  formatHalfUsdPrice,
+  isSafeHttpsUrl,
+  startStripeCheckout,
+  StripePaymentMode,
+} from '../utils/cmsStore';
 import { TurntableVideo } from './TurntableVideo';
 
 interface ProductStageItemProps {
@@ -20,7 +25,8 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
   rotationProgressRef,
   onOrderProduct,
 }) => {
-  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkingOutMode, setCheckingOutMode] =
+    useState<StripePaymentMode | null>(null);
   const isActive = index === activeIndex;
   const isAdjacent = Math.abs(index - activeIndex) <= 1;
 
@@ -29,18 +35,26 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
     [index, rotationProgressRef]
   );
 
-  const handleStripeClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (checkingOut) return;
-    setCheckingOut(true);
+  const handleStripeCheckout = async (
+    mode: StripePaymentMode,
+    e?: React.MouseEvent<HTMLElement>
+  ) => {
+    if (e) e.preventDefault();
+    if (checkingOutMode) return;
+    setCheckingOutMode(mode);
     try {
-      await startStripeCheckout(product, lang);
+      await startStripeCheckout(product, lang, { paymentMode: mode });
     } finally {
-      setCheckingOut(false);
+      setCheckingOutMode(null);
     }
   };
 
   const isRightAlignedInfo = product.layoutAlign === 'right';
+  const halfPrice = formatHalfUsdPrice(product.price[lang]);
+  const hasDirectCheckout =
+    isSafeHttpsUrl(product.stripePaymentLink) &&
+    !product.isCustomQuote &&
+    Boolean(halfPrice);
 
   return (
     <article
@@ -101,13 +115,13 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
 
         {/* EDITORIAL TYPOGRAPHY INTEGRATED INTO THE SCENE (NO CARDS / NO BOXES) */}
         <div
-          className={`product-info-${index} lg:col-span-5 space-y-3.5 sm:space-y-5 text-center lg:text-left order-2 pr-4 sm:pr-0 will-change-transform ${
+          className={`product-info-${index} lg:col-span-5 space-y-3 sm:space-y-4 text-center lg:text-left order-2 pr-4 sm:pr-0 will-change-transform ${
             isRightAlignedInfo
               ? 'lg:order-2 lg:pl-4 lg:pr-14'
               : 'lg:order-1 lg:pr-8'
           }`}
         >
-          {/* Warm Artisanal Menu Eyebrow (Replaces robotic 01 / LA COLECCIÓN) */}
+          {/* Warm Artisanal Menu Eyebrow */}
           <div className="flex items-center justify-center lg:justify-start gap-2.5">
             <span aria-hidden="true" className="text-[#841F17]/75 text-xs">
               ✦
@@ -135,7 +149,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
           </p>
 
           {/* Fine-Dining Menu Specification Card (Overflow-safe for any price/format text) */}
-          <div className="max-w-md mx-auto lg:mx-0 bg-[#FAF5E8]/65 border border-[#841F17]/20 rounded-[4px] px-4 py-3.5 sm:px-5 sm:py-4 shadow-[0_6px_20px_rgba(96,26,18,0.05)] space-y-2.5 text-left overflow-hidden">
+          <div className="max-w-md mx-auto lg:mx-0 bg-[#FAF5E8]/65 border border-[#841F17]/20 rounded-[4px] px-4 py-3 sm:px-5 sm:py-3.5 shadow-[0_6px_20px_rgba(96,26,18,0.05)] space-y-2 text-left overflow-hidden">
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
               <span className="text-xs sm:text-sm font-semibold tracking-[0.1em] uppercase text-[#4A120E] min-w-0">
                 {product.dimensions[lang]}
@@ -187,34 +201,56 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
             )}
           </div>
 
-          {/* Ordering CTA: Direct Stripe Checkout + Personal Order Concierge */}
-          <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
-            {isSafeHttpsUrl(product.stripePaymentLink) && !product.isCustomQuote ? (
+          {/* Ordering CTA: Direct Two-Button Stripe Options (100% Full + 50% Deposit) + Concierge */}
+          <div className="pt-1 max-w-md mx-auto lg:mx-0 space-y-2">
+            {hasDirectCheckout ? (
               <>
-                <a
-                  href={product.stripePaymentLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleStripeClick}
-                  tabIndex={isActive ? 0 : -1}
-                  className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 rounded-[3px] bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300 shadow-sm"
-                >
-                  {checkingOut
-                    ? lang === 'en'
-                      ? 'OPENING STRIPE...'
-                      : 'ABRIENDO STRIPE...'
-                    : lang === 'en'
-                    ? `PAY WITH STRIPE · ${product.price[lang]}`
-                    : `PAGAR CON STRIPE · ${product.price[lang]}`}
-                </a>
-                <button
-                  type="button"
-                  tabIndex={isActive ? 0 : -1}
-                  onClick={() => onOrderProduct(product)}
-                  className="inline-flex items-center justify-center px-5 py-3.5 sm:py-4 rounded-[3px] border border-[#841F17]/45 hover:border-[#841F17] bg-[#FAF5E8]/65 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300"
-                >
-                  {lang === 'en' ? 'CONCIERGE / WHATSAPP' : 'COTIZAR / WHATSAPP'}
-                </button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <a
+                    href={product.stripePaymentLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => handleStripeCheckout('full', e)}
+                    tabIndex={isActive ? 0 : -1}
+                    className="inline-flex items-center justify-center px-4 py-3.5 rounded-[3px] bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 shadow-sm text-center"
+                  >
+                    {checkingOutMode === 'full'
+                      ? lang === 'en'
+                        ? 'OPENING STRIPE...'
+                        : 'ABRIENDO STRIPE...'
+                      : lang === 'en'
+                      ? `PAY IN FULL · ${product.price[lang]}`
+                      : `PAGAR COMPLETO · ${product.price[lang]}`}
+                  </a>
+
+                  <button
+                    type="button"
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={(e) => handleStripeCheckout('deposit50', e)}
+                    className="inline-flex items-center justify-center px-4 py-3.5 rounded-[3px] border border-[#841F17] bg-[#FAF5E8]/85 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 shadow-sm text-center"
+                  >
+                    {checkingOutMode === 'deposit50'
+                      ? lang === 'en'
+                        ? 'OPENING STRIPE...'
+                        : 'ABRIENDO STRIPE...'
+                      : lang === 'en'
+                      ? `50% DEPOSIT · ${halfPrice}`
+                      : `RESERVAR CON 50% · ${halfPrice}`}
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-center lg:justify-start pt-0.5">
+                  <button
+                    type="button"
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => onOrderProduct(product)}
+                    className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.16em] uppercase text-[#63150F]/85 hover:text-[#841F17] underline underline-offset-4 transition-colors"
+                  >
+                    {lang === 'en'
+                      ? 'Custom questions or WhatsApp Concierge →'
+                      : '¿Personalizar o consultar por WhatsApp? →'}
+                  </button>
+                </div>
               </>
             ) : (
               <button

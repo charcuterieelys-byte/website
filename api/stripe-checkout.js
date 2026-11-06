@@ -176,7 +176,13 @@ export default async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
-    const { productId, productSlug, lang = 'es', customerEmail } = body;
+    const {
+      productId,
+      productSlug,
+      lang = 'es',
+      paymentMode = 'full',
+      customerEmail,
+    } = body;
 
     const products = await loadAuthoritativeProducts();
     const product = products.find(
@@ -205,8 +211,16 @@ export default async function handler(req, res) {
       });
     }
 
+    const isDeposit50 = paymentMode === 'deposit50';
+    const fullUnitAmount = Math.round(numericPrice * 100);
+    const chargeUnitAmount = isDeposit50 ? Math.round(fullUnitAmount / 2) : fullUnitAmount;
+    const remainingUnitAmount = fullUnitAmount - chargeUnitAmount;
+
+    const fullUsdStr = `$${(fullUnitAmount / 100).toFixed(2)} USD`;
+    const chargeUsdStr = `$${(chargeUnitAmount / 100).toFixed(2)} USD`;
+    const remainingUsdStr = `$${(remainingUnitAmount / 100).toFixed(2)} USD`;
+
     const originUrl = getSafeOrigin(req);
-    const unitAmount = Math.round(numericPrice * 100);
     const displayName =
       (lang === 'en' ? product.name?.en : product.name?.es) ||
       product.name?.es ||
@@ -216,14 +230,26 @@ export default async function handler(req, res) {
       product.servings?.es ||
       '';
 
+    const stripeProductName = isDeposit50
+      ? lang === 'en'
+        ? `Ely's Charcuterie — 50% Deposit: ${String(displayName).slice(0, 95)}`
+        : `Ely's Charcuterie — Reserva 50%: ${String(displayName).slice(0, 95)}`
+      : `Ely's Charcuterie — ${String(displayName).slice(0, 120)}`;
+
+    const stripeProductDesc = isDeposit50
+      ? lang === 'en'
+        ? `50% Reservation Deposit (${chargeUsdStr}) · Total: ${fullUsdStr} · Remaining balance due at delivery: ${remainingUsdStr}`
+        : `Anticipo de Reserva 50% (${chargeUsdStr}) · Total paquete: ${fullUsdStr} · Saldo pendiente al entregar: ${remainingUsdStr}`
+      : displayServings
+      ? `${displayServings} · Pago Completo (100%) · Louisville, KY`
+      : 'Pago Completo (100%) · Louisville, KY';
+
     const params = new URLSearchParams({
       mode: 'payment',
       'line_items[0][price_data][currency]': 'usd',
-      'line_items[0][price_data][unit_amount]': String(unitAmount),
-      'line_items[0][price_data][product_data][name]': `Ely's Charcuterie — ${String(displayName).slice(0, 120)}`,
-      'line_items[0][price_data][product_data][description]': displayServings
-        ? `${displayServings} · Louisville, KY`
-        : 'Handcrafted fresh to order in Louisville, KY',
+      'line_items[0][price_data][unit_amount]': String(chargeUnitAmount),
+      'line_items[0][price_data][product_data][name]': stripeProductName,
+      'line_items[0][price_data][product_data][description]': stripeProductDesc,
       'line_items[0][quantity]': '1',
       'line_items[0][adjustable_quantity][enabled]': 'true',
       'line_items[0][adjustable_quantity][minimum]': '1',
@@ -239,6 +265,10 @@ export default async function handler(req, res) {
       'custom_fields[1][label][custom]': 'Notas o Preferencias / Special Notes',
       'custom_fields[1][type]': 'text',
       'custom_fields[1][optional]': 'true',
+      'metadata[payment_mode]': isDeposit50 ? 'deposit50' : 'full',
+      'metadata[product_name]': String(displayName).slice(0, 120),
+      'metadata[total_package_usd]': fullUsdStr,
+      'metadata[remaining_balance_usd]': isDeposit50 ? remainingUsdStr : '$0.00 USD',
       success_url: `${originUrl}/?payment=success`,
       cancel_url: `${originUrl}/#collection`,
     });
@@ -265,7 +295,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Fallback to the product's synced Stripe Payment Link if Checkout Session API is restricted on rk_live_
     return res.status(200).json({
       ok: true,
       url: fallbackLink,

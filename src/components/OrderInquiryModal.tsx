@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { BrandConfigData, Language, Product } from '../types/catalog';
 import { BRAND_CONFIG, PRODUCTS } from '../data/catalog';
-import { isSafeHttpsUrl, startStripeCheckout } from '../utils/cmsStore';
+import {
+  formatHalfUsdPrice,
+  isSafeHttpsUrl,
+  startStripeCheckout,
+  StripePaymentMode,
+} from '../utils/cmsStore';
 
 interface OrderInquiryModalProps {
   isOpen: boolean;
@@ -30,7 +35,8 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
   const [guests, setGuests] = useState('');
   const [notes, setNotes] = useState('');
   const [emailSent, setEmailSent] = useState(false);
-  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkingOutMode, setCheckingOutMode] =
+    useState<StripePaymentMode | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -87,11 +93,33 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
   const stripeCheckoutUrl = isSafeHttpsUrl(rawStripeUrl)
     ? rawStripeUrl
     : BRAND_CONFIG.stripeCustomQuoteLink;
+  const halfPrice = activeProduct
+    ? formatHalfUsdPrice(activeProduct.price[lang])
+    : null;
   const hasDirectPrice = Boolean(
-    isSafeHttpsUrl(activeProduct?.stripePaymentLink) && !activeProduct?.isCustomQuote
+    isSafeHttpsUrl(activeProduct?.stripePaymentLink) &&
+      !activeProduct?.isCustomQuote &&
+      halfPrice
   );
   const detailsList = activeProduct?.details?.[lang];
   const activeDetailNote = detailsList?.[detailsList.length - 1];
+
+  const handleDirectStripe = async (
+    mode: StripePaymentMode,
+    e?: React.MouseEvent<HTMLElement>
+  ) => {
+    if (e) e.preventDefault();
+    if (!activeProduct || checkingOutMode) return;
+    setCheckingOutMode(mode);
+    try {
+      await startStripeCheckout(activeProduct, lang, {
+        paymentMode: mode,
+        customerEmail: contact.includes('@') ? contact : undefined,
+      });
+    } finally {
+      setCheckingOutMode(null);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -325,40 +353,44 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
               </p>
             )}
 
-            <div className="pt-3 space-y-3">
-              {hasDirectPrice && activeProduct ? (
+            <div className="pt-3 space-y-2.5">
+              {hasDirectPrice && activeProduct && halfPrice ? (
                 <>
-                  <a
-                    href={stripeCheckoutUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      if (checkingOut) return;
-                      setCheckingOut(true);
-                      try {
-                        await startStripeCheckout(
-                          activeProduct,
-                          lang,
-                          contact.includes('@') ? contact : undefined
-                        );
-                      } finally {
-                        setCheckingOut(false);
-                      }
-                    }}
-                    className="w-full py-4 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-[11px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 shadow-sm flex items-center justify-center text-center"
-                  >
-                    {checkingOut
-                      ? lang === 'en'
-                        ? 'OPENING STRIPE...'
-                        : 'ABRIENDO STRIPE...'
-                      : lang === 'en'
-                      ? `PAY SECURELY WITH STRIPE · ${activeProduct.price[lang]}`
-                      : `PAGAR CON STRIPE · ${activeProduct.price[lang]}`}
-                  </a>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <a
+                      href={stripeCheckoutUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => handleDirectStripe('full', e)}
+                      className="w-full py-3.5 px-3 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-[10px] sm:text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 shadow-sm flex items-center justify-center text-center"
+                    >
+                      {checkingOutMode === 'full'
+                        ? lang === 'en'
+                          ? 'OPENING STRIPE...'
+                          : 'ABRIENDO STRIPE...'
+                        : lang === 'en'
+                        ? `PAY IN FULL · ${activeProduct.price[lang]}`
+                        : `PAGAR COMPLETO · ${activeProduct.price[lang]}`}
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={(e) => handleDirectStripe('deposit50', e)}
+                      className="w-full py-3.5 px-3 border border-[#841F17] bg-[#FAF5E8]/85 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[10px] sm:text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 shadow-sm flex items-center justify-center text-center"
+                    >
+                      {checkingOutMode === 'deposit50'
+                        ? lang === 'en'
+                          ? 'OPENING STRIPE...'
+                          : 'ABRIENDO STRIPE...'
+                        : lang === 'en'
+                        ? `50% DEPOSIT · ${halfPrice}`
+                        : `RESERVAR CON 50% · ${halfPrice}`}
+                    </button>
+                  </div>
+
                   <button
                     type="submit"
-                    className="w-full py-3.5 border border-[#841F17]/45 hover:border-[#841F17] bg-[#FAF5E8]/60 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[11px] font-semibold tracking-[0.22em] uppercase transition-all duration-300"
+                    className="w-full py-3 border border-[#841F17]/40 hover:border-[#841F17] bg-[#FAF5E8]/50 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300"
                   >
                     {lang === 'en'
                       ? 'OR INQUIRE VIA WHATSAPP CONCIERGE'
