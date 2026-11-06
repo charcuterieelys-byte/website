@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-06T16:40:20.301Z",
+  "updatedAt": "2026-11-06T17:40:34.630Z",
   "products": [
     {
       "id": "01",
       "slug": "small-charcuterie-board",
       "indexLabel": {
-        "en": "01 / THE COLLECTION",
-        "es": "01 / LA COLECCIÓN"
+        "es": "01 / LA COLECCIÓN",
+        "en": "01 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "SMALL · 12\"",
@@ -61,8 +61,8 @@
       "id": "02",
       "slug": "medium-charcuterie-board",
       "indexLabel": {
-        "en": "02 / THE COLLECTION",
-        "es": "02 / LA COLECCIÓN"
+        "es": "02 / LA COLECCIÓN",
+        "en": "02 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "MEDIUM · 16\"",
@@ -116,8 +116,8 @@
       "id": "03",
       "slug": "rectangular-charcuterie-board",
       "indexLabel": {
-        "en": "03 / THE COLLECTION",
-        "es": "03 / LA COLECCIÓN"
+        "es": "03 / LA COLECCIÓN",
+        "en": "03 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "LARGE · 18\"",
@@ -171,8 +171,8 @@
       "id": "04",
       "slug": "double-basket-presentation",
       "indexLabel": {
-        "en": "04 / THE COLLECTION",
-        "es": "04 / LA COLECCIÓN"
+        "es": "04 / LA COLECCIÓN",
+        "en": "04 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "AUTUMN STATION · 4\"",
@@ -180,7 +180,7 @@
       },
       "name": {
         "en": "Autumn Station 4\" · Wine or Whiskey Included",
-        "es": "Estación de Otoño 4\" · Vino o Whisky Incluido"
+        "es": "Estación de Otoño "
       },
       "description": {
         "en": "A luxury 4\" Autumn Station presentation with a bottle of Wine or Whiskey included, pairing an abundant selection of cured meats, cheeses and fruits with a companion basket of crackers, honey and preserves.",
@@ -195,8 +195,8 @@
         "es": "VINO O WHISKY INCLUIDO"
       },
       "price": {
-        "en": "$320",
-        "es": "$320"
+        "es": "$100",
+        "en": "$100"
       },
       "details": {
         "en": [
@@ -214,20 +214,21 @@
       "realPhotoSrc": "./images/real/04-double-basket.jpg",
       "category": "presentations",
       "orderUrl": "#custom-orders",
-      "stripePaymentLink": "https://buy.stripe.com/4gMfZa1rN8Kpfvwh0m48003",
+      "stripePaymentLink": "https://buy.stripe.com/8x27sE5I33q53MO9xU48006",
       "ctaLabel": {
         "en": "ORDER THIS PRESENTATION",
         "es": "ORDENAR ESTA PRESENTACIÓN"
       },
       "layoutAlign": "right",
-      "visualScale": 1.14
+      "visualScale": 1.14,
+      "isCustomQuote": false
     },
     {
       "id": "05",
       "slug": "individual-charcuterie-cups",
       "indexLabel": {
-        "en": "05 / THE COLLECTION",
-        "es": "05 / LA COLECCIÓN"
+        "es": "05 / LA COLECCIÓN",
+        "en": "05 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "CUPS",
@@ -282,8 +283,8 @@
       "id": "06",
       "slug": "elys-snack-box",
       "indexLabel": {
-        "en": "06 / THE COLLECTION",
-        "es": "06 / LA COLECCIÓN"
+        "es": "06 / LA COLECCIÓN",
+        "en": "06 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "SNACK BOX",
@@ -338,8 +339,8 @@
       "id": "07",
       "slug": "celebration-brunch-box",
       "indexLabel": {
-        "en": "07 / THE COLLECTION",
-        "es": "07 / LA COLECCIÓN"
+        "es": "07 / LA COLECCIÓN",
+        "en": "07 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "BRUNCH BOX",
@@ -393,8 +394,8 @@
       "id": "08",
       "slug": "corporate-mini-box",
       "indexLabel": {
-        "en": "08 / THE COLLECTION",
-        "es": "08 / LA COLECCIÓN"
+        "es": "08 / LA COLECCIÓN",
+        "en": "08 / THE COLLECTION"
       },
       "shortTitle": {
         "en": "CORPORATE MINI BOX",
