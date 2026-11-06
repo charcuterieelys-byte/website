@@ -30,7 +30,6 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
   const triggerRef = useRef<ScrollTrigger | null>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const rotationProgressRef = useRef<number[]>(products.map(() => 0));
-  const rotationBarRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const totalProducts = products.length;
@@ -92,12 +91,6 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
               const localT = currentTime - k;
               const rotP = Math.min(1, Math.max(0, localT / ROTATION_WINDOW));
               rotationProgressRef.current[k] = rotP;
-            }
-
-            // Update visual 360° rotation scrub bar in DOM without React re-render
-            if (rotationBarRef.current) {
-              const activeRot = rotationProgressRef.current[idx] ?? 0;
-              rotationBarRef.current.style.transform = `scaleX(${activeRot})`;
             }
           },
         },
@@ -233,21 +226,16 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
       aria-label={lang === 'en' ? 'The Collection' : 'La Colección'}
       className="relative z-10 w-full h-[100dvh] overflow-hidden"
     >
-      {/* Top Studio Section Header & 3D Rotation Progress Bar */}
-      <div className="pointer-events-none absolute top-20 sm:top-24 left-6 sm:left-10 lg:left-16 z-30 flex items-center gap-3 sm:gap-4 text-[10px] sm:text-[11px] font-semibold tracking-[0.26em] uppercase text-[#5A120D]/75">
-        <span>{lang === 'en' ? 'CURATED COLLECTION' : 'COLECCIÓN CURADA'}</span>
-        <span className="num text-[#841F17] font-bold">
-          {products[activeIndex]?.id} / {String(totalProducts).padStart(2, '0')}
+      {/* Quiet Editorial Menu Chapter Indicator (No technical HUD bar) */}
+      <div className="pointer-events-none absolute top-20 sm:top-24 left-6 sm:left-10 lg:left-16 z-30 flex items-center gap-3 text-xs text-[#5A120D]/80">
+        <span className="font-serif italic text-base sm:text-lg text-[#841F17]">
+          {lang === 'en' ? 'Tasting Menu' : 'Carta de Creaciones'}
         </span>
-        <div className="w-16 sm:w-24 h-[2px] bg-[#841F17]/20 overflow-hidden">
-          <div
-            ref={rotationBarRef}
-            className="w-full h-full bg-[#841F17] origin-left"
-            style={{ transform: 'scaleX(0)' }}
-          />
-        </div>
-        <span className="hidden sm:inline text-[10px] tracking-[0.22em] text-[#841F17]/85">
-          {lang === 'en' ? '360° VIEW' : 'GIRO 360°'}
+        <span aria-hidden="true" className="text-[#841F17]/40">
+          ·
+        </span>
+        <span className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#841F17]/85 num">
+          Nº {products[activeIndex]?.id} / {String(totalProducts).padStart(2, '0')}
         </span>
       </div>
 

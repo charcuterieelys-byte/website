@@ -107,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => onOpenOrderModal()}
-            className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 text-[11px] font-semibold tracking-[0.24em] uppercase text-[#FAF5E8] bg-[#841F17] hover:bg-[#68160F] border border-[#841F17] transition-all duration-300 shadow-sm"
+            className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 rounded-[3px] text-[11px] font-semibold tracking-[0.24em] uppercase text-[#FAF5E8] bg-[#841F17] hover:bg-[#68160F] border border-[#841F17] transition-all duration-300 shadow-sm"
           >
             {lang === 'en' ? 'ORDER' : 'ORDENAR'}
           </button>

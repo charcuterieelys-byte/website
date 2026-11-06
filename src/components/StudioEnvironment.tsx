@@ -43,6 +43,23 @@ export const StudioEnvironment: React.FC = () => {
       {/* Subtle warm burgundy hairline frame at top of viewport */}
       <div className="absolute top-0 inset-x-0 h-[2px] bg-[#841F17]/20" />
 
+      {/* Tactile Fine Cotton Paper / Unbleached Linen Grain Overlay */}
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-10 h-full w-full opacity-[0.032] mix-blend-multiply"
+      >
+        <filter id="elys-paper-grain">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.8"
+            numOctaves="3"
+            stitchTiles="stitch"
+          />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#elys-paper-grain)" />
+      </svg>
+
       {/* Restrained peripheral warm vignette to anchor floating 3D objects */}
       <div
         className="absolute inset-0"

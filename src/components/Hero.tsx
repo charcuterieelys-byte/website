@@ -351,10 +351,12 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
             ref={textWrapRef}
             className="lg:col-span-5 space-y-5 sm:space-y-6 text-center lg:text-left order-2 lg:order-1 will-change-transform"
           >
-            {/* Editorial Eyebrow with Burgundy Rose Accent */}
-            <div className="flex items-center justify-center lg:justify-start gap-3">
-              <span className="w-8 h-px bg-[#841F17]/55" />
-              <span className="text-[11px] sm:text-xs tracking-[0.28em] uppercase text-[#841F17] font-semibold">
+            {/* Editorial Eyebrow with Warm Artisanal Ornament */}
+            <div className="flex items-center justify-center lg:justify-start gap-2.5">
+              <span aria-hidden="true" className="text-[#841F17] text-xs">
+                ✦
+              </span>
+              <span className="text-[11px] sm:text-xs tracking-[0.26em] uppercase text-[#841F17] font-semibold">
                 {content.eyebrow}
               </span>
             </div>
@@ -373,7 +375,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <a
                 href="#collection"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-[#841F17] hover:bg-[#68160F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300 shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-[3px] bg-[#841F17] hover:bg-[#68160F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300 shadow-sm"
               >
                 {content.primaryCta}
               </a>
@@ -381,7 +383,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
               <button
                 type="button"
                 onClick={onOpenOrderModal}
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-[#841F17]/55 hover:border-[#841F17] bg-[#FAF5E8]/45 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-[3px] border border-[#841F17]/55 hover:border-[#841F17] bg-[#FAF5E8]/55 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300"
               >
                 {content.secondaryCta}
               </button>
@@ -443,13 +445,14 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
         </div>
       </div>
 
-      {/* Minimal Scroll Invitation */}
-      <div className="relative z-30 max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[10px] sm:text-[11px] font-semibold tracking-[0.26em] uppercase text-[#841F17]/80">
+      {/* Warm Artisanal Scroll Invitation (No technical HUD labels) */}
+      <div className="relative z-30 max-w-[1440px] w-full mx-auto px-6 sm:px-10 lg:px-16 flex items-center justify-between text-[11px] font-medium tracking-[0.2em] uppercase text-[#841F17]/80">
         <span>{content.scrollHint}</span>
-        <div className="flex items-center gap-3">
-          <span className="num text-[#841F17]">360° SCROLL MOTION</span>
-          <span className="w-10 h-px bg-[#841F17]/45" />
-        </div>
+        <span className="hidden sm:inline font-serif italic normal-case tracking-normal text-sm text-[#63150F]/85">
+          {lang === 'en'
+            ? 'Handcrafted fresh to order in Louisville, Kentucky'
+            : 'Elaborado fresco y a mano bajo pedido en Louisville, Kentucky'}
+        </span>
       </div>
     </section>
   );

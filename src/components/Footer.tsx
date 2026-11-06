@@ -143,7 +143,7 @@ export const Footer: React.FC<FooterProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenOrderModal()}
-                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-colors shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-[3px] bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-colors shadow-sm"
               >
                 {lang === 'en' ? 'REQUEST AN ORDER' : 'SOLICITAR PEDIDO'}
               </button>

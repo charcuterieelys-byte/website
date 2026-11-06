@@ -159,17 +159,21 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
               : 'lg:order-1 lg:pr-8'
           }`}
         >
-          {/* Product Index Eyebrow */}
-          <div className="flex items-center justify-center lg:justify-start gap-3">
-            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.28em] uppercase text-[#841F17] num">
-              {product.indexLabel[lang]}
+          {/* Warm Artisanal Menu Eyebrow (Replaces robotic 01 / LA COLECCIÓN) */}
+          <div className="flex items-center justify-center lg:justify-start gap-2.5">
+            <span aria-hidden="true" className="text-[#841F17]/75 text-xs">
+              ✦
             </span>
-            <span className="w-8 h-px bg-[#841F17]/45" />
+            <span className="font-serif italic text-base sm:text-lg text-[#841F17]">
+              {lang === 'en'
+                ? `Selection No. ${product.id} · Handcrafted to Order`
+                : `Selección Nº ${product.id} · Hecho a Mano`}
+            </span>
           </div>
 
           {/* Large Elegant Serif Product Heading & Full Name */}
           <div className="space-y-1">
-            <h2 className="font-serif font-normal text-3xl sm:text-5xl xl:text-[3.85rem] text-[#841F17] tracking-[-0.02em] leading-[1.0] uppercase">
+            <h2 className="font-serif font-normal text-3xl sm:text-5xl xl:text-[3.85rem] text-[#841F17] tracking-[-0.02em] leading-[1.0]">
               {product.shortTitle[lang]}
             </h2>
             <p className="font-serif italic text-xl sm:text-2xl text-[#63150F] font-normal">
@@ -182,52 +186,51 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
             {product.description[lang]}
           </p>
 
-          {/* Curated Artisanal Details */}
-          {product.details && product.details[lang] && (
-            <ul className="hidden sm:flex flex-col gap-1.5 pt-0.5 text-xs sm:text-sm text-[#5A120D]/90 font-normal max-w-md mx-auto lg:mx-0">
-              {product.details[lang].map((line, i) => (
-                <li
-                  key={i}
-                  className="flex items-center justify-center lg:justify-start gap-2.5"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#841F17] shrink-0" />
-                  <span>{line}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {/* Structured Editorial Specification Grid: Format, Servings & Price */}
-          <div className="py-3 sm:py-3.5 border-y border-[#841F17]/20 grid grid-cols-3 gap-3 sm:gap-5 max-w-md mx-auto lg:mx-0 text-center lg:text-left">
-            <div>
-              <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[#841F17]/75">
-                {lang === 'en' ? 'FORMAT' : 'FORMATO'}
-              </p>
-              <p className="mt-0.5 text-xs sm:text-sm font-semibold tracking-[0.08em] uppercase text-[#4A120E]">
+          {/* Fine-Dining Menu Specification Card (Replaces 3-column tech dashboard box) */}
+          <div className="max-w-md mx-auto lg:mx-0 bg-[#FAF5E8]/60 border border-[#841F17]/20 rounded-[3px] px-4 py-3.5 sm:px-5 sm:py-4 shadow-[0_6px_20px_rgba(96,26,18,0.05)] space-y-2.5 text-left">
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="text-xs sm:text-sm font-semibold tracking-[0.12em] uppercase text-[#4A120E]">
                 {product.dimensions[lang]}
-              </p>
-            </div>
-
-            <div className="border-x border-[#841F17]/15 px-2 sm:px-4">
-              <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[#841F17]/75">
-                {lang === 'en' ? 'PORTIONS' : 'PORCIONES'}
-              </p>
-              <p className="mt-0.5 text-xs sm:text-sm font-semibold tracking-[0.08em] uppercase text-[#4A120E]">
-                {product.servings[lang]}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[#841F17]/75">
-                {lang === 'en' ? 'PRICE' : 'PRECIO'}
-              </p>
-              <p
+              </span>
+              <span
+                aria-hidden="true"
+                className="flex-1 menu-leader mx-1.5 h-3"
+              />
+              <span
                 data-editable-field={`product-${product.id}-price`}
-                className="mt-0.5 font-serif text-base sm:text-lg font-semibold text-[#841F17] num"
+                className="font-serif text-xl sm:text-2xl font-semibold text-[#841F17] num shrink-0"
               >
                 {product.price[lang]}
-              </p>
+              </span>
             </div>
+
+            <div className="flex items-center justify-between text-xs text-[#5A120D]/85 border-t border-[#841F17]/12 pt-2">
+              <span className="font-serif italic text-sm sm:text-base text-[#63150F]">
+                {lang === 'en' ? 'Recommended portion:' : 'Porción sugerida:'}
+              </span>
+              <span className="font-semibold tracking-[0.14em] uppercase text-[#4A120E]">
+                {product.servings[lang]}
+              </span>
+            </div>
+
+            {/* Curated Artisanal Tasting Notes */}
+            {product.details && product.details[lang] && (
+              <ul className="hidden sm:flex flex-col gap-1 pt-1.5 border-t border-[#841F17]/12 text-xs text-[#5A120D]/90 font-normal">
+                {product.details[lang].map((line, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span
+                      aria-hidden="true"
+                      className="text-[#841F17] text-[10px] mt-0.5 shrink-0"
+                    >
+                      ✦
+                    </span>
+                    <span className="font-serif italic text-sm text-[#4A120E]/90">
+                      {line}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Ordering CTA: Direct Stripe Checkout + Personal Order Concierge */}
@@ -239,7 +242,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   tabIndex={isActive ? 0 : -1}
-                  className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300 shadow-sm"
+                  className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 rounded-[3px] bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300 shadow-sm"
                 >
                   {lang === 'en'
                     ? `PAY WITH STRIPE · ${product.price[lang]}`
@@ -249,7 +252,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                   type="button"
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => onOrderProduct(product)}
-                  className="inline-flex items-center justify-center px-5 py-3.5 sm:py-4 border border-[#841F17]/45 hover:border-[#841F17] bg-[#FAF5E8]/55 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300"
+                  className="inline-flex items-center justify-center px-5 py-3.5 sm:py-4 rounded-[3px] border border-[#841F17]/45 hover:border-[#841F17] bg-[#FAF5E8]/65 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300"
                 >
                   {lang === 'en' ? 'CONCIERGE / WHATSAPP' : 'COTIZAR / WHATSAPP'}
                 </button>
@@ -259,7 +262,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                 type="button"
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => onOrderProduct(product)}
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 sm:py-4 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.24em] uppercase transition-all duration-300 shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 sm:py-4 rounded-[3px] bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.24em] uppercase transition-all duration-300 shadow-sm"
               >
                 {product.ctaLabel[lang]}
               </button>
