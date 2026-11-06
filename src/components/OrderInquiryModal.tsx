@@ -39,16 +39,24 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
       setNotes('');
       return;
     }
+    const lowerSel = initialSelection.toLowerCase();
+    const isThanksgivingPromo = lowerSel.includes('thanksgiving');
     const matched = products.find(
       (p) =>
         p.id === initialSelection ||
         initialSelection.startsWith(`${p.id} `) ||
-        initialSelection.toLowerCase().includes(p.name.en.toLowerCase()) ||
-        initialSelection.toLowerCase().includes(p.name.es.toLowerCase())
+        lowerSel.includes(p.name.en.toLowerCase()) ||
+        lowerSel.includes(p.name.es.toLowerCase()) ||
+        (isThanksgivingPromo &&
+          lowerSel.includes('16') &&
+          p.dimensions.es.includes('16')) ||
+        (isThanksgivingPromo &&
+          lowerSel.includes('18') &&
+          p.dimensions.es.includes('18'))
     );
     if (matched) {
       setSelectedProductId(matched.id);
-      setNotes('');
+      setNotes(isThanksgivingPromo ? initialSelection : '');
     } else {
       setSelectedProductId('custom');
       setNotes(initialSelection);

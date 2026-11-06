@@ -5,6 +5,7 @@ import { StudioEnvironment } from './components/StudioEnvironment';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ImmersiveCollection } from './components/ImmersiveCollection';
+import { PairingGuideSection } from './components/PairingGuideSection';
 import { GallerySection } from './components/GallerySection';
 import { MadeForGathering } from './components/MadeForGathering';
 import { TheElysExperience } from './components/TheElysExperience';
@@ -12,6 +13,7 @@ import { CustomOrdersSection } from './components/CustomOrdersSection';
 import { Footer } from './components/Footer';
 import { OrderInquiryModal } from './components/OrderInquiryModal';
 import { AdminPanelModal } from './components/AdminPanelModal';
+import { ThanksgivingPromoBanner } from './components/ThanksgivingPromoBanner';
 import {
   fetchCloudCmsState,
   loadLocalCmsState,
@@ -120,7 +122,13 @@ export function App() {
           onOrderProduct={handleOrderProduct}
         />
 
-        {/* 3. CURATED PHOTO GALLERY */}
+        {/* 3. INTERACTIVE PAIRING & SOMMELIER GUIDE */}
+        <PairingGuideSection
+          lang={lang}
+          onInquirePairing={(selection) => handleOpenOrder(selection)}
+        />
+
+        {/* 4. CURATED PHOTO GALLERY */}
         <GallerySection
           lang={lang}
           items={cmsState.gallery}
@@ -152,6 +160,12 @@ export function App() {
         brandConfig={cmsState.brandConfig}
         onOpenOrderModal={(selection) => handleOpenOrder(selection)}
         onOpenAdmin={() => setAdminOpen(true)}
+      />
+
+      {/* SEASONAL THANKSGIVING ENTRY BANNER & FLOATING PROMO PILL */}
+      <ThanksgivingPromoBanner
+        lang={lang}
+        onSelectPromoOrder={(selection) => handleOpenOrder(selection)}
       />
 
       {/* ORDER / CONCIERGE DRAWER */}

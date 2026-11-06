@@ -95,6 +95,14 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a
+                  href="#pairing-guide"
+                  className="hover:text-[#841F17] transition-colors"
+                >
+                  {lang === 'en' ? 'Pairing Guide' : 'Combinaciones'}
+                </a>
+              </li>
+              <li>
+                <a
                   href="#gallery"
                   className="hover:text-[#841F17] transition-colors"
                 >
