@@ -241,20 +241,20 @@ export const PRODUCTS: Product[] = [
       es: '04 / LA COLECCIÓN',
     },
     shortTitle: {
-      en: 'DOUBLE BASKET',
-      es: 'DOBLE CESTA',
+      en: 'AUTUMN STATION · 4"',
+      es: 'ESTACIÓN DE OTOÑO · 4"',
     },
     name: {
-      en: 'Double Basket · Wine or Whiskey Included',
-      es: 'Doble Cesta · Vino o Whisky Incluido',
+      en: 'Autumn Station 4" · Wine or Whiskey Included',
+      es: 'Estación de Otoño 4" · Vino o Whisky Incluido',
     },
     description: {
-      en: 'A luxury two-basket presentation with a bottle of Wine or Whiskey included, pairing an abundant selection of cured meats, cheeses and fruits with a companion basket of crackers, honey and preserves.',
-      es: 'Una presentación de lujo en dos cestas tejidas con botella de Vino o Whisky incluida, combinando charcutería, quesos y frutas con una segunda cesta de galletas artesanales, miel y conservas.',
+      en: 'A luxury 4" Autumn Station presentation with a bottle of Wine or Whiskey included, pairing an abundant selection of cured meats, cheeses and fruits with a companion basket of crackers, honey and preserves.',
+      es: 'Estación de Otoño de 4" con botella de Vino o Whisky incluida, combinando una selección abundante de charcutería, quesos y frutas con una segunda cesta de galletas artesanales, miel y conservas.',
     },
     dimensions: {
-      en: 'TWO-TIER PRESENTATION',
-      es: 'PRESENTACIÓN DE DOS NIVELES',
+      en: 'AUTUMN STATION · 4"',
+      es: 'ESTACIÓN DE OTOÑO · 4"',
     },
     servings: {
       en: 'WINE OR WHISKEY INCLUDED',

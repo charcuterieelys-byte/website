@@ -25,7 +25,12 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const targetProgressRef = useRef<number>(0);
   const smoothProgressRef = useRef<number>(0);
-  const [useMp4Fallback, setUseMp4Fallback] = useState(false);
+  const [useMp4Fallback, setUseMp4Fallback] = useState(
+    () =>
+      typeof navigator !== 'undefined' &&
+      (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        /^((?!chrome|android).)*safari/i.test(navigator.userAgent))
+  );
 
   const content = HERO_CONTENT[lang];
   // Featured hero floating sculpture: 03 Rectangular Charcuterie Board
@@ -422,7 +427,9 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
                   useMp4Fallback ? 'video-feather-mask' : ''
                 }`}
               >
-                <source src={featuredProduct.videoSrc} type="video/webm" />
+                {!useMp4Fallback && (
+                  <source src={featuredProduct.videoSrc} type="video/webm" />
+                )}
                 <source
                   src={featuredProduct.videoFallbackMp4}
                   type="video/mp4"

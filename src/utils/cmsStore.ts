@@ -1,7 +1,8 @@
 import { CmsState, Product, GalleryItem, BrandConfigData } from '../types/catalog';
 import { PRODUCTS, INITIAL_GALLERY, BRAND_CONFIG } from '../data/catalog';
 
-const STORAGE_KEY = 'elys_cms_state_v1';
+const CMS_SCHEMA_VERSION = 2;
+const STORAGE_KEY = 'elys_cms_state_v2';
 const ADMIN_PASS_KEY = 'elys_admin_pass_v1';
 
 const REPO_OWNER = 'charcuterieelys-byte';
@@ -15,7 +16,7 @@ export function isSafeHttpsUrl(url?: string): boolean {
 
 export function getDefaultCmsState(): CmsState {
   return {
-    version: 1,
+    version: CMS_SCHEMA_VERSION,
     updatedAt: new Date(0).toISOString(),
     products: JSON.parse(JSON.stringify(PRODUCTS)) as Product[],
     gallery: JSON.parse(JSON.stringify(INITIAL_GALLERY)) as GalleryItem[],
@@ -28,11 +29,15 @@ export function loadLocalCmsState(): CmsState {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return getDefaultCmsState();
     const parsed = JSON.parse(raw) as Partial<CmsState>;
-    if (!Array.isArray(parsed.products) || !Array.isArray(parsed.gallery)) {
+    if (
+      !Array.isArray(parsed.products) ||
+      !Array.isArray(parsed.gallery) ||
+      (parsed.version || 1) < CMS_SCHEMA_VERSION
+    ) {
       return getDefaultCmsState();
     }
     return {
-      version: parsed.version || 1,
+      version: parsed.version || CMS_SCHEMA_VERSION,
       updatedAt: parsed.updatedAt || new Date().toISOString(),
       products: parsed.products,
       gallery: parsed.gallery,
@@ -80,9 +85,13 @@ export async function fetchCloudCmsState(): Promise<CmsState | null> {
     });
     if (apiRes.ok) {
       const data = (await apiRes.json()) as Partial<CmsState>;
-      if (Array.isArray(data.products) && Array.isArray(data.gallery)) {
+      if (
+        Array.isArray(data.products) &&
+        Array.isArray(data.gallery) &&
+        (data.version || 1) >= CMS_SCHEMA_VERSION
+      ) {
         const merged: CmsState = {
-          version: data.version || 1,
+          version: data.version || CMS_SCHEMA_VERSION,
           updatedAt: data.updatedAt || new Date().toISOString(),
           products: data.products,
           gallery: data.gallery,
@@ -104,9 +113,13 @@ export async function fetchCloudCmsState(): Promise<CmsState | null> {
     const rawRes = await fetch(rawUrl, { cache: 'no-store' });
     if (rawRes.ok) {
       const data = (await rawRes.json()) as Partial<CmsState>;
-      if (Array.isArray(data.products) && Array.isArray(data.gallery)) {
+      if (
+        Array.isArray(data.products) &&
+        Array.isArray(data.gallery) &&
+        (data.version || 1) >= CMS_SCHEMA_VERSION
+      ) {
         const merged: CmsState = {
-          version: data.version || 1,
+          version: data.version || CMS_SCHEMA_VERSION,
           updatedAt: data.updatedAt || new Date().toISOString(),
           products: data.products,
           gallery: data.gallery,

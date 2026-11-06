@@ -23,6 +23,13 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
   const smoothProgressRef = useRef<number>(0);
   const [videoFailed, setVideoFailed] = useState(false);
 
+  // iOS & Safari browsers do not decode VP9 WebM alpha (yuva420p) and render black backgrounds
+  // if given a .webm source, so prefer the studio-composited #E7D095 .mp4 on Apple/Safari.
+  const preferStudioMp4 =
+    typeof navigator !== 'undefined' &&
+    (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      /^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+
   const isActive = index === activeIndex;
   const isAdjacent = Math.abs(index - activeIndex) <= 1;
 
@@ -121,9 +128,13 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                     v.pause();
                     v.currentTime = 0.01;
                   }}
-                  className="w-full h-full object-contain pointer-events-none select-none floating-product-shadow"
+                  className={`w-full h-full object-contain pointer-events-none select-none floating-product-shadow ${
+                    preferStudioMp4 ? 'video-feather-mask' : ''
+                  }`}
                 >
-                  <source src={product.videoSrc} type="video/webm" />
+                  {!preferStudioMp4 && (
+                    <source src={product.videoSrc} type="video/webm" />
+                  )}
                   <source
                     src={product.videoFallbackMp4}
                     type="video/mp4"
