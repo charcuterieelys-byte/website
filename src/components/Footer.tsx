@@ -1,22 +1,30 @@
 import React from 'react';
-import { Language } from '../types/catalog';
+import { Lock } from 'lucide-react';
+import { Language, Product } from '../types/catalog';
 import { BRAND_CONFIG, PRODUCTS } from '../data/catalog';
 
 interface FooterProps {
   lang: Language;
+  products?: Product[];
   onOpenOrderModal: (selection?: string) => void;
+  onOpenAdmin?: () => void;
 }
 
 /**
  * SECTION 8 — COMPLETE EDITORIAL STUDIO FOOTER
  * Includes:
  * - Official untouched Elys logo (vertical Cream/Burgundy emblem)
- * - Complete 01–07 Collection quick-inquire index
+ * - Complete Collection quick-inquire index
  * - Studio navigation
  * - Contact, Social & Ordering Concierge information
- * - Copyright
+ * - Copyright & Admin Panel entry
  */
-export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
+export const Footer: React.FC<FooterProps> = ({
+  lang,
+  products = PRODUCTS,
+  onOpenOrderModal,
+  onOpenAdmin,
+}) => {
   return (
     <footer className="relative z-10 border-t border-[#841F17]/25 bg-[#E2C684]/45 pt-20 pb-14 px-6 sm:px-10 lg:px-16">
       <div className="max-w-[1440px] mx-auto">
@@ -44,7 +52,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
               {lang === 'en' ? 'THE COLLECTION' : 'LA COLECCIÓN'}
             </p>
             <ul className="space-y-2.5 text-xs sm:text-sm text-[#4A120E]/85">
-              {PRODUCTS.map((p) => (
+              {products.map((p) => (
                 <li key={p.id}>
                   <button
                     type="button"
@@ -81,6 +89,14 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
                   className="hover:text-[#841F17] transition-colors"
                 >
                   {lang === 'en' ? 'Collection' : 'Colección'}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#gallery"
+                  className="hover:text-[#841F17] transition-colors"
+                >
+                  {lang === 'en' ? 'Gallery' : 'Galería'}
                 </a>
               </li>
               <li>
@@ -152,15 +168,27 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenOrderModal }) => {
           </div>
         </div>
 
-        {/* Copyright */}
+        {/* Copyright & Discreet Admin Button */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium tracking-[0.16em] uppercase text-[#5A120D]/75">
           <p>
             © {new Date().getFullYear()} {BRAND_CONFIG.businessName}. ALL RIGHTS
             RESERVED.
           </p>
-          <p>
-            {BRAND_CONFIG.founderName} · {BRAND_CONFIG.city}
-          </p>
+          <div className="flex items-center gap-6">
+            <p>
+              {BRAND_CONFIG.founderName} · {BRAND_CONFIG.city}
+            </p>
+            {onOpenAdmin && (
+              <button
+                type="button"
+                onClick={onOpenAdmin}
+                className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.18em] uppercase text-[#841F17]/65 hover:text-[#841F17] transition-colors"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                {lang === 'en' ? 'ADMIN' : 'PANEL ADMIN'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </footer>

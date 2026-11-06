@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { Language } from '../types/catalog';
+import { Language, Product } from '../types/catalog';
 import { BRAND_CONFIG, PRODUCTS } from '../data/catalog';
 
 interface OrderInquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
   lang: Language;
+  products?: Product[];
   initialSelection?: string;
 }
 
@@ -14,9 +15,12 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
   isOpen,
   onClose,
   lang,
+  products = PRODUCTS,
   initialSelection,
 }) => {
-  const [selectedProductId, setSelectedProductId] = useState<string>(PRODUCTS[0].id);
+  const [selectedProductId, setSelectedProductId] = useState<string>(
+    products[0]?.id || '01'
+  );
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [date, setDate] = useState('');
@@ -28,11 +32,11 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
     if (!isOpen) return;
     setEmailSent(false);
     if (!initialSelection) {
-      setSelectedProductId(PRODUCTS[0].id);
+      setSelectedProductId(products[0]?.id || '01');
       setNotes('');
       return;
     }
-    const matched = PRODUCTS.find(
+    const matched = products.find(
       (p) =>
         p.id === initialSelection ||
         initialSelection.startsWith(`${p.id} `) ||
@@ -46,7 +50,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
       setSelectedProductId('custom');
       setNotes(initialSelection);
     }
-  }, [initialSelection, isOpen]);
+  }, [initialSelection, isOpen, products]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -59,7 +63,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
 
   if (!isOpen) return null;
 
-  const activeProduct = PRODUCTS.find((p) => p.id === selectedProductId);
+  const activeProduct = products.find((p) => p.id === selectedProductId);
   const selectionLabel = activeProduct
     ? `${activeProduct.id} — ${activeProduct.name[lang]} (${activeProduct.price[lang]})`
     : lang === 'en'
@@ -163,7 +167,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
                 onChange={(e) => setSelectedProductId(e.target.value)}
                 className="w-full bg-[#FAF5E8]/80 border border-[#841F17]/30 focus:border-[#841F17] px-4 py-3.5 text-xs font-medium tracking-[0.12em] uppercase text-[#4A120E] focus:outline-none"
               >
-                {PRODUCTS.map((p) => (
+                {products.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.id} — {p.name[lang]} · {p.price[lang]}
                   </option>

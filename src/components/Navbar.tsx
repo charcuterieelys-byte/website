@@ -34,6 +34,10 @@ export const Navbar: React.FC<NavbarProps> = ({
       label: lang === 'en' ? 'COLLECTION' : 'COLECCIÓN',
     },
     {
+      href: '#gallery',
+      label: lang === 'en' ? 'GALLERY' : 'GALERÍA',
+    },
+    {
       href: '#occasions',
       label: lang === 'en' ? 'OCCASIONS' : 'OCASIONES',
     },

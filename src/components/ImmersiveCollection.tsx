@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ImmersiveCollectionProps {
   lang: Language;
+  products?: Product[];
   onOrderProduct: (product: Product) => void;
 }
 
@@ -22,16 +23,17 @@ interface ImmersiveCollectionProps {
  */
 export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
   lang,
+  products = PRODUCTS,
   onOrderProduct,
 }) => {
   const wrapperRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<ScrollTrigger | null>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
-  const rotationProgressRef = useRef<number[]>(PRODUCTS.map(() => 0));
+  const rotationProgressRef = useRef<number[]>(products.map(() => 0));
   const rotationBarRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const totalProducts = PRODUCTS.length; // 7
+  const totalProducts = products.length;
   const ROTATION_WINDOW = 0.72; // First 72% rotates the 3D turntable; remaining 28% executes a clean non-overlapping transition
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
 
     const ctx = gsap.context(() => {
       // Initialize all stages: Product 01 visible at start, 02–07 waiting cleanly in the studio
-      PRODUCTS.forEach((_, idx) => {
+      products.forEach((_, idx) => {
         if (idx === 0) {
           gsap.set(`.product-stage-${idx}`, { autoAlpha: 1 });
           gsap.set(`.product-visual-${idx}`, {
@@ -230,7 +232,7 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
       <div className="pointer-events-none absolute top-20 sm:top-24 left-6 sm:left-10 lg:left-16 z-30 flex items-center gap-3 sm:gap-4 text-[10px] sm:text-[11px] font-semibold tracking-[0.26em] uppercase text-[#5A120D]/75">
         <span>{lang === 'en' ? 'CURATED COLLECTION' : 'COLECCIÓN CURADA'}</span>
         <span className="num text-[#841F17] font-bold">
-          {PRODUCTS[activeIndex]?.id} / 0{totalProducts}
+          {products[activeIndex]?.id} / {String(totalProducts).padStart(2, '0')}
         </span>
         <div className="w-16 sm:w-24 h-[2px] bg-[#841F17]/20 overflow-hidden">
           <div
@@ -244,11 +246,11 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
         </span>
       </div>
 
-      {/* All 7 Floating Product Stages inside the single pinned viewport */}
+      {/* All Floating Product Stages inside the single pinned viewport */}
       <div className="relative w-full h-full">
-        {PRODUCTS.map((product, index) => (
+        {products.map((product, index) => (
           <ProductStageItem
-            key={product.id}
+            key={`${product.slug}-${index}`}
             product={product}
             index={index}
             activeIndex={activeIndex}
@@ -259,14 +261,14 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
         ))}
       </div>
 
-      {/* MINIMAL VERTICAL PROGRESS INDICATOR ON THE RIGHT (01–07) */}
+      {/* MINIMAL VERTICAL PROGRESS INDICATOR ON THE RIGHT */}
       <nav
         aria-label={
           lang === 'en' ? 'Product collection index' : 'Índice de productos'
         }
         className="absolute right-3 sm:right-6 lg:right-10 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end gap-2.5 sm:gap-3"
       >
-        {PRODUCTS.map((item, idx) => {
+        {products.map((item, idx) => {
           const isCurrent = idx === activeIndex;
           return (
             <button

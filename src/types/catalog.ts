@@ -31,3 +31,38 @@ export interface OccasionItem {
   subtitle: Record<Language, string>;
   imageSrc: string;
 }
+
+export type GalleryCategory = 'boards' | 'boxes' | 'events' | 'cups';
+
+export interface GalleryItem {
+  id: string;
+  title: Record<Language, string>;
+  subtitle?: Record<Language, string>;
+  category: GalleryCategory;
+  imageSrc: string;
+  featured?: boolean;
+}
+
+export interface BrandConfigData {
+  businessName: string;
+  founderName: string;
+  city: string;
+  whatsappNumber: string;
+  whatsappDisplay: string;
+  instagramHandle: string;
+  instagramUrl: string;
+  email: string;
+  senderEmail: string;
+  stripeCustomQuoteLink: string;
+  logoHorizontal: string;
+  logoVertical: string;
+  logoIsotipo: string;
+}
+
+export interface CmsState {
+  version: number;
+  updatedAt: string;
+  products: Product[];
+  gallery: GalleryItem[];
+  brandConfig: BrandConfigData;
+}

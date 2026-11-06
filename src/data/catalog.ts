@@ -1,4 +1,4 @@
-import { Product, OccasionItem, Language } from '../types/catalog';
+import { Product, OccasionItem, Language, GalleryItem, BrandConfigData } from '../types/catalog';
 
 /**
  * ============================================================================
@@ -10,7 +10,7 @@ import { Product, OccasionItem, Language } from '../types/catalog';
  * once final pricing and serving specifications are confirmed.
  */
 
-export const BRAND_CONFIG = {
+export const BRAND_CONFIG: BrandConfigData = {
   businessName: "Ely’s Charcuterie",
   founderName: 'Elianne Lafuente',
   city: 'Louisville, Kentucky',
@@ -644,3 +644,167 @@ export const EXPERIENCE_STORY: Record<
     ],
   },
 };
+
+export const INITIAL_GALLERY: GalleryItem[] = [
+  {
+    id: 'gal-01',
+    title: {
+      es: 'Tabla Grande Rectangular 18"',
+      en: 'Large 18" Rectangular Board',
+    },
+    subtitle: {
+      es: '12–15 personas · Doble rosa de salami, brie, miel Ely’s y frutos rojos',
+      en: 'Serves 12–15 · Dual salami roses, brie, Ely’s honey & berries',
+    },
+    category: 'boards',
+    imageSrc: './images/real/03-rectangular-board.jpg',
+    featured: true,
+  },
+  {
+    id: 'gal-02',
+    title: {
+      es: 'Doble Cesta de Dos Niveles',
+      en: 'Two-Tier Double Basket',
+    },
+    subtitle: {
+      es: 'Vino o Whisky incluido · Presentación artesanal en mimbre',
+      en: 'Wine or Whiskey included · Artisanal wicker presentation',
+    },
+    category: 'boards',
+    imageSrc: './images/real/04-double-basket.jpg',
+    featured: true,
+  },
+  {
+    id: 'gal-03',
+    title: {
+      es: 'Desayuno y Brunch Personalizado',
+      en: 'Personalized Celebration Brunch Box',
+    },
+    subtitle: {
+      es: 'Croissants recién horneados, jugos naturales, frutas y charcutería fina',
+      en: 'Freshly baked croissants, natural juices, fruits & fine charcuterie',
+    },
+    category: 'boxes',
+    imageSrc: './images/real/07-brunch-box.jpg',
+    featured: true,
+  },
+  {
+    id: 'gal-04',
+    title: {
+      es: 'Mesa Grazing para Eventos',
+      en: 'Signature Event Grazing Table',
+    },
+    subtitle: {
+      es: 'Montaje escultural completo para bodas, recepciones y eventos privados',
+      en: 'Full sculptural grazing display for weddings & private celebrations',
+    },
+    category: 'events',
+    imageSrc: './images/real/08-grazing-table-event.jpg',
+    featured: true,
+  },
+  {
+    id: 'gal-05',
+    title: {
+      es: 'Tabla Mediana Circular 16"',
+      en: 'Medium 16" Circular Board',
+    },
+    subtitle: {
+      es: '8–10 personas · Selección equilibrada de quesos, nueces, chocolate y frutas',
+      en: 'Serves 8–10 · Balanced selection of cheeses, nuts, chocolate & fruit',
+    },
+    category: 'boards',
+    imageSrc: './images/real/02-medium-board.jpg',
+  },
+  {
+    id: 'gal-06',
+    title: {
+      es: 'Vasos Individuales de Charcutería',
+      en: 'Individual Charcuterie Cups',
+    },
+    subtitle: {
+      es: 'Porciones individuales listas para brindar en cócteles y eventos corporativos',
+      en: 'Individual portions crafted for cocktail hours & corporate events',
+    },
+    category: 'cups',
+    imageSrc: './images/real/05-charcuterie-cups.jpg',
+  },
+  {
+    id: 'gal-07',
+    title: {
+      es: 'Tabla Pequeña 12"',
+      en: 'Small 12" Charcuterie Board',
+    },
+    subtitle: {
+      es: '4–6 personas · Rosa central esculpida a mano y quesos selectos',
+      en: 'Serves 4–6 · Hand-sculpted centerpiece rose & artisan cheeses',
+    },
+    category: 'boards',
+    imageSrc: './images/real/01-small-board.jpg',
+  },
+  {
+    id: 'gal-08',
+    title: {
+      es: 'Ely’s Snack Box (2 Personas)',
+      en: 'Ely’s Snack Box (For Two)',
+    },
+    subtitle: {
+      es: 'Caja gourmet con ventana transparente, ideal para regalar o compartir',
+      en: 'Windowed gourmet kraft box, ideal for gifting or sharing for two',
+    },
+    category: 'boxes',
+    imageSrc: './images/real/06-snack-box.jpg',
+  },
+  {
+    id: 'gal-09',
+    title: {
+      es: 'Banquete Nupcial y Celebraciones',
+      en: 'Wedding & Gala Grazing Display',
+    },
+    subtitle: {
+      es: 'Arquitectura gastronómica a varios niveles con flores naturales y velas',
+      en: 'Multi-tier culinary architecture styled with florals and candlelight',
+    },
+    category: 'events',
+    imageSrc: './images/mesa_evento_grazing.jpg',
+  },
+  {
+    id: 'gal-10',
+    title: {
+      es: 'Caja de Regalo Boutique Ely’s',
+      en: 'Ely’s Boutique Gift Box Unboxing',
+    },
+    subtitle: {
+      es: 'Presentación de lujo con sello dorado para atenciones ejecutivas y regalos',
+      en: 'Luxury presentation with gold seal for executive gifting',
+    },
+    category: 'boxes',
+    imageSrc: './images/1_caja_gourmet_unboxing.jpg',
+  },
+  {
+    id: 'gal-11',
+    title: {
+      es: 'Cups Gourmet & Bolsa Boutique',
+      en: 'Gourmet Cups & Boutique Bag',
+    },
+    subtitle: {
+      es: 'Detalles individuales personalizados para invitados y eventos',
+      en: 'Custom individual favors for guests and corporate gatherings',
+    },
+    category: 'cups',
+    imageSrc: './images/2_bolsa_boutique_y_grazing_cups.jpg',
+  },
+  {
+    id: 'gal-12',
+    title: {
+      es: 'Carrito de Charcutería para Eventos',
+      en: 'Mobile Charcuterie Cart Experience',
+    },
+    subtitle: {
+      es: 'Servicio móvil de charcutería y maridaje para celebraciones al aire libre',
+      en: 'Mobile charcuterie & pairing cart for outdoor receptions',
+    },
+    category: 'events',
+    imageSrc: './images/8_carrito_cocteles_y_charcuteria.jpg',
+  },
+];
+

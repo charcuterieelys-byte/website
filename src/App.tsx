@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Language, Product } from './types/catalog';
+import { CmsState, Language, Product } from './types/catalog';
 import { BRAND_CONFIG } from './data/catalog';
 import { StudioEnvironment } from './components/StudioEnvironment';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ImmersiveCollection } from './components/ImmersiveCollection';
+import { GallerySection } from './components/GallerySection';
 import { MadeForGathering } from './components/MadeForGathering';
 import { TheElysExperience } from './components/TheElysExperience';
 import { CustomOrdersSection } from './components/CustomOrdersSection';
 import { Footer } from './components/Footer';
 import { OrderInquiryModal } from './components/OrderInquiryModal';
+import { AdminPanelModal } from './components/AdminPanelModal';
+import {
+  fetchCloudCmsState,
+  loadLocalCmsState,
+  setStoredCloudToken,
+  setStoredStripeKey,
+} from './utils/cmsStore';
 
 export function App() {
   const [lang, setLang] = useState<Language>('es');
+  const [cmsState, setCmsState] = useState<CmsState>(() => loadLocalCmsState());
   const [orderModalOpen, setOrderModalOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [selectedInquiry, setSelectedInquiry] = useState<string | undefined>(
     undefined
@@ -23,12 +33,58 @@ export function App() {
     document.documentElement.lang = lang;
   }, [lang]);
 
+  // Fetch latest published CMS state from cloud on load
+  useEffect(() => {
+    let active = true;
+    fetchCloudCmsState().then((cloudState) => {
+      if (active && cloudState) {
+        setCmsState(cloudState);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Handle URL parameters (?payment=success, ?admin=1, ?cloud=..., #admin)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    let shouldCleanUrl = false;
+
     if (params.get('payment') === 'success') {
       setPaymentSuccess(true);
+      shouldCleanUrl = true;
+    }
+
+    const cloudParam = params.get('cloud');
+    if (cloudParam) {
+      setStoredCloudToken(cloudParam);
+      shouldCleanUrl = true;
+    }
+
+    const stripeParam = params.get('stripe');
+    if (stripeParam) {
+      setStoredStripeKey(stripeParam);
+      shouldCleanUrl = true;
+    }
+
+    if (params.get('admin') === '1' || window.location.hash === '#admin') {
+      setAdminOpen(true);
+      shouldCleanUrl = true;
+    }
+
+    if (shouldCleanUrl) {
       window.history.replaceState({}, '', window.location.pathname);
     }
+
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin') {
+        setAdminOpen(true);
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   useEffect(() => {
@@ -71,32 +127,44 @@ export function App() {
         {/* 1. HERO EXPERIENCE */}
         <Hero lang={lang} onOpenOrderModal={() => handleOpenOrder()} />
 
-        {/* 2. IMMERSIVE PINNED 3D PRODUCT COLLECTION (01–07) */}
+        {/* 2. IMMERSIVE PINNED 3D PRODUCT COLLECTION */}
         <ImmersiveCollection
           lang={lang}
+          products={cmsState.products}
           onOrderProduct={handleOrderProduct}
         />
 
-        {/* 3. MADE FOR GATHERING (OCCASIONS) */}
+        {/* 3. CURATED PHOTO GALLERY */}
+        <GallerySection
+          lang={lang}
+          items={cmsState.gallery}
+          onInquireItem={(itemTitle) => handleOpenOrder(itemTitle)}
+        />
+
+        {/* 4. MADE FOR GATHERING (OCCASIONS) */}
         <MadeForGathering
           lang={lang}
           onSelectOccasion={(occasionTitle) => handleOpenOrder(occasionTitle)}
         />
 
-        {/* 4. THE ELYS EXPERIENCE (BRAND STORY) */}
+        {/* 5. THE ELYS EXPERIENCE (BRAND STORY) */}
         <TheElysExperience lang={lang} />
 
-        {/* 5. CUSTOM ORDERS */}
+        {/* 6. CUSTOM ORDERS */}
         <CustomOrdersSection
           lang={lang}
-          onOpenOrderModal={() => handleOpenOrder('Custom Charcuterie Experience')}
+          onOpenOrderModal={() =>
+            handleOpenOrder('Custom Charcuterie Experience')
+          }
         />
       </main>
 
-      {/* 6. COMPLETE EDITORIAL STUDIO FOOTER */}
+      {/* 7. COMPLETE EDITORIAL STUDIO FOOTER */}
       <Footer
         lang={lang}
+        products={cmsState.products}
         onOpenOrderModal={(selection) => handleOpenOrder(selection)}
+        onOpenAdmin={() => setAdminOpen(true)}
       />
 
       {/* ORDER / CONCIERGE DRAWER */}
@@ -104,7 +172,16 @@ export function App() {
         isOpen={orderModalOpen}
         onClose={() => setOrderModalOpen(false)}
         lang={lang}
+        products={cmsState.products}
         initialSelection={selectedInquiry}
+      />
+
+      {/* ADMIN PANEL MODAL */}
+      <AdminPanelModal
+        isOpen={adminOpen}
+        onClose={() => setAdminOpen(false)}
+        cmsState={cmsState}
+        onUpdateCmsState={setCmsState}
       />
 
       {/* STRIPE PAYMENT CONFIRMATION MODAL */}
@@ -121,7 +198,9 @@ export function App() {
             onClick={(e) => e.stopPropagation()}
           >
             <p className="text-[10px] font-semibold tracking-[0.28em] uppercase text-[#841F17]">
-              {lang === 'en' ? 'ORDER CONFIRMED · STRIPE' : 'PAGO CONFIRMADO · STRIPE'}
+              {lang === 'en'
+                ? 'ORDER CONFIRMED · STRIPE'
+                : 'PAGO CONFIRMADO · STRIPE'}
             </p>
             <h3
               id="stripe-confirmed-title"
@@ -138,7 +217,10 @@ export function App() {
             </p>
             <div className="pt-2 flex flex-col gap-3">
               <a
-                href={`https://wa.me/${BRAND_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                href={`https://wa.me/${
+                  cmsState.brandConfig.whatsappNumber ||
+                  BRAND_CONFIG.whatsappNumber
+                }?text=${encodeURIComponent(
                   lang === 'en'
                     ? 'Hello Ely’s Charcuterie! I just completed my order payment via Stripe and wanted to confirm my delivery/pickup details.'
                     : '¡Hola Ely’s Charcuterie! Acabo de realizar el pago de mi pedido por Stripe y quería confirmar los detalles de entrega.'
