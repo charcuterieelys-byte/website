@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-06T17:40:34.630Z",
+  "updatedAt": "2026-11-06T19:01:35.422Z",
   "products": [
     {
       "id": "01",
@@ -477,6 +477,19 @@
       "featured": true
     },
     {
+      "id": "gal-05",
+      "title": {
+        "es": "Tabla Mediana Circular 16\"",
+        "en": "Medium 16\" Circular Board"
+      },
+      "subtitle": {
+        "es": "8–10 personas · Selección equilibrada de quesos, nueces, chocolate y frutas",
+        "en": "Serves 8–10 · Balanced selection of cheeses, nuts, chocolate & fruit"
+      },
+      "category": "boards",
+      "imageSrc": "./images/real/02-medium-board.jpg"
+    },
+    {
       "id": "gal-03",
       "title": {
         "es": "Desayuno y Brunch Personalizado",
@@ -500,22 +513,9 @@
         "es": "Montaje escultural completo para bodas, recepciones y eventos privados",
         "en": "Full sculptural grazing display for weddings & private celebrations"
       },
-      "category": "events",
+      "category": "boards",
       "imageSrc": "./images/real/08-grazing-table-event.jpg",
       "featured": true
-    },
-    {
-      "id": "gal-05",
-      "title": {
-        "es": "Tabla Mediana Circular 16\"",
-        "en": "Medium 16\" Circular Board"
-      },
-      "subtitle": {
-        "es": "8–10 personas · Selección equilibrada de quesos, nueces, chocolate y frutas",
-        "en": "Serves 8–10 · Balanced selection of cheeses, nuts, chocolate & fruit"
-      },
-      "category": "boards",
-      "imageSrc": "./images/real/02-medium-board.jpg"
     },
     {
       "id": "gal-06",
