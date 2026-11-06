@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { BrandConfigData, Language, Product } from '../types/catalog';
 import { BRAND_CONFIG, PRODUCTS } from '../data/catalog';
-import { isSafeHttpsUrl } from '../utils/cmsStore';
+import { isSafeHttpsUrl, startStripeCheckout } from '../utils/cmsStore';
 
 interface OrderInquiryModalProps {
   isOpen: boolean;
@@ -30,6 +30,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
   const [guests, setGuests] = useState('');
   const [notes, setNotes] = useState('');
   const [emailSent, setEmailSent] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -331,9 +332,27 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
                     href={stripeCheckoutUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      if (checkingOut) return;
+                      setCheckingOut(true);
+                      try {
+                        await startStripeCheckout(
+                          activeProduct,
+                          lang,
+                          contact.includes('@') ? contact : undefined
+                        );
+                      } finally {
+                        setCheckingOut(false);
+                      }
+                    }}
                     className="w-full py-4 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-[11px] font-semibold tracking-[0.24em] uppercase transition-all duration-300 shadow-sm flex items-center justify-center text-center"
                   >
-                    {lang === 'en'
+                    {checkingOut
+                      ? lang === 'en'
+                        ? 'OPENING STRIPE...'
+                        : 'ABRIENDO STRIPE...'
+                      : lang === 'en'
                       ? `PAY SECURELY WITH STRIPE · ${activeProduct.price[lang]}`
                       : `PAGAR CON STRIPE · ${activeProduct.price[lang]}`}
                   </a>

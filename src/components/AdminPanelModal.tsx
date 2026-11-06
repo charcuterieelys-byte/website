@@ -133,8 +133,11 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
 
       const res = await publishCmsState(
         nextState,
-        passwordInput.trim() || getStoredAdminPassword()
+        passwordInput.trim() || getStoredAdminPassword(),
+        cmsState.products
       );
+      setDraft(res.state);
+      onUpdateCmsState(res.state);
       setStatusBanner({
         type: res.syncedToCloud ? 'success' : 'info',
         text: res.message,
@@ -744,8 +747,13 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                                   value={prod.price.es}
                                   onChange={(e) => {
                                     const val = e.target.value;
+                                    const hasNumber = /\d/.test(val);
+                                    const isQuote =
+                                      /cotizar|consultar|quote/i.test(val) ||
+                                      !hasNumber;
                                     updateProduct(idx, (p) => ({
                                       ...p,
+                                      isCustomQuote: isQuote,
                                       price: {
                                         es: val,
                                         en:
@@ -757,6 +765,9 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                                   }}
                                   className="w-full px-3 py-2 bg-white border border-[#841F17]/30 text-sm font-semibold text-[#841F17]"
                                 />
+                                <p className="mt-1 text-[10px] text-[#5A120D]/75">
+                                  Al guardar, el monto en Stripe se actualiza automáticamente.
+                                </p>
                               </div>
 
                               <div>

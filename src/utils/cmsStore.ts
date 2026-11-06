@@ -1,4 +1,4 @@
-import { CmsState, Product, GalleryItem, BrandConfigData } from '../types/catalog';
+import { CmsState, Product, GalleryItem, BrandConfigData, Language } from '../types/catalog';
 import { PRODUCTS, INITIAL_GALLERY, BRAND_CONFIG } from '../data/catalog';
 
 const CMS_SCHEMA_VERSION = 2;
@@ -140,12 +140,19 @@ export async function fetchCloudCmsState(): Promise<CmsState | null> {
 
 /**
  * Publishes the updated CmsState to the cloud via /api/cms
+ * (which also automatically syncs any changed prices to Stripe)
  * and always saves immediately to localStorage.
  */
 export async function publishCmsState(
   state: CmsState,
-  adminPassword: string
-): Promise<{ syncedToCloud: boolean; message: string }> {
+  adminPassword: string,
+  previousProducts?: Product[]
+): Promise<{
+  syncedToCloud: boolean;
+  stripeSyncedCount: number;
+  state: CmsState;
+  message: string;
+}> {
   const updatedState: CmsState = {
     ...state,
     updatedAt: new Date().toISOString(),
@@ -161,13 +168,37 @@ export async function publishCmsState(
         action: 'save_state',
         adminPassword,
         state: updatedState,
+        previousProducts,
       }),
     });
 
     if (apiRes.ok) {
+      const data = (await apiRes.json()) as {
+        cloudSaved?: boolean;
+        stripeSyncedCount?: number;
+        state?: CmsState;
+      };
+      const finalState = data.state || updatedState;
+      saveLocalCmsState(finalState);
+      const stripeCount = data.stripeSyncedCount || 0;
+      const stripeNote =
+        stripeCount > 0
+          ? ` (${stripeCount} precio${stripeCount > 1 ? 's' : ''} actualizado${stripeCount > 1 ? 's' : ''} automáticamente en Stripe)`
+          : '';
+
+      if (data.cloudSaved !== false) {
+        return {
+          syncedToCloud: true,
+          stripeSyncedCount: stripeCount,
+          state: finalState,
+          message: `Cambios publicados en la nube para todos los visitantes${stripeNote}.`,
+        };
+      }
       return {
-        syncedToCloud: true,
-        message: 'Cambios publicados en la nube para todos los visitantes.',
+        syncedToCloud: false,
+        stripeSyncedCount: stripeCount,
+        state: finalState,
+        message: `Cambios guardados${stripeNote}. Configura GITHUB_CMS_TOKEN en Vercel para sincronización global en la nube.`,
       };
     }
   } catch {
@@ -176,9 +207,49 @@ export async function publishCmsState(
 
   return {
     syncedToCloud: false,
+    stripeSyncedCount: 0,
+    state: updatedState,
     message:
-      'Cambios guardados y activos. Configura GITHUB_CMS_TOKEN en Vercel para sincronización global en la nube.',
+      'Cambios guardados y activos. Configura GITHUB_CMS_TOKEN y STRIPE_SECRET_KEY en Vercel para sincronización global.',
   };
+}
+
+/**
+ * Initiates a dynamic Stripe Checkout session with the latest price stored in the CMS,
+ * falling back seamlessly to the product's static Stripe Payment Link if needed.
+ */
+export async function startStripeCheckout(
+  product: Product,
+  lang: Language,
+  customerEmail?: string
+): Promise<void> {
+  const fallbackUrl = isSafeHttpsUrl(product.stripePaymentLink)
+    ? product.stripePaymentLink!
+    : BRAND_CONFIG.stripeCustomQuoteLink;
+
+  try {
+    const res = await fetch('/api/stripe-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productId: product.id,
+        productSlug: product.slug,
+        lang,
+        customerEmail,
+      }),
+    });
+    if (res.ok) {
+      const data = (await res.json()) as { url?: string };
+      if (data.url && isSafeHttpsUrl(data.url)) {
+        window.location.href = data.url;
+        return;
+      }
+    }
+  } catch {
+    // Fallback to static payment link
+  }
+
+  window.location.href = fallbackUrl;
 }
 
 /**

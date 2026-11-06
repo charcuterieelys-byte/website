@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Language, Product } from '../types/catalog';
-import { isSafeHttpsUrl } from '../utils/cmsStore';
+import { isSafeHttpsUrl, startStripeCheckout } from '../utils/cmsStore';
 import { TurntableVideo } from './TurntableVideo';
 
 interface ProductStageItemProps {
@@ -20,6 +20,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
   rotationProgressRef,
   onOrderProduct,
 }) => {
+  const [checkingOut, setCheckingOut] = useState(false);
   const isActive = index === activeIndex;
   const isAdjacent = Math.abs(index - activeIndex) <= 1;
 
@@ -27,6 +28,17 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
     () => rotationProgressRef.current[index] ?? 0,
     [index, rotationProgressRef]
   );
+
+  const handleStripeClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (checkingOut) return;
+    setCheckingOut(true);
+    try {
+      await startStripeCheckout(product, lang);
+    } finally {
+      setCheckingOut(false);
+    }
+  };
 
   const isRightAlignedInfo = product.layoutAlign === 'right';
 
@@ -183,10 +195,15 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                   href={product.stripePaymentLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={handleStripeClick}
                   tabIndex={isActive ? 0 : -1}
                   className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 rounded-[3px] bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300 shadow-sm"
                 >
-                  {lang === 'en'
+                  {checkingOut
+                    ? lang === 'en'
+                      ? 'OPENING STRIPE...'
+                      : 'ABRIENDO STRIPE...'
+                    : lang === 'en'
                     ? `PAY WITH STRIPE · ${product.price[lang]}`
                     : `PAGAR CON STRIPE · ${product.price[lang]}`}
                 </a>
