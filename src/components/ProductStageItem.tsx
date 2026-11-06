@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Language, Product } from '../types/catalog';
 import { isSafeHttpsUrl } from '../utils/cmsStore';
+import { TurntableVideo } from './TurntableVideo';
 
 interface ProductStageItemProps {
   product: Product;
@@ -19,65 +20,13 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
   rotationProgressRef,
   onOrderProduct,
 }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const smoothProgressRef = useRef<number>(0);
-  const [videoFailed, setVideoFailed] = useState(false);
-
-  // iOS & Safari browsers do not decode VP9 WebM alpha (yuva420p) and render black backgrounds
-  // if given a .webm source, so prefer the studio-composited #E7D095 .mp4 on Apple/Safari.
-  const preferStudioMp4 =
-    typeof navigator !== 'undefined' &&
-    (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      /^((?!chrome|android).)*safari/i.test(navigator.userAgent));
-
   const isActive = index === activeIndex;
   const isAdjacent = Math.abs(index - activeIndex) <= 1;
 
-  // Initialize video for scroll-controlled 3D scrubbing
-  useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid || videoFailed) return;
-
-    vid.muted = true;
-    vid.defaultMuted = true;
-    vid.playsInline = true;
-    vid.pause();
-  }, [videoFailed]);
-
-  // High-frequency 60fps requestAnimationFrame Lerp Scrubbing Engine
-  // Scrubs video.currentTime directly according to scroll progress for this product
-  useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid || videoFailed || (!isActive && !isAdjacent)) {
-      return;
-    }
-
-    let rafId: number;
-    const updateVideoFrame = () => {
-      const targetP = rotationProgressRef.current[index] ?? 0;
-      const currentP = smoothProgressRef.current;
-      const nextP = currentP + (targetP - currentP) * 0.22;
-      smoothProgressRef.current = nextP;
-
-      if (vid.readyState >= 2 && vid.duration && Number.isFinite(vid.duration)) {
-        const clampedP = Math.min(1, Math.max(0, nextP));
-        const targetTime = clampedP * Math.max(0, vid.duration - 0.04);
-
-        if (!vid.seeking && Math.abs(vid.currentTime - targetTime) > 0.012) {
-          try {
-            vid.currentTime = targetTime;
-          } catch {
-            // Ignore transient seek exception while buffering
-          }
-        }
-      }
-
-      rafId = requestAnimationFrame(updateVideoFrame);
-    };
-
-    rafId = requestAnimationFrame(updateVideoFrame);
-    return () => cancelAnimationFrame(rafId);
-  }, [index, isActive, isAdjacent, rotationProgressRef, videoFailed]);
+  const getTargetProgress = useCallback(
+    () => rotationProgressRef.current[index] ?? 0,
+    [index, rotationProgressRef]
+  );
 
   const isRightAlignedInfo = product.layoutAlign === 'right';
 
@@ -116,38 +65,14 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
               className="w-full h-full flex items-center justify-center"
               style={{ transform: `scale(${product.visualScale})` }}
             >
-              {!videoFailed ? (
-                <video
-                  ref={videoRef}
-                  muted
-                  playsInline
-                  preload="auto"
-                  poster={product.posterSrc}
-                  onLoadedData={(e) => {
-                    const v = e.currentTarget;
-                    v.pause();
-                    v.currentTime = 0.01;
-                  }}
-                  className={`w-full h-full object-contain pointer-events-none select-none floating-product-shadow ${
-                    preferStudioMp4 ? 'video-feather-mask' : ''
-                  }`}
-                >
-                  {!preferStudioMp4 && (
-                    <source src={product.videoSrc} type="video/webm" />
-                  )}
-                  <source
-                    src={product.videoFallbackMp4}
-                    type="video/mp4"
-                    onError={() => setVideoFailed(true)}
-                  />
-                </video>
-              ) : (
-                <img
-                  src={product.posterSrc}
-                  alt={product.name[lang]}
-                  className="w-full h-full object-contain pointer-events-none select-none floating-product-shadow"
-                />
-              )}
+              <TurntableVideo
+                videoSrc={product.videoSrc}
+                videoFallbackMp4={product.videoFallbackMp4}
+                posterSrc={product.posterSrc}
+                alt={product.name[lang]}
+                isActiveOrAdjacent={isActive || isAdjacent}
+                getTargetProgress={getTargetProgress}
+              />
             </div>
           </div>
 

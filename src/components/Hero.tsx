@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Language } from '../types/catalog';
 import { HERO_CONTENT, PRODUCTS } from '../data/catalog';
 import { AnimatedVerticalLogo } from './AnimatedVerticalLogo';
+import { TurntableVideo } from './TurntableVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,56 +23,13 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
   const productWrapRef = useRef<HTMLDivElement>(null);
   const shadowRef = useRef<HTMLDivElement>(null);
   const textWrapRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const targetProgressRef = useRef<number>(0);
-  const smoothProgressRef = useRef<number>(0);
-  const [useMp4Fallback, setUseMp4Fallback] = useState(
-    () =>
-      typeof navigator !== 'undefined' &&
-      (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
-        /^((?!chrome|android).)*safari/i.test(navigator.userAgent))
-  );
 
   const content = HERO_CONTENT[lang];
   // Featured hero floating sculpture: 03 Rectangular Charcuterie Board
   const featuredProduct = PRODUCTS[2];
 
-  // Scroll-scrubbed 3D video rotation loop (60fps Lerp Engine)
-  useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid) return;
-
-    vid.muted = true;
-    vid.defaultMuted = true;
-    vid.playsInline = true;
-    vid.pause();
-
-    let rafId: number;
-    const tick = () => {
-      const target = targetProgressRef.current;
-      const current = smoothProgressRef.current;
-      const next = current + (target - current) * 0.18;
-      smoothProgressRef.current = next;
-
-      if (vid.readyState >= 2 && vid.duration && Number.isFinite(vid.duration)) {
-        const desiredTime = Math.min(
-          vid.duration - 0.04,
-          Math.max(0, next * vid.duration)
-        );
-        if (!vid.seeking && Math.abs(vid.currentTime - desiredTime) > 0.015) {
-          try {
-            vid.currentTime = desiredTime;
-          } catch {
-            // Ignore transient seek errors before buffer ready
-          }
-        }
-      }
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, []);
+  const getHeroProgress = useCallback(() => targetProgressRef.current, []);
 
   useEffect(() => {
     if (!heroRef.current) return;
@@ -412,30 +370,15 @@ export const Hero: React.FC<HeroProps> = ({ lang, onOpenOrderModal }) => {
               ref={productWrapRef}
               className="relative w-full max-w-[780px] aspect-[16/10] flex items-center justify-center will-change-transform"
             >
-              <video
-                ref={videoRef}
-                muted
-                playsInline
-                preload="auto"
-                poster={featuredProduct.posterSrc}
-                onLoadedData={(e) => {
-                  const v = e.currentTarget;
-                  v.pause();
-                  v.currentTime = 0.01;
-                }}
-                className={`w-full h-full object-contain pointer-events-none select-none floating-product-shadow scale-[1.08] sm:scale-[1.14] ${
-                  useMp4Fallback ? 'video-feather-mask' : ''
-                }`}
-              >
-                {!useMp4Fallback && (
-                  <source src={featuredProduct.videoSrc} type="video/webm" />
-                )}
-                <source
-                  src={featuredProduct.videoFallbackMp4}
-                  type="video/mp4"
-                  onError={() => setUseMp4Fallback(true)}
-                />
-              </video>
+              <TurntableVideo
+                videoSrc={featuredProduct.videoSrc}
+                videoFallbackMp4={featuredProduct.videoFallbackMp4}
+                posterSrc={featuredProduct.posterSrc}
+                alt={featuredProduct.name[lang]}
+                isActiveOrAdjacent={true}
+                getTargetProgress={getHeroProgress}
+                className="w-full h-full object-contain pointer-events-none select-none floating-product-shadow scale-[1.08] sm:scale-[1.14]"
+              />
             </div>
 
             {/* Grounded 3D Studio Floor Shadow */}
