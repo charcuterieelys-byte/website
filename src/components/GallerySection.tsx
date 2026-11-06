@@ -58,25 +58,27 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
   const currentLightboxItem =
     lightboxIndex !== null ? filteredItems[lightboxIndex] : null;
 
-  // Varied editorial aspect ratios so the gallery feels like a curated print spread
-  const getAspectClass = (idx: number) => {
+  // Bento Grid span pattern (works across 2-col mobile and 4-col desktop)
+  const getBentoSpanClass = (idx: number) => {
     const pattern = idx % 6;
-    if (pattern === 0 || pattern === 4) return 'aspect-[4/5]';
-    if (pattern === 2) return 'aspect-[1/1]';
-    return 'aspect-[4/3]';
+    if (pattern === 0) return 'col-span-2 row-span-2'; // Featured large hero square
+    if (pattern === 2) return 'col-span-1 row-span-2'; // Tall vertical tile
+    if (pattern === 4) return 'col-span-2 row-span-1'; // Wide panoramic tile
+    if (pattern === 5) return 'col-span-2 lg:col-span-2 row-span-1'; // Wide closing tile
+    return 'col-span-1 row-span-1'; // Standard compact Bento cell
   };
 
   return (
     <section
       id="gallery"
       aria-label={lang === 'en' ? 'Photo Gallery' : 'Galería de Fotos'}
-      className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-16 bg-[#F6EFE0]/85 border-y border-[#841F17]/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]"
+      className="relative z-10 py-16 sm:py-28 px-4 sm:px-10 lg:px-16 bg-[#F6EFE0]/85 border-y border-[#841F17]/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]"
     >
       <div className="max-w-[1440px] mx-auto">
-        {/* Centered Editorial Header with Miniature Rose Emblem (Breaks repetitive eyebrow+line formula) */}
-        <div className="text-center max-w-2xl mx-auto pb-10 sm:pb-12 space-y-4">
+        {/* Centered Editorial Header with Burgundy Rose Isotipo */}
+        <div className="text-center max-w-2xl mx-auto pb-8 sm:pb-10 space-y-3">
           <img
-            src="./brand/isotipo-rosa.svg"
+            src="./brand/isotipo-rosa-burgundy.svg"
             alt=""
             aria-hidden="true"
             className="w-8 h-8 mx-auto object-contain opacity-90"
@@ -86,7 +88,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
               ? 'ATELIER PORTFOLIO · REAL CREATIONS'
               : 'NUESTRAS CREACIONES · HECHO EN CASA'}
           </p>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#841F17] leading-[1.06]">
+          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#841F17] leading-[1.06]">
             {lang === 'en' ? (
               <>
                 Crafted for the eye,{' '}
@@ -103,20 +105,20 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
               </>
             )}
           </h2>
-          <p className="text-sm sm:text-base text-[#4A120E]/85 leading-relaxed pt-1">
+          <p className="text-xs sm:text-base text-[#4A120E]/85 leading-relaxed pt-0.5">
             {lang === 'en'
               ? 'Real boards, celebration brunch boxes, two-tier baskets and bespoke grazing tables prepared fresh to order in Louisville, Kentucky.'
               : 'Tablas reales, desayunos personalizados, cestas de dos niveles y mesas de eventos preparadas frescas bajo pedido en Louisville, Kentucky.'}
           </p>
         </div>
 
-        {/* Category Filter Pills — Centered Warm Tactile Buttons */}
+        {/* Category Filter Pills — Compact Warm Tactile Buttons */}
         <div
           role="group"
           aria-label={
             lang === 'en' ? 'Filter gallery by category' : 'Filtrar galería por categoría'
           }
-          className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 pb-12 sm:pb-16"
+          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pb-8 sm:pb-12"
         >
           {(
             ['all', 'boards', 'boxes', 'events', 'cups'] as Array<
@@ -133,7 +135,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                   setActiveCategory(cat);
                   setLightboxIndex(null);
                 }}
-                className={`px-4 sm:px-5 py-2.5 rounded-[3px] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 border ${
+                className={`px-3.5 sm:px-5 py-2 rounded-[3px] text-[10px] sm:text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 border ${
                   isSelected
                     ? 'bg-[#841F17] text-[#FAF5E8] border-[#841F17] shadow-sm'
                     : 'bg-[#FAF6EC] text-[#5A120D]/85 border-[#841F17]/20 hover:border-[#841F17]/60 hover:bg-white'
@@ -145,76 +147,81 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
           })}
         </div>
 
-        {/* Asymmetrical Editorial Photo Mosaic (Fine-Art Print Framing) */}
+        {/* True Bento Mosaic Grid (2-col on mobile, 4-col on desktop) */}
         {filteredItems.length === 0 ? (
-          <div className="py-16 text-center text-[#5A120D]/75 text-sm">
+          <div className="py-12 text-center text-[#5A120D]/75 text-sm">
             {lang === 'en'
               ? 'No photos in this category yet.'
               : 'Aún no hay fotos en esta categoría.'}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 items-start">
+          <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[155px] sm:auto-rows-[210px] lg:auto-rows-[235px] gap-2.5 sm:gap-4 grid-flow-dense">
             {filteredItems.map((item, idx) => {
-              const staggerClass =
-                idx % 3 === 1 ? 'lg:mt-8' : idx % 3 === 2 ? 'lg:mt-3' : '';
+              const spanClass = getBentoSpanClass(idx);
+              const isFeatured = idx % 6 === 0;
               return (
                 <article
                   key={item.id}
-                  className={`group bg-[#FCF9F2] p-3 sm:p-3.5 rounded-[4px] border border-[#841F17]/15 hover:border-[#841F17]/40 transition-all duration-500 flex flex-col shadow-[0_12px_32px_rgba(74,18,14,0.06)] hover:shadow-[0_18px_40px_rgba(74,18,14,0.12)] ${staggerClass}`}
+                  className={`group relative bg-[#FCF9F2] p-1.5 sm:p-2 rounded-[6px] border border-[#841F17]/15 hover:border-[#841F17]/45 transition-all duration-500 shadow-[0_8px_24px_rgba(74,18,14,0.06)] hover:shadow-[0_14px_34px_rgba(74,18,14,0.14)] overflow-hidden ${spanClass}`}
                 >
-                  {/* Printed Photo Frame */}
+                  {/* Full-Bleed Bento Cell Button */}
                   <button
                     type="button"
                     onClick={() => setLightboxIndex(idx)}
                     aria-label={`${
                       lang === 'en' ? 'Open full photo:' : 'Ampliar foto:'
                     } ${item.title[lang] || item.title.es}`}
-                    className={`relative ${getAspectClass(
-                      idx
-                    )} w-full overflow-hidden rounded-[2px] bg-[#E7D095]/35 cursor-pointer text-left`}
+                    className="relative w-full h-full overflow-hidden rounded-[4px] bg-[#E7D095]/35 cursor-pointer text-left block"
                   >
                     <img
                       src={item.imageSrc}
                       alt={item.title[lang] || item.title.es}
                       loading="lazy"
-                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#2E0705]/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
-                      <span className="font-serif italic text-sm text-[#FAF5E8] drop-shadow">
-                        {lang === 'en' ? 'Click to enlarge' : 'Toca para ampliar'}
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className="w-8 h-8 rounded-full bg-[#FAF5E8]/95 text-[#841F17] flex items-center justify-center shadow"
-                      >
-                        <Maximize2 className="w-3.5 h-3.5" />
-                      </span>
+
+                    {/* Warm Editorial Gradient Scrim */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#240604]/85 via-[#240604]/15 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    {/* Top-Right Expand Pill */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute top-2.5 right-2.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FAF6EC]/90 text-[#841F17] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5" />
+                    </span>
+
+                    {/* Bottom Bento Caption Overlay */}
+                    <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-4 flex items-end justify-between gap-2">
+                      <div className="min-w-0">
+                        <span className="hidden sm:inline-block text-[9px] font-bold tracking-[0.2em] uppercase text-[#E7D095]/90 mb-0.5">
+                          {CATEGORY_LABELS[item.category]?.[lang] ||
+                            CATEGORY_LABELS.boards[lang]}
+                        </span>
+                        <h3
+                          className={`font-serif text-[#FAF5E8] leading-tight truncate drop-shadow ${
+                            isFeatured
+                              ? 'text-base sm:text-2xl'
+                              : 'text-xs sm:text-lg'
+                          }`}
+                        >
+                          {item.title[lang] || item.title.es}
+                        </h3>
+                      </div>
                     </div>
                   </button>
 
-                  {/* Minimal Editorial Print Caption (No repetitive dual-button clutter) */}
-                  <div className="pt-4 pb-1 px-1 flex items-baseline justify-between gap-3">
-                    <div className="space-y-0.5 min-w-0">
-                      <h3 className="font-serif text-xl sm:text-2xl text-[#841F17] leading-snug truncate">
-                        {item.title[lang] || item.title.es}
-                      </h3>
-                      {(item.subtitle?.[lang] || item.subtitle?.es) && (
-                        <p className="font-serif italic text-xs sm:text-sm text-[#4A120E]/80 line-clamp-1">
-                          {item.subtitle?.[lang] || item.subtitle?.es}
-                        </p>
-                      )}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        onInquireItem(item.title[lang] || item.title.es)
-                      }
-                      className="shrink-0 text-[11px] font-semibold tracking-[0.16em] uppercase text-[#841F17]/75 hover:text-[#841F17] underline decoration-[#841F17]/30 hover:decoration-[#841F17] underline-offset-4 transition-colors"
-                    >
-                      {lang === 'en' ? 'Inquire →' : 'Cotizar →'}
-                    </button>
-                  </div>
+                  {/* Quick Order Action Pill in Bottom-Right Corner */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onInquireItem(item.title[lang] || item.title.es);
+                    }}
+                    className="absolute bottom-3.5 right-3.5 sm:bottom-5 sm:right-5 z-10 px-2.5 py-1 rounded-[3px] bg-[#FAF6EC]/95 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[9px] sm:text-[10px] font-bold tracking-[0.14em] uppercase transition-colors shadow-sm"
+                  >
+                    {lang === 'en' ? 'Order →' : 'Cotizar →'}
+                  </button>
                 </article>
               );
             })}

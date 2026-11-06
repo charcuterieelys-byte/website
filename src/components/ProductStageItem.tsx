@@ -186,29 +186,35 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
             {product.description[lang]}
           </p>
 
-          {/* Fine-Dining Menu Specification Card (Replaces 3-column tech dashboard box) */}
-          <div className="max-w-md mx-auto lg:mx-0 bg-[#FAF5E8]/60 border border-[#841F17]/20 rounded-[3px] px-4 py-3.5 sm:px-5 sm:py-4 shadow-[0_6px_20px_rgba(96,26,18,0.05)] space-y-2.5 text-left">
-            <div className="flex items-baseline justify-between gap-2">
-              <span className="text-xs sm:text-sm font-semibold tracking-[0.12em] uppercase text-[#4A120E]">
+          {/* Fine-Dining Menu Specification Card (Overflow-safe for any price/format text) */}
+          <div className="max-w-md mx-auto lg:mx-0 bg-[#FAF5E8]/65 border border-[#841F17]/20 rounded-[4px] px-4 py-3.5 sm:px-5 sm:py-4 shadow-[0_6px_20px_rgba(96,26,18,0.05)] space-y-2.5 text-left overflow-hidden">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+              <span className="text-xs sm:text-sm font-semibold tracking-[0.1em] uppercase text-[#4A120E] min-w-0">
                 {product.dimensions[lang]}
               </span>
               <span
                 aria-hidden="true"
-                className="flex-1 menu-leader mx-1.5 h-3"
+                className="hidden sm:inline-block flex-1 min-w-[24px] menu-leader mx-1 h-3"
               />
               <span
                 data-editable-field={`product-${product.id}-price`}
-                className="font-serif text-xl sm:text-2xl font-semibold text-[#841F17] num shrink-0"
+                className={`font-serif font-semibold text-[#841F17] num text-right ml-auto ${
+                  product.price[lang].length > 9
+                    ? 'text-sm sm:text-base tracking-[0.06em] uppercase'
+                    : 'text-xl sm:text-2xl'
+                }`}
               >
-                {product.price[lang]}
+                {product.price[lang] === '2 PERSONAS · CONSULTAR'
+                  ? 'A COTIZAR'
+                  : product.price[lang]}
               </span>
             </div>
 
-            <div className="flex items-center justify-between text-xs text-[#5A120D]/85 border-t border-[#841F17]/12 pt-2">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#5A120D]/85 border-t border-[#841F17]/12 pt-2">
               <span className="font-serif italic text-sm sm:text-base text-[#63150F]">
                 {lang === 'en' ? 'Recommended portion:' : 'Porción sugerida:'}
               </span>
-              <span className="font-semibold tracking-[0.14em] uppercase text-[#4A120E]">
+              <span className="font-semibold tracking-[0.12em] uppercase text-[#4A120E] text-right">
                 {product.servings[lang]}
               </span>
             </div>

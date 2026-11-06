@@ -357,18 +357,18 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
       aria-label={
         lang === 'en' ? 'Interactive Pairing Guide' : 'Guía de Combinaciones'
       }
-      className="relative z-10 py-24 sm:py-32 px-6 sm:px-10 lg:px-16 border-t border-[#841F17]/15"
+      className="relative z-10 py-14 sm:py-24 px-4 sm:px-10 lg:px-16 border-t border-[#841F17]/15"
     >
-      <div className="max-w-[1440px] mx-auto space-y-12 sm:space-y-16">
-        {/* Editorial Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="space-y-2.5 max-w-2xl">
-            <p className="font-serif italic text-lg sm:text-xl text-[#841F17]">
+      <div className="max-w-[1440px] mx-auto space-y-6 sm:space-y-12">
+        {/* Compact Editorial Header */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 sm:gap-6">
+          <div className="space-y-1.5 max-w-2xl">
+            <p className="font-serif italic text-base sm:text-xl text-[#841F17]">
               {lang === 'en'
                 ? 'Interactive Sommelier & Tasting Guide'
                 : 'El Ritual de la Mesa · Guía Interactiva'}
             </p>
-            <h2 className="font-serif font-normal text-4xl sm:text-5xl lg:text-6xl text-[#841F17] leading-[1.04]">
+            <h2 className="font-serif font-normal text-3xl sm:text-5xl lg:text-6xl text-[#841F17] leading-[1.04]">
               {lang === 'en' ? (
                 <>
                   How to enjoy your{' '}
@@ -385,11 +385,11 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
             </h2>
           </div>
 
-          <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 max-w-md">
-            <p className="text-sm sm:text-base text-[#4A120E]/85 leading-relaxed">
+          <div className="flex flex-wrap items-center justify-between lg:justify-end gap-3 max-w-md">
+            <p className="text-xs sm:text-sm text-[#4A120E]/85 leading-relaxed">
               {lang === 'en'
-                ? 'Touch any point on the board to discover its flavor profile, winning combination, ideal cracker, and suggested wine pairing.'
-                : 'Toca cualquier punto sobre la tabla para descubrir su perfil de sabor, combinación ganadora, cracker ideal y maridaje de vino.'}
+                ? 'Touch any point on the board to see its winning combination and wine pairing.'
+                : 'Toca cualquier punto en la tabla para ver su combinación ganadora y maridaje.'}
             </p>
             <button
               type="button"
@@ -397,25 +397,23 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
                 setShowOriginalFlyer(false);
                 setFullGuideModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase text-[#841F17] hover:text-[#5A120D] underline underline-offset-4 transition-colors"
+              className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.16em] uppercase text-[#841F17] hover:text-[#5A120D] underline underline-offset-4 transition-colors"
             >
-              <BookOpen className="w-4 h-4" />
-              {lang === 'en'
-                ? 'OPEN COMPLETE PAIRING GUIDE →'
-                : 'VER GUÍA COMPLETA Y MARIDAJES →'}
+              <BookOpen className="w-3.5 h-3.5" />
+              {lang === 'en' ? 'FULL GUIDE →' : 'VER GUÍA COMPLETA →'}
             </button>
           </div>
         </div>
 
-        {/* Main Interactive Stage: Overhead Board with Hotspots + Active Sommelier Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left: Overhead Board with Interactive Pins */}
-          <div className="lg:col-span-6 flex flex-col items-center">
-            <div className="relative w-full max-w-[540px] aspect-square flex items-center justify-center">
+        {/* Compact Bento Grid Layout (Eliminates vertical elongation on mobile) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+          {/* Bento Tile 1 (Left 5 cols): Overhead Interactive Board + Horizontal Pill Strip */}
+          <div className="lg:col-span-5 rounded-[6px] bg-[#FAF6EC]/70 border border-[#841F17]/20 p-3.5 sm:p-6 flex flex-col justify-between items-center shadow-[0_10px_28px_rgba(84,24,16,0.06)]">
+            <div className="relative w-full max-w-[290px] sm:max-w-[420px] aspect-square flex items-center justify-center my-auto">
               {/* Warm Studio Backlight */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute w-[88%] h-[88%] rounded-full blur-[70px] opacity-85"
+                className="pointer-events-none absolute w-[88%] h-[88%] rounded-full blur-[50px] opacity-85"
                 style={{
                   background:
                     'radial-gradient(circle, rgba(250, 245, 232, 0.9) 0%, rgba(240, 224, 178, 0.45) 55%, transparent 78%)',
@@ -446,13 +444,13 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
                     aria-label={`${spot.num}: ${spot.name[lang]}`}
                     aria-pressed={isSelected}
                     style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-                    className={`absolute z-20 -translate-x-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg focus:outline-none ${
+                    className={`absolute z-20 -translate-x-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-300 shadow-md focus:outline-none ${
                       isSelected
-                        ? 'bg-[#841F17] text-[#FAF5E8] scale-125 ring-4 ring-[#FAF5E8]/90'
+                        ? 'bg-[#841F17] text-[#FAF5E8] scale-125 ring-3 ring-[#FAF5E8]/95'
                         : 'bg-[#FAF6EC]/95 text-[#841F17] hover:bg-[#841F17] hover:text-[#FAF5E8] border border-[#841F17]/40 hover:scale-110'
                     }`}
                   >
-                    <span className="num text-[11px] font-bold tracking-tight">
+                    <span className="num text-[10px] sm:text-[11px] font-bold tracking-tight">
                       {spot.num}
                     </span>
                   </button>
@@ -460,8 +458,8 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
               })}
             </div>
 
-            {/* Quick Ingredient Selector Pills Below Board */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 max-w-xl">
+            {/* Compact Single-Row Horizontal Scroll Selector on Mobile / Wrap on Desktop */}
+            <div className="w-full pt-3 mt-2 border-t border-[#841F17]/12 flex items-center gap-1.5 overflow-x-auto sm:flex-wrap sm:justify-center pb-1">
               {BOARD_HOTSPOTS.map((spot, idx) => {
                 const isSelected = idx === activeHotspotIdx;
                 return (
@@ -470,13 +468,13 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
                     type="button"
                     onClick={() => setActiveHotspotIdx(idx)}
                     aria-pressed={isSelected}
-                    className={`px-3 py-1.5 rounded-[3px] text-[11px] font-medium transition-all border ${
+                    className={`shrink-0 px-2.5 py-1 rounded-[3px] text-[10px] sm:text-[11px] font-medium transition-all border ${
                       isSelected
                         ? 'bg-[#841F17] text-[#FAF5E8] border-[#841F17] shadow-sm'
-                        : 'bg-[#FAF6EC]/75 text-[#4A120E] border-[#841F17]/20 hover:border-[#841F17]/60'
+                        : 'bg-white/80 text-[#4A120E] border-[#841F17]/20 hover:border-[#841F17]/60'
                     }`}
                   >
-                    <span className="num font-bold mr-1.5">{spot.num}.</span>
+                    <span className="num font-bold mr-1">{spot.num}.</span>
                     {spot.name[lang]}
                   </button>
                 );
@@ -484,135 +482,127 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
             </div>
           </div>
 
-          {/* Right: Sommelier Tasting Card + 3-Step Order of Tasting */}
-          <div className="lg:col-span-6 space-y-6">
-            {/* Active Ingredient Tasting Note Card */}
-            <div className="rounded-[4px] border border-[#841F17]/30 bg-[#FAF6EC] p-2 sm:p-2.5 shadow-[0_18px_48px_rgba(84,24,16,0.10)]">
-              <div className="rounded-[2px] border border-[#841F17]/15 p-6 sm:p-8 space-y-5">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#841F17]/15 pb-3">
-                  <span className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#841F17]">
-                    {activeItem.category[lang]}
-                  </span>
-                  <span className="font-serif italic text-sm text-[#63150F]">
-                    {activeItem.tastingStep[lang]}
-                  </span>
-                </div>
+          {/* Right 7 Cols: 2-Column Bento Subgrid (Compact on Mobile & Desktop) */}
+          <div className="lg:col-span-7 grid grid-cols-2 gap-2.5 sm:gap-4 content-between">
+            {/* Bento Cell A (col-span-2): Active Ingredient + Winning Combination */}
+            <div className="col-span-2 rounded-[6px] border border-[#841F17]/25 bg-[#FAF6EC] p-4 sm:p-6 shadow-[0_12px_32px_rgba(84,24,16,0.08)] space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#841F17]/12 pb-2">
+                <span className="text-[9px] sm:text-[10px] font-bold tracking-[0.22em] uppercase text-[#841F17]">
+                  {activeItem.category[lang]}
+                </span>
+                <span className="font-serif italic text-xs sm:text-sm text-[#63150F]">
+                  {activeItem.tastingStep[lang]}
+                </span>
+              </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-baseline gap-3">
-                    <span className="num text-xs font-bold tracking-[0.2em] text-[#841F17]/70">
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-center">
+                <div className="sm:col-span-6 space-y-1">
+                  <div className="flex items-baseline gap-2">
+                    <span className="num text-[11px] font-bold text-[#841F17]/70">
                       Nº {activeItem.num}
                     </span>
-                    <h3 className="font-serif text-3xl sm:text-4xl text-[#841F17]">
+                    <h3 className="font-serif text-2xl sm:text-3xl text-[#841F17] leading-tight">
                       {activeItem.name[lang]}
                     </h3>
                   </div>
-                  <p className="text-sm sm:text-base text-[#4A120E]/90 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#4A120E]/90 leading-relaxed">
                     {activeItem.profile[lang]}
                   </p>
                 </div>
 
-                {/* Winning Combination Box */}
-                <div className="p-4 rounded-[3px] bg-[#E7D095]/35 border border-[#841F17]/20 space-y-1">
-                  <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#841F17] flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    {lang === 'en'
-                      ? 'WINNING COMBINATION'
-                      : 'COMBINACIÓN GANADORA'}
+                {/* Winning Combination Sub-Bento Box */}
+                <div className="sm:col-span-6 p-3 sm:p-4 rounded-[4px] bg-[#E7D095]/40 border border-[#841F17]/20 space-y-0.5">
+                  <p className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase text-[#841F17] flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 shrink-0" />
+                    {lang === 'en' ? 'WINNING COMBO' : 'COMBINACIÓN GANADORA'}
                   </p>
-                  <p className="font-serif text-xl sm:text-2xl text-[#4A120E] font-medium">
+                  <p className="font-serif text-base sm:text-xl text-[#4A120E] font-semibold leading-snug">
                     {activeItem.winningCombo[lang]}
                   </p>
-                  <p className="font-serif italic text-sm text-[#63150F]">
+                  <p className="font-serif italic text-xs text-[#63150F]">
                     {activeItem.winningComboDesc[lang]}
                   </p>
-                </div>
-
-                {/* Cracker & Wine Pairing Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                  <div className="p-3.5 rounded-[3px] bg-white/70 border border-[#841F17]/15 space-y-1">
-                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#841F17]">
-                      {lang === 'en' ? 'IDEAL CRACKER' : 'CRACKER IDEAL'}
-                    </p>
-                    <p className="text-xs sm:text-sm text-[#4A120E]/90 leading-relaxed">
-                      {activeItem.idealCracker[lang]}
-                    </p>
-                  </div>
-
-                  <div className="p-3.5 rounded-[3px] bg-white/70 border border-[#841F17]/15 space-y-1">
-                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#841F17] flex items-center gap-1.5">
-                      <Wine className="w-3.5 h-3.5" />
-                      {lang === 'en' ? 'SUGGESTED WINE' : 'MARIDAJE SUGERIDO'}
-                    </p>
-                    <p className="text-xs sm:text-sm text-[#4A120E]/90 leading-relaxed">
-                      {activeItem.winePairing[lang]}
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Summary Strip: Ideal Order of Tasting (1 -> 2 -> 3) */}
-            <div className="rounded-[4px] bg-[#FAF6EC]/75 border border-[#841F17]/20 p-5 sm:p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <h4 className="font-serif text-xl text-[#841F17]">
+            {/* Bento Cell B (col-span-1 even on mobile!): Ideal Cracker */}
+            <div className="col-span-1 rounded-[6px] bg-[#FAF6EC]/85 border border-[#841F17]/20 p-3.5 sm:p-5 flex flex-col justify-between space-y-1.5">
+              <p className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase text-[#841F17]">
+                {lang === 'en' ? 'IDEAL CRACKER' : 'CRACKER IDEAL'}
+              </p>
+              <p className="text-xs sm:text-sm text-[#4A120E]/90 leading-snug">
+                {activeItem.idealCracker[lang]}
+              </p>
+            </div>
+
+            {/* Bento Cell C (col-span-1 even on mobile!): Suggested Wine */}
+            <div className="col-span-1 rounded-[6px] bg-[#FAF6EC]/85 border border-[#841F17]/20 p-3.5 sm:p-5 flex flex-col justify-between space-y-1.5">
+              <p className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase text-[#841F17] flex items-center gap-1">
+                <Wine className="w-3.5 h-3.5 shrink-0" />
+                {lang === 'en' ? 'SUGGESTED WINE' : 'MARIDAJE SUGERIDO'}
+              </p>
+              <p className="text-xs sm:text-sm text-[#4A120E]/90 leading-snug">
+                {activeItem.winePairing[lang]}
+              </p>
+            </div>
+
+            {/* Bento Cell D (col-span-2): Compact 3-Column Tasting Order + Action Bar */}
+            <div className="col-span-2 rounded-[6px] bg-[#4A100B] text-[#FAF5E8] p-4 sm:p-5 border border-[#E7D095]/25 space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <h4 className="font-serif text-base sm:text-lg text-[#E7D095]">
                   {lang === 'en'
                     ? 'Ideal Order of Tasting'
                     : 'Orden Ideal de Degustación'}
                 </h4>
-                <span className="font-serif italic text-xs sm:text-sm text-[#63150F]">
-                  {lang === 'en' ? 'From mild to bold' : 'De suave a intenso'}
+                <span className="font-serif italic text-xs text-[#FAF5E8]/75">
+                  {lang === 'en' ? '1 → 2 → 3' : 'De suave a intenso'}
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-                <div className="space-y-1">
-                  <p className="font-serif italic text-base text-[#841F17] font-semibold">
-                    I. {lang === 'en' ? 'Mild Flavors' : 'Sabores Suaves'}
+              {/* 3 Horizontal Columns even on mobile */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 text-[11px] sm:text-xs">
+                <div className="p-2 sm:p-2.5 rounded-[4px] bg-[#FAF5E8]/10 border border-[#E7D095]/15">
+                  <p className="font-serif italic text-xs sm:text-sm text-[#E7D095] font-semibold">
+                    I. {lang === 'en' ? 'Mild' : 'Suaves'}
                   </p>
-                  <p className="text-[#4A120E]/85 leading-relaxed">
-                    {lang === 'en'
-                      ? 'Start with creamy Brie and smooth Gouda.'
-                      : 'Comienza con sabores suaves (Brie, Gouda).'}
-                  </p>
-                </div>
-
-                <div className="space-y-1">
-                  <p className="font-serif italic text-base text-[#841F17] font-semibold">
-                    II. {lang === 'en' ? 'Medium Flavors' : 'Sabores Medios'}
-                  </p>
-                  <p className="text-[#4A120E]/85 leading-relaxed">
-                    {lang === 'en'
-                      ? 'Continue with Cheddar and tangy Goat Cheese.'
-                      : 'Continúa con sabores medios (Cheddar, Queso de Cabra).'}
+                  <p className="text-[#FAF5E8]/85 leading-tight mt-0.5">
+                    Brie, Gouda
                   </p>
                 </div>
 
-                <div className="space-y-1">
-                  <p className="font-serif italic text-base text-[#841F17] font-semibold">
-                    III. {lang === 'en' ? 'Bold Flavors' : 'Sabores Intensos'}
+                <div className="p-2 sm:p-2.5 rounded-[4px] bg-[#FAF5E8]/10 border border-[#E7D095]/15">
+                  <p className="font-serif italic text-xs sm:text-sm text-[#E7D095] font-semibold">
+                    II. {lang === 'en' ? 'Medium' : 'Medios'}
                   </p>
-                  <p className="text-[#4A120E]/85 leading-relaxed">
-                    {lang === 'en'
-                      ? 'Finish with Manchego, salami, prosciutto & chorizo.'
-                      : 'Finaliza con Manchego, salami, prosciutto y chorizo.'}
+                  <p className="text-[#FAF5E8]/85 leading-tight mt-0.5">
+                    Cheddar, Cabra
+                  </p>
+                </div>
+
+                <div className="p-2 sm:p-2.5 rounded-[4px] bg-[#FAF5E8]/10 border border-[#E7D095]/15">
+                  <p className="font-serif italic text-xs sm:text-sm text-[#E7D095] font-semibold">
+                    III. {lang === 'en' ? 'Bold' : 'Intensos'}
+                  </p>
+                  <p className="text-[#FAF5E8]/85 leading-tight mt-0.5">
+                    Manchego, Salami
                   </p>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-[#841F17]/15 flex flex-wrap items-center justify-between gap-3">
+              <div className="pt-1 flex flex-wrap items-center justify-between gap-2">
                 <button
                   type="button"
                   onClick={() => {
                     setShowOriginalFlyer(false);
                     setFullGuideModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[3px] bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-[11px] font-semibold tracking-[0.2em] uppercase transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[3px] bg-[#E7D095] hover:bg-[#FAF5E8] text-[#4A100B] text-[10px] sm:text-[11px] font-bold tracking-[0.16em] uppercase transition-colors"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   {lang === 'en'
-                    ? 'VIEW FULL GUIDE & WINE PAIRINGS'
-                    : 'VER GUÍA COMPLETA Y MARIDAJES'}
+                    ? 'COMPLETE GUIDE & WINES'
+                    : 'GUÍA COMPLETA Y VINOS'}
                 </button>
 
                 <button
@@ -624,7 +614,7 @@ export const PairingGuideSection: React.FC<PairingGuideSectionProps> = ({
                         : 'Tabla de Charcutería Artesanal'
                     )
                   }
-                  className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#841F17] hover:text-[#5A120D] underline underline-offset-4"
+                  className="text-[10px] sm:text-[11px] font-semibold tracking-[0.16em] uppercase text-[#E7D095] hover:text-white underline underline-offset-4"
                 >
                   {lang === 'en' ? 'Order a Board →' : 'Pedir una Tabla →'}
                 </button>

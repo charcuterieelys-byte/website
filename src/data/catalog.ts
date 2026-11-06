@@ -372,8 +372,8 @@ export const PRODUCTS: Product[] = [
       es: '2 PERSONAS',
     },
     price: {
-      en: 'INQUIRE / ORDER',
-      es: '2 PERSONAS · CONSULTAR',
+      en: 'CUSTOM QUOTE',
+      es: 'A COTIZAR',
     },
     details: {
       en: [
