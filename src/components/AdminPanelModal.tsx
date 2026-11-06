@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   X,
   Lock,
@@ -25,12 +25,8 @@ import {
   compressAndUploadImage,
   getDefaultCmsState,
   getStoredAdminPassword,
-  getStoredCloudToken,
-  getStoredStripeKey,
   publishCmsState,
   setStoredAdminPassword,
-  setStoredCloudToken,
-  setStoredStripeKey,
 } from '../utils/cmsStore';
 
 interface AdminPanelModalProps {
@@ -77,16 +73,14 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
 
   // Settings fields
   const [newAdminPass, setNewAdminPass] = useState('');
-  const [cloudTokenInput, setCloudTokenInput] = useState('');
-  const [stripeKeyInput, setStripeKeyInput] = useState('');
+  const wasOpenRef = useRef(false);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !wasOpenRef.current) {
       setDraft(JSON.parse(JSON.stringify(cmsState)) as CmsState);
-      setCloudTokenInput(getStoredCloudToken());
-      setStripeKeyInput(getStoredStripeKey());
       setStatusBanner(null);
     }
+    wasOpenRef.current = isOpen;
   }, [isOpen, cmsState]);
 
   if (!isOpen) return null;
@@ -109,12 +103,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
     setSaving(true);
     setStatusBanner(null);
     try {
-      if (cloudTokenInput.trim()) {
-        setStoredCloudToken(cloudTokenInput.trim());
-      }
-      if (stripeKeyInput.trim()) {
-        setStoredStripeKey(stripeKeyInput.trim());
-      }
       if (newAdminPass.trim()) {
         setStoredAdminPassword(newAdminPass.trim());
         setNewAdminPass('');
@@ -288,7 +276,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
         body: JSON.stringify({
           action: 'create_stripe_link',
           adminPassword: passwordInput.trim() || getStoredAdminPassword(),
-          stripeKey: stripeKeyInput.trim() || getStoredStripeKey(),
           productName: `${prod.name.es} (${prod.servings.es})`,
           priceUsd,
         }),
@@ -658,21 +645,23 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                     const isExpanded = expandedProductId === prod.id;
                     return (
                       <div
-                        key={`${prod.slug}-${idx}`}
+                        key={prod.slug}
                         className="border border-[#841F17]/25 bg-white/80 shadow-sm overflow-hidden"
                       >
                         {/* Summary Header */}
-                        <div
-                          onClick={() =>
-                            setExpandedProductId(isExpanded ? null : prod.id)
-                          }
-                          className="p-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 cursor-pointer hover:bg-[#E7D095]/20 transition-colors"
-                        >
-                          <div className="flex items-center gap-4">
+                        <div className="p-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 hover:bg-[#E7D095]/20 transition-colors">
+                          <button
+                            type="button"
+                            aria-expanded={isExpanded}
+                            onClick={() =>
+                              setExpandedProductId(isExpanded ? null : prod.id)
+                            }
+                            className="flex items-center gap-4 text-left flex-1 min-w-0"
+                          >
                             <img
                               src={prod.posterSrc || prod.realPhotoSrc}
                               alt={prod.name.es}
-                              className="w-14 h-14 object-contain bg-[#E7D095]/40 border border-[#841F17]/15 p-1"
+                              className="w-14 h-14 object-contain bg-[#E7D095]/40 border border-[#841F17]/15 p-1 shrink-0"
                             />
                             <div>
                               <div className="flex items-center gap-2">
@@ -687,17 +676,14 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
                                 {prod.servings.es} · {prod.dimensions.es}
                               </p>
                             </div>
-                          </div>
+                          </button>
 
                           <div className="flex items-center gap-3">
                             <span className="px-3 py-1 bg-[#E7D095]/60 text-[#841F17] font-serif text-lg font-semibold">
                               {prod.price.es}
                             </span>
 
-                            <div
-                              className="flex items-center gap-1"
-                              onClick={(e) => e.stopPropagation()}
-                            >
+                            <div className="flex items-center gap-1">
                               <button
                                 type="button"
                                 onClick={() => moveProduct(idx, -1)}
@@ -1219,45 +1205,17 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
 
                 <div className="p-5 bg-white border border-[#841F17]/20 space-y-4">
                   <h3 className="font-serif text-2xl text-[#841F17]">
-                    Sincronización en la Nube y Seguridad
+                    Seguridad del Panel
                   </h3>
                   <p className="text-xs text-[#4A120E]/80 leading-relaxed">
-                    Para que los cambios hechos desde este navegador se
-                    publiquen instantáneamente en la nube para todos los
-                    visitantes (sin depender de variables de entorno en Vercel),
-                    puedes guardar aquí el Token de Sincronización.
+                    Al presionar &quot;Guardar y Publicar&quot;, los cambios se
+                    sincronizan con el servidor seguro (`/api/cms`) para todos
+                    los visitantes.
                   </p>
 
                   <div>
                     <label className="block text-[11px] font-semibold tracking-[0.18em] uppercase text-[#841F17] mb-1">
-                      Token de Sincronización en la Nube (GitHub CMS Token)
-                    </label>
-                    <input
-                      type="password"
-                      value={cloudTokenInput}
-                      onChange={(e) => setCloudTokenInput(e.target.value)}
-                      placeholder="ghp_..."
-                      className="w-full px-3 py-2 bg-[#FAF5E8]/60 border border-[#841F17]/30 text-xs font-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-semibold tracking-[0.18em] uppercase text-[#841F17] mb-1">
-                      Clave Live de Stripe (Opcional, para generar nuevos links
-                      automáticos)
-                    </label>
-                    <input
-                      type="password"
-                      value={stripeKeyInput}
-                      onChange={(e) => setStripeKeyInput(e.target.value)}
-                      placeholder="rk_live_..."
-                      className="w-full px-3 py-2 bg-[#FAF5E8]/60 border border-[#841F17]/30 text-xs font-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-semibold tracking-[0.18em] uppercase text-[#841F17] mb-1">
-                      Cambiar Contraseña del Panel Admin (Opcional)
+                      Cambiar Contraseña Local del Panel Admin (Opcional)
                     </label>
                     <input
                       type="password"

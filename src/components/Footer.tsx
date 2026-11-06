@@ -1,11 +1,12 @@
 import React from 'react';
 import { Lock } from 'lucide-react';
-import { Language, Product } from '../types/catalog';
+import { BrandConfigData, Language, Product } from '../types/catalog';
 import { BRAND_CONFIG, PRODUCTS } from '../data/catalog';
 
 interface FooterProps {
   lang: Language;
   products?: Product[];
+  brandConfig?: BrandConfigData;
   onOpenOrderModal: (selection?: string) => void;
   onOpenAdmin?: () => void;
 }
@@ -22,6 +23,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({
   lang,
   products = PRODUCTS,
+  brandConfig = BRAND_CONFIG,
   onOpenOrderModal,
   onOpenAdmin,
 }) => {
@@ -149,7 +151,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             <div className="pt-2 flex flex-wrap items-center gap-6 text-xs font-semibold tracking-[0.2em] uppercase">
               <a
-                href={`https://wa.me/${BRAND_CONFIG.whatsappNumber}`}
+                href={`https://wa.me/${brandConfig.whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#5A120D]/85 hover:text-[#841F17] transition-colors"
@@ -157,7 +159,7 @@ export const Footer: React.FC<FooterProps> = ({
                 WHATSAPP
               </a>
               <a
-                href={BRAND_CONFIG.instagramUrl}
+                href={brandConfig.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#5A120D]/85 hover:text-[#841F17] transition-colors"
@@ -171,12 +173,12 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Copyright & Discreet Admin Button */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium tracking-[0.16em] uppercase text-[#5A120D]/75">
           <p>
-            © {new Date().getFullYear()} {BRAND_CONFIG.businessName}. ALL RIGHTS
+            © {new Date().getFullYear()} {brandConfig.businessName}. ALL RIGHTS
             RESERVED.
           </p>
           <div className="flex items-center gap-6">
             <p>
-              {BRAND_CONFIG.founderName} · {BRAND_CONFIG.city}
+              {brandConfig.founderName} · {brandConfig.city}
             </p>
             {onOpenAdmin && (
               <button

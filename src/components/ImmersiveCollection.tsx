@@ -37,7 +37,12 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
   const ROTATION_WINDOW = 0.72; // First 72% rotates the 3D turntable; remaining 28% executes a clean non-overlapping transition
 
   useEffect(() => {
-    if (!wrapperRef.current) return;
+    if (!wrapperRef.current || totalProducts === 0) return;
+
+    rotationProgressRef.current = products.map(
+      (_, i) => rotationProgressRef.current[i] ?? 0
+    );
+    setActiveIndex((prev) => Math.min(prev, Math.max(0, totalProducts - 1)));
 
     const ctx = gsap.context(() => {
       // Initialize all stages: Product 01 visible at start, 02–07 waiting cleanly in the studio
@@ -205,7 +210,7 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
     }, wrapperRef);
 
     return () => ctx.revert();
-  }, [totalProducts]);
+  }, [products, totalProducts]);
 
   // Smoothly navigate to a specific product index (01–07) when clicked
   const scrollToProduct = useCallback((targetIdx: number) => {
@@ -250,7 +255,7 @@ export const ImmersiveCollection: React.FC<ImmersiveCollectionProps> = ({
       <div className="relative w-full h-full">
         {products.map((product, index) => (
           <ProductStageItem
-            key={`${product.slug}-${index}`}
+            key={product.slug}
             product={product}
             index={index}
             activeIndex={activeIndex}

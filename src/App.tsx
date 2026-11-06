@@ -15,8 +15,6 @@ import { AdminPanelModal } from './components/AdminPanelModal';
 import {
   fetchCloudCmsState,
   loadLocalCmsState,
-  setStoredCloudToken,
-  setStoredStripeKey,
 } from './utils/cmsStore';
 
 export function App() {
@@ -46,25 +44,13 @@ export function App() {
     };
   }, []);
 
-  // Handle URL parameters (?payment=success, ?admin=1, ?cloud=..., #admin)
+  // Handle URL parameters (?payment=success, ?admin=1, #admin)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     let shouldCleanUrl = false;
 
     if (params.get('payment') === 'success') {
       setPaymentSuccess(true);
-      shouldCleanUrl = true;
-    }
-
-    const cloudParam = params.get('cloud');
-    if (cloudParam) {
-      setStoredCloudToken(cloudParam);
-      shouldCleanUrl = true;
-    }
-
-    const stripeParam = params.get('stripe');
-    if (stripeParam) {
-      setStoredStripeKey(stripeParam);
       shouldCleanUrl = true;
     }
 
@@ -163,6 +149,7 @@ export function App() {
       <Footer
         lang={lang}
         products={cmsState.products}
+        brandConfig={cmsState.brandConfig}
         onOpenOrderModal={(selection) => handleOpenOrder(selection)}
         onOpenAdmin={() => setAdminOpen(true)}
       />
@@ -173,6 +160,7 @@ export function App() {
         onClose={() => setOrderModalOpen(false)}
         lang={lang}
         products={cmsState.products}
+        brandConfig={cmsState.brandConfig}
         initialSelection={selectedInquiry}
       />
 

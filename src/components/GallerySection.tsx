@@ -89,7 +89,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
 
         {/* Category Filter Pills */}
         <div
-          role="tablist"
+          role="group"
           aria-label={
             lang === 'en' ? 'Filter gallery by category' : 'Filtrar galería por categoría'
           }
@@ -105,8 +105,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
               <button
                 key={cat}
                 type="button"
-                role="tab"
-                aria-selected={isSelected}
+                aria-pressed={isSelected}
                 onClick={() => {
                   setActiveCategory(cat);
                   setLightboxIndex(null);
@@ -138,9 +137,13 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                 className="group bg-[#FAF5E8]/65 border border-[#841F17]/20 hover:border-[#841F17]/50 transition-all duration-500 flex flex-col overflow-hidden shadow-sm hover:shadow-md"
               >
                 {/* Image Container */}
-                <div
+                <button
+                  type="button"
                   onClick={() => setLightboxIndex(idx)}
-                  className="relative aspect-[4/3] w-full overflow-hidden bg-[#E2C684]/40 cursor-pointer"
+                  aria-label={`${
+                    lang === 'en' ? 'Open full photo:' : 'Ampliar foto:'
+                  } ${item.title[lang] || item.title.es}`}
+                  className="relative aspect-[4/3] w-full overflow-hidden bg-[#E2C684]/40 cursor-pointer text-left"
                 >
                   <img
                     src={item.imageSrc}
@@ -160,7 +163,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                       <Maximize2 className="w-4 h-4" />
                     </span>
                   </div>
-                </div>
+                </button>
 
                 {/* Editorial Caption & Action */}
                 <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between gap-4">

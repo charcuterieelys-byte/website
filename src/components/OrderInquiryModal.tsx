@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { Language, Product } from '../types/catalog';
+import { BrandConfigData, Language, Product } from '../types/catalog';
 import { BRAND_CONFIG, PRODUCTS } from '../data/catalog';
+import { isSafeHttpsUrl } from '../utils/cmsStore';
 
 interface OrderInquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
   lang: Language;
   products?: Product[];
+  brandConfig?: BrandConfigData;
   initialSelection?: string;
 }
 
@@ -16,6 +18,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
   onClose,
   lang,
   products = PRODUCTS,
+  brandConfig = BRAND_CONFIG,
   initialSelection,
 }) => {
   const [selectedProductId, setSelectedProductId] = useState<string>(
@@ -70,10 +73,13 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
     ? 'Custom Event / Grazing Table'
     : 'Evento Personalizado / Mesa de Charcutería';
 
-  const stripeCheckoutUrl =
-    activeProduct?.stripePaymentLink || BRAND_CONFIG.stripeCustomQuoteLink;
+  const rawStripeUrl =
+    activeProduct?.stripePaymentLink || brandConfig.stripeCustomQuoteLink;
+  const stripeCheckoutUrl = isSafeHttpsUrl(rawStripeUrl)
+    ? rawStripeUrl
+    : BRAND_CONFIG.stripeCustomQuoteLink;
   const hasDirectPrice = Boolean(
-    activeProduct?.stripePaymentLink && !activeProduct.isCustomQuote
+    isSafeHttpsUrl(activeProduct?.stripePaymentLink) && !activeProduct?.isCustomQuote
   );
   const detailsList = activeProduct?.details?.[lang];
   const activeDetailNote = detailsList?.[detailsList.length - 1];
@@ -107,7 +113,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
         ? `Hello Ely’s Charcuterie,\n\nI would like to inquire about an order:\n• Selection: ${selectionLabel}\n• Name: ${name || 'To confirm'}\n• Contact: ${contact || 'To confirm'}\n• Event Date: ${date || 'Flexible'}\n• Guests: ${guests || 'To confirm'}\n• Notes: ${notes || 'None'}`
         : `Hola Ely’s Charcuterie,\n\nMe gustaría consultar por un pedido:\n• Selección: ${selectionLabel}\n• Nombre: ${name || 'Por confirmar'}\n• Contacto: ${contact || 'Por confirmar'}\n• Fecha: ${date || 'Flexible'}\n• Invitados: ${guests || 'Por confirmar'}\n• Notas: ${notes || 'Ninguna'}`;
 
-    const url = `https://wa.me/${BRAND_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+    const url = `https://wa.me/${brandConfig.whatsappNumber}?text=${encodeURIComponent(
       message
     )}`;
     window.open(url, '_blank', 'noopener,noreferrer');
@@ -305,8 +311,8 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
             {emailSent && (
               <p className="text-xs font-medium text-[#841F17] bg-[#FAF5E8]/80 border border-[#841F17]/25 px-3.5 py-2.5">
                 {lang === 'en'
-                  ? `Request also sent to ${BRAND_CONFIG.email}.`
-                  : `Solicitud también enviada a ${BRAND_CONFIG.email}.`}
+                  ? `Request also sent to ${brandConfig.email}.`
+                  : `Solicitud también enviada a ${brandConfig.email}.`}
               </p>
             )}
 

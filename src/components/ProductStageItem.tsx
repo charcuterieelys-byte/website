@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Language, Product } from '../types/catalog';
+import { isSafeHttpsUrl } from '../utils/cmsStore';
 
 interface ProductStageItemProps {
   product: Product;
@@ -231,12 +232,13 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
 
           {/* Ordering CTA: Direct Stripe Checkout + Personal Order Concierge */}
           <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
-            {product.stripePaymentLink && !product.isCustomQuote ? (
+            {isSafeHttpsUrl(product.stripePaymentLink) && !product.isCustomQuote ? (
               <>
                 <a
                   href={product.stripePaymentLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  tabIndex={isActive ? 0 : -1}
                   className="inline-flex items-center justify-center px-7 py-3.5 sm:py-4 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-all duration-300 shadow-sm"
                 >
                   {lang === 'en'
@@ -245,6 +247,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
                 </a>
                 <button
                   type="button"
+                  tabIndex={isActive ? 0 : -1}
                   onClick={() => onOrderProduct(product)}
                   className="inline-flex items-center justify-center px-5 py-3.5 sm:py-4 border border-[#841F17]/45 hover:border-[#841F17] bg-[#FAF5E8]/55 hover:bg-[#841F17] text-[#841F17] hover:text-[#FAF5E8] text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300"
                 >
@@ -254,6 +257,7 @@ export const ProductStageItem: React.FC<ProductStageItemProps> = ({
             ) : (
               <button
                 type="button"
+                tabIndex={isActive ? 0 : -1}
                 onClick={() => onOrderProduct(product)}
                 className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 sm:py-4 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.24em] uppercase transition-all duration-300 shadow-sm"
               >
