@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 
 const DESTINATION_EMAIL = 'elyscharcuteria@gmail.com';
 const SENDER_EMAIL = "Ely's Charcuterie <orders@elyscharcuterie.com>";
+const LOGO_URL = 'https://www.elyscharcuterie.com/brand/logo-vertical-rojo.png';
 
 function escapeHtml(value) {
   if (value == null) return '';
@@ -11,7 +12,8 @@ function escapeHtml(value) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/'/g, '&#39;')
+    .replace(/[^\x20-\x7E]/g, (ch) => `&#${ch.charCodeAt(0)};`);
 }
 
 function verifyStripeSignature(rawPayload, sigHeader, secret) {
@@ -80,65 +82,76 @@ export default async function handler(req, res) {
           field.text?.value ||
           field.dropdown?.value ||
           field.numeric?.value ||
-          '—';
+          '-';
         return `
           <tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18); font-weight: bold; color: #841F17;">${escapeHtml(label)}:</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18);">${escapeHtml(val)}</td>
+            <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17; width: 38%;">${escapeHtml(label)}:</td>
+            <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15);">${escapeHtml(val)}</td>
           </tr>
         `;
       })
       .join('');
 
-    const ownerHtml = `
-      <div style="font-family: Georgia, serif; color: #4A120E; background-color: #FAF5E8; padding: 32px; border: 1px solid #841F17; max-width: 600px; margin: 0 auto;">
-        <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #841F17; margin: 0 0 8px;">
-          PAGO RECIBIDO EN STRIPE · ELY'S CHARCUTERIE
-        </p>
-        <h2 style="color: #841F17; font-weight: normal; margin: 0 0 18px; font-size: 26px;">
-          Nuevo Pedido Pagado (${escapeHtml(amountTotal)})
-        </h2>
-        <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6;">
-          <tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18); font-weight: bold; color: #841F17;">Monto Pagado:</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18); font-weight: bold;">${escapeHtml(amountTotal)}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18); font-weight: bold; color: #841F17;">Cliente:</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18);">${escapeHtml(customerName)}</td>
-          </tr>
-          ${
-            customerEmail
-              ? `<tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18); font-weight: bold; color: #841F17;">Correo:</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18);">${escapeHtml(customerEmail)}</td>
-          </tr>`
-              : ''
-          }
-          ${
-            customerPhone
-              ? `<tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18); font-weight: bold; color: #841F17;">Teléfono:</td>
-            <td style="padding: 8px 0; border-bottom: 1px solid rgba(132,31,23,0.18);">${escapeHtml(customerPhone)}</td>
-          </tr>`
-              : ''
-          }
-          ${customRows}
-        </table>
-      </div>
-    `;
+    const ownerHtml = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin: 0; padding: 24px; background-color: #E7D095; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #4A120E;">
+  <div style="background-color: #FAF5E8; padding: 36px 32px; border: 1px solid #841F17; max-width: 580px; margin: 0 auto;">
+    <div style="text-align: center; border-bottom: 1px solid rgba(132,31,23,0.2); padding-bottom: 22px; margin-bottom: 24px;">
+      <img src="${LOGO_URL}" alt="Ely's Charcuterie" width="115" style="display: block; margin: 0 auto 14px; width: 115px; height: auto;" />
+      <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #841F17; margin: 0; font-weight: 600;">
+        PAGO RECIBIDO EN STRIPE &middot; ELY&rsquo;S CHARCUTERIE
+      </p>
+      <h2 style="font-family: Georgia, 'Times New Roman', serif; color: #841F17; font-weight: normal; margin: 8px 0 0; font-size: 26px;">
+        Nuevo Pedido Pagado (${escapeHtml(amountTotal)})
+      </h2>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6; color: #4A120E;">
+      <tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17; width: 38%;">Monto Pagado:</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 700;">${escapeHtml(amountTotal)}</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17;">Cliente:</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15);">${escapeHtml(customerName)}</td>
+      </tr>
+      ${
+        customerEmail
+          ? `<tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17;">Correo:</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15);">${escapeHtml(customerEmail)}</td>
+      </tr>`
+          : ''
+      }
+      ${
+        customerPhone
+          ? `<tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17;">Tel&eacute;fono:</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15);">${escapeHtml(customerPhone)}</td>
+      </tr>`
+          : ''
+      }
+      ${customRows}
+    </table>
+  </div>
+</body>
+</html>`;
 
     const ownerResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${resendApiKey}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify({
         from: SENDER_EMAIL,
         to: [DESTINATION_EMAIL],
         reply_to: customerEmail || undefined,
-        subject: `✅ Pago Recibido (${amountTotal}) — ${customerName}`,
+        subject: `Pago Recibido (${amountTotal}) - ${customerName}`,
         html: ownerHtml,
       }),
     });
@@ -149,34 +162,42 @@ export default async function handler(req, res) {
     }
 
     if (customerEmail && customerEmail.includes('@')) {
-      const clientHtml = `
-        <div style="font-family: Georgia, serif; color: #4A120E; background-color: #FAF5E8; padding: 32px; border: 1px solid #841F17; max-width: 600px; margin: 0 auto;">
-          <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #841F17; margin: 0 0 8px;">
-            ELY'S CHARCUTERIE · LOUISVILLE, KY
-          </p>
-          <h2 style="color: #841F17; font-weight: normal; margin: 0 0 16px; font-size: 26px;">
-            Thank you for your order / Gracias por tu pedido
-          </h2>
-          <p style="line-height: 1.6; font-size: 14px;">
-            Hola <strong>${escapeHtml(customerName)}</strong>, hemos recibido tu pago por <strong>${escapeHtml(amountTotal)}</strong>. Elianne preparará tu pedido fresco bajo reserva en Louisville, Kentucky.
-          </p>
-          <p style="line-height: 1.6; font-size: 14px;">
-            Si deseas coordinar algún detalle adicional de entrega, puedes escribirnos directamente por WhatsApp al <a href="https://wa.me/15023454063" style="color: #841F17; font-weight: bold;">+1 (502) 345-4063</a>.
-          </p>
-        </div>
-      `;
+      const clientHtml = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin: 0; padding: 24px; background-color: #E7D095; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #4A120E;">
+  <div style="background-color: #FAF5E8; padding: 36px 32px; border: 1px solid #841F17; max-width: 580px; margin: 0 auto; text-align: center;">
+    <img src="${LOGO_URL}" alt="Ely's Charcuterie" width="115" style="display: block; margin: 0 auto 14px; width: 115px; height: auto;" />
+    <p style="font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #841F17; margin: 0 0 8px; font-weight: 600;">
+      ELY&rsquo;S CHARCUTERIE &middot; LOUISVILLE, KY
+    </p>
+    <h2 style="font-family: Georgia, 'Times New Roman', serif; color: #841F17; font-weight: normal; margin: 0 0 18px; font-size: 26px;">
+      Thank you for your order / Gracias por tu pedido
+    </h2>
+    <p style="line-height: 1.6; font-size: 14px; margin: 0 0 14px;">
+      Hola <strong>${escapeHtml(customerName)}</strong>, hemos recibido tu pago por <strong>${escapeHtml(amountTotal)}</strong>. Elianne preparar&aacute; tu pedido fresco bajo reserva en Louisville, Kentucky.
+    </p>
+    <p style="line-height: 1.6; font-size: 14px; margin: 0;">
+      Si deseas coordinar alg&uacute;n detalle adicional de entrega, puedes escribirnos directamente por WhatsApp al <a href="https://wa.me/15023454063" style="color: #841F17; font-weight: bold;">+1 (502) 345-4063</a>.
+    </p>
+  </div>
+</body>
+</html>`;
 
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
         },
         body: JSON.stringify({
           from: SENDER_EMAIL,
           to: [customerEmail],
           reply_to: DESTINATION_EMAIL,
-          subject: `Confirmación de Pedido — Ely's Charcuterie`,
+          subject: "Confirmacion de Pedido - Ely's Charcuterie",
           html: clientHtml,
         }),
       });
