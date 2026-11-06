@@ -14,11 +14,15 @@ export const BRAND_CONFIG = {
   businessName: "Ely’s Charcuterie",
   founderName: 'Elianne Lafuente',
   city: 'Louisville, Kentucky',
-  // [EDITABLE FIELD] Confirm official WhatsApp number & Instagram handle
-  whatsappNumber: '15025550199',
+  // Official WhatsApp number (+1 502-345-4063) & Instagram handle
+  whatsappNumber: '15023454063',
+  whatsappDisplay: '+1 (502) 345-4063',
   instagramHandle: '@elyscharcuterie',
   instagramUrl: 'https://instagram.com/',
-  email: 'orders@elyscharcuterie.com',
+  email: 'elyscharcuteria@gmail.com',
+  senderEmail: 'orders@elyscharcuterie.com',
+  // Official Stripe Custom Quote Link
+  stripeCustomQuoteLink: 'https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005',
   // Official Brand Sheet Logo SVGs (Cream-Gold #E7D095 & Burgundy Red #841F17)
   logoHorizontal: './brand/logo-horizontal-crema.svg',
   logoVertical: './brand/logo-vertical-crema.svg',
@@ -72,7 +76,7 @@ export const PRODUCTS: Product[] = [
       es: '01 / LA COLECCIÓN',
     },
     shortTitle: {
-      en: 'SMALL',
+      en: 'SMALL · 12"',
       es: 'SMALL · 12"',
     },
     name: {
@@ -88,18 +92,22 @@ export const PRODUCTS: Product[] = [
       es: '12 PULGADAS',
     },
     servings: {
-      // Supplied example in brief Section 5
-      en: 'SERVES 2–3',
-      es: '2–3 PERSONAS',
+      en: 'SERVES 4–6',
+      es: '4–6 PERSONAS',
     },
     price: {
-      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
-      en: '$ PRICE',
-      es: '$ PRECIO',
+      en: '$85',
+      es: '$85',
     },
     details: {
-      en: ['Hand-sculpted salami rose centerpiece', 'Artisanal cheeses, berries, grapes, crackers & honey'],
-      es: ['Rosa central de salami esculpida a mano', 'Quesos selectos, frutos rojos, uvas, galletas y miel'],
+      en: [
+        'Hand-sculpted salami rose centerpiece',
+        'Artisanal cheeses, berries, grapes, crackers & honey',
+      ],
+      es: [
+        'Rosa central de salami esculpida a mano',
+        'Quesos selectos, frutos rojos, uvas, galletas y miel',
+      ],
     },
     videoSrc: './videos/products/01-small-board.webm?v=birefnet1',
     videoFallbackMp4: './videos/products/01-small-board.mp4?v=birefnet1',
@@ -107,12 +115,13 @@ export const PRODUCTS: Product[] = [
     realPhotoSrc: './images/real/01-small-board.jpg',
     category: 'boards',
     orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/dRm6oAgmH3q5dnoh0m48000',
     ctaLabel: {
       en: 'ORDER THIS BOARD',
       es: 'ORDENAR ESTA TABLA',
     },
     layoutAlign: 'left',
-    visualScale: 1.08, // Intentional scaling so 12" board feels balanced in the studio
+    visualScale: 1.08,
   },
   {
     id: '02',
@@ -122,7 +131,7 @@ export const PRODUCTS: Product[] = [
       es: '02 / LA COLECCIÓN',
     },
     shortTitle: {
-      en: 'MEDIUM',
+      en: 'MEDIUM · 16"',
       es: 'MEDIUM · 16"',
     },
     name: {
@@ -138,18 +147,22 @@ export const PRODUCTS: Product[] = [
       es: '16 PULGADAS',
     },
     servings: {
-      // [EDITABLE FIELD] Confirm exact serving range for 16-inch board
-      en: 'SERVES — TO CONFIRM',
-      es: 'PORCIONES — POR CONFIRMAR',
+      en: 'SERVES 8–10',
+      es: '8–10 PERSONAS',
     },
     price: {
-      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
-      en: '$ PRICE',
-      es: '$ PRECIO',
+      en: '$140',
+      es: '$140',
     },
     details: {
-      en: ['16-inch circular presentation', 'Dual salami roses, brie wedges, cubed cheeses, nuts & seasonal fruit'],
-      es: ['Presentación circular de 16 pulgadas', 'Doble rosa de charcutería, cuñas de brie, quesos, nueces y fruta'],
+      en: [
+        '16-inch circular presentation for 8–10 guests',
+        'Dual salami roses, brie wedges, cubed cheeses, nuts & seasonal fruit',
+      ],
+      es: [
+        'Presentación circular de 16 pulgadas para 8–10 personas',
+        'Doble rosa de charcutería, cuñas de brie, quesos, nueces y fruta',
+      ],
     },
     videoSrc: './videos/products/02-medium-board.webm?v=birefnet1',
     videoFallbackMp4: './videos/products/02-medium-board.mp4?v=birefnet1',
@@ -157,6 +170,7 @@ export const PRODUCTS: Product[] = [
     realPhotoSrc: './images/real/02-medium-board.jpg',
     category: 'boards',
     orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/7sY00c9Yjd0FbfgcK648001',
     ctaLabel: {
       en: 'ORDER THIS BOARD',
       es: 'ORDENAR ESTA TABLA',
@@ -172,35 +186,38 @@ export const PRODUCTS: Product[] = [
       es: '03 / LA COLECCIÓN',
     },
     shortTitle: {
-      en: 'RECTANGULAR',
-      es: 'RECTANGULAR',
+      en: 'LARGE · 18"',
+      es: 'LARGE · 18"',
     },
     name: {
-      en: 'Rectangular Charcuterie Board',
-      es: 'Tabla de Charcutería Rectangular',
+      en: 'Large Charcuterie Board (18")',
+      es: 'Tabla de Charcutería Grande (18")',
     },
     description: {
-      en: 'An architectural wooden board composition crafted as the centerpiece of the table, bringing together signature charcuterie, artisan cheeses, preserves and fresh fruit.',
-      es: 'Una composición escultural sobre madera con asas, concebida como el centro de la mesa con charcutería de autor, quesos, conservas y fruta fresca.',
+      en: 'An abundant 18-inch centerpiece composition crafted for 12–15 guests, bringing together signature charcuterie roses, artisan cheeses, preserves and fresh fruit.',
+      es: 'Una composición abundante de 18 pulgadas pensada para 12–15 personas con charcutería de autor, quesos selectos, conservas y fruta fresca.',
     },
     dimensions: {
-      // [EDITABLE FIELD] Confirm exact dimensions for Rectangular Board
-      en: 'RECTANGULAR FORMAT',
-      es: 'FORMATO RECTANGULAR',
+      en: '18 INCHES',
+      es: '18 PULGADAS',
     },
     servings: {
-      // [EDITABLE FIELD] Confirm exact serving count
-      en: 'SERVES — TO CONFIRM',
-      es: 'PORCIONES — POR CONFIRMAR',
+      en: 'SERVES 12–15',
+      es: '12–15 PERSONAS',
     },
     price: {
-      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
-      en: '$ PRICE',
-      es: '$ PRECIO',
+      en: '$170',
+      es: '$170',
     },
     details: {
-      en: ['Hardwood handled tray presentation', 'Ceramic bowls for olives & preserves, signature honey jar & artisan cheeses'],
-      es: ['Bandeja de madera con asas', 'Cuencos de cerámica con aceitunas y mermelada, miel Ely’s y quesos selectos'],
+      en: [
+        'Ceramic bowls for olives & preserves, signature honey jar & artisan cheeses',
+        'Note: Wooden board not included',
+      ],
+      es: [
+        'Cuencos con aceitunas y mermelada, miel Ely’s y quesos selectos',
+        'Nota: Tabla de madera no incluida',
+      ],
     },
     videoSrc: './videos/products/03-rectangular-board.webm?v=birefnet1',
     videoFallbackMp4: './videos/products/03-rectangular-board.mp4?v=birefnet1',
@@ -208,6 +225,7 @@ export const PRODUCTS: Product[] = [
     realPhotoSrc: './images/real/03-rectangular-board.jpg',
     category: 'boards',
     orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/6oU5kwb2n7Gl1EGh0m48002',
     ctaLabel: {
       en: 'ORDER THIS BOARD',
       es: 'ORDENAR ESTA TABLA',
@@ -227,30 +245,34 @@ export const PRODUCTS: Product[] = [
       es: 'DOBLE CESTA',
     },
     name: {
-      en: 'Double Basket / Two-Tier Presentation',
-      es: 'Presentación en Doble Cesta / Dos Niveles',
+      en: 'Double Basket · Wine or Whiskey Included',
+      es: 'Doble Cesta · Vino o Whisky Incluido',
     },
     description: {
-      en: 'A tactile two-basket presentation pairing an abundant selection of cured meats, cheeses and fruits with a dedicated companion basket of artisan crackers, honey and preserves.',
-      es: 'Una presentación táctil de dos cestas tejidas que combina una selección abundante de charcutería, quesos y frutas con una segunda cesta dedicada a galletas artesanales, miel y conservas.',
+      en: 'A luxury two-basket presentation with a bottle of Wine or Whiskey included, pairing an abundant selection of cured meats, cheeses and fruits with a companion basket of crackers, honey and preserves.',
+      es: 'Una presentación de lujo en dos cestas tejidas con botella de Vino o Whisky incluida, combinando charcutería, quesos y frutas con una segunda cesta de galletas artesanales, miel y conservas.',
     },
     dimensions: {
       en: 'TWO-TIER PRESENTATION',
       es: 'PRESENTACIÓN DE DOS NIVELES',
     },
     servings: {
-      // [EDITABLE FIELD] Confirm exact serving count
-      en: 'SERVES — TO CONFIRM',
-      es: 'PORCIONES — POR CONFIRMAR',
+      en: 'WINE OR WHISKEY INCLUDED',
+      es: 'VINO O WHISKY INCLUIDO',
     },
     price: {
-      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
-      en: '$ PRICE',
-      es: '$ PRECIO',
+      en: '$320',
+      es: '$320',
     },
     details: {
-      en: ['Woven twin-basket culinary display', 'Dedicated cracker, honey & preserve accompaniment basket'],
-      es: ['Presentación en doble cesta tejida', 'Cesta complementaria de galletas, miel y mermelada'],
+      en: [
+        'Includes bottle of Wine or Whiskey of your choice',
+        'Woven twin-basket display with dedicated cracker, honey & preserve basket',
+      ],
+      es: [
+        'Incluye botella de Vino o Whisky a elección',
+        'Presentación en doble cesta tejida con cesta de galletas, miel y mermelada',
+      ],
     },
     videoSrc: './videos/products/04-double-basket.webm?v=birefnet1',
     videoFallbackMp4: './videos/products/04-double-basket.mp4?v=birefnet1',
@@ -258,6 +280,7 @@ export const PRODUCTS: Product[] = [
     realPhotoSrc: './images/real/04-double-basket.jpg',
     category: 'presentations',
     orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/4gMfZa1rN8Kpfvwh0m48003',
     ctaLabel: {
       en: 'ORDER THIS PRESENTATION',
       es: 'ORDENAR ESTA PRESENTACIÓN',
@@ -281,26 +304,30 @@ export const PRODUCTS: Product[] = [
       es: 'Vasos Individuales de Charcutería',
     },
     description: {
-      en: 'Three-cup presentation crafted for effortless mingling at celebrations, corporate events and private toasts—each cup crowned with a signature salami rose, cheese skewers and fresh berries.',
-      es: 'Presentación de tres vasos diseñada para disfrutar cómodamente en eventos, brindis y celebraciones; cada vaso coronado con una rosa de salami, brochetas de queso y frutos frescos.',
+      en: 'Individual cup presentation crafted for effortless mingling at celebrations, corporate events and private toasts—each cup crowned with a signature salami rose, cheese skewers and fresh berries.',
+      es: 'Presentación en vasos individuales diseñada para disfrutar cómodamente en eventos, brindis y celebraciones; cada vaso coronado con una rosa de salami, brochetas de queso y frutos frescos.',
     },
     dimensions: {
-      en: 'THREE-CUP PRESENTATION',
-      es: 'PRESENTACIÓN DE TRES VASOS',
+      en: 'INDIVIDUAL CUPS',
+      es: 'VASOS INDIVIDUALES',
     },
     servings: {
-      // [EDITABLE FIELD] Confirm minimum order or serving details
-      en: 'INDIVIDUAL PORTIONS — TO CONFIRM',
-      es: 'PORCIONES INDIVIDUALES — POR CONFIRMAR',
+      en: 'EVENTS & CELEBRATIONS',
+      es: 'EVENTOS Y CELEBRACIONES',
     },
     price: {
-      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
-      en: '$ PRICE',
-      es: '$ PRECIO',
+      en: 'CUSTOM QUOTE',
+      es: 'A COTIZAR',
     },
     details: {
-      en: ['Branded Ely’s Charcuterie cups', 'Individual salami rose, artisan cheese cubes, fresh berries & crackers'],
-      es: ['Vasos con sello de marca Ely’s Charcuterie', 'Rosa individual de salami, cubos de queso, frutos rojos y galletas'],
+      en: [
+        'Branded Ely’s Charcuterie cups',
+        'Individual salami rose, artisan cheese cubes, fresh berries & crackers',
+      ],
+      es: [
+        'Vasos con sello de marca Ely’s Charcuterie',
+        'Rosa individual de salami, cubos de queso, frutos rojos y galletas',
+      ],
     },
     videoSrc: './videos/products/05-charcuterie-cups.webm?v=birefnet1',
     videoFallbackMp4: './videos/products/05-charcuterie-cups.mp4?v=birefnet1',
@@ -308,12 +335,14 @@ export const PRODUCTS: Product[] = [
     realPhotoSrc: './images/real/05-charcuterie-cups.jpg',
     category: 'individual',
     orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005',
+    isCustomQuote: true,
     ctaLabel: {
       en: 'ORDER CHARCUTERIE CUPS',
-      es: 'ORDENAR VASOS',
+      es: 'COTIZAR VASOS',
     },
     layoutAlign: 'left',
-    visualScale: 1.14, // Scaled intentionally so individual cups command equal presence
+    visualScale: 1.14,
   },
   {
     id: '06',
@@ -324,33 +353,37 @@ export const PRODUCTS: Product[] = [
     },
     shortTitle: {
       en: 'SNACK BOX',
-      es: 'SNACK BOX',
+      es: 'ELY’S SNACK BOX',
     },
     name: {
-      en: 'Elys Snack Box',
-      es: 'Elys Snack Box',
+      en: 'Ely’s Snack Box (2 Guests)',
+      es: 'Ely’s Snack Box (2 Personas)',
     },
     description: {
-      en: 'A refined rectangular kraft box with window lid, thoughtfully arranged with sliced cheeses, cured meats, wooden bowl of olives, fresh fruit and sweet-savory bites.',
-      es: 'Caja rectangular kraft con ventana superior, cuidadosamente dispuesta con quesos laminados y en cubos, embutidos, cuenco de madera con aceitunas, fruta fresca y acompañamientos.',
+      en: 'A refined rectangular kraft box with window lid crafted for 2 guests, thoughtfully arranged with sliced cheeses, cured meats, wooden bowl of olives, fresh fruit and sweet-savory bites.',
+      es: 'Caja rectangular kraft con ventana superior para 2 personas, cuidadosamente dispuesta con quesos laminados y en cubos, embutidos, cuenco de madera con aceitunas, fruta fresca y acompañamientos.',
     },
     dimensions: {
       en: 'RECTANGULAR KRAFT BOX',
       es: 'CAJA KRAFT RECTANGULAR',
     },
     servings: {
-      // [EDITABLE FIELD] Confirm exact serving count
-      en: 'SERVES — TO CONFIRM',
-      es: 'PORCIONES — POR CONFIRMAR',
+      en: 'SERVES 2',
+      es: '2 PERSONAS',
     },
     price: {
-      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
-      en: '$ PRICE',
-      es: '$ PRECIO',
+      en: 'INQUIRE / ORDER',
+      es: '2 PERSONAS · CONSULTAR',
     },
     details: {
-      en: ['Window-lid kraft gift box presentation', 'Ideal for gifting, picnics & intimate moments'],
-      es: ['Caja kraft con ventana lista para regalar', 'Ideal para obsequios, picnics y detalles especiales'],
+      en: [
+        'Curated for 2 people in a window-lid kraft gift box',
+        'Ideal for gifting, picnics & intimate moments',
+      ],
+      es: [
+        'Diseñada para 2 personas en caja kraft con ventana lista para regalar',
+        'Ideal para obsequios, picnics y detalles especiales',
+      ],
     },
     videoSrc: './videos/products/06-snack-box.webm?v=birefnet1',
     videoFallbackMp4: './videos/products/06-snack-box.mp4?v=birefnet1',
@@ -358,9 +391,11 @@ export const PRODUCTS: Product[] = [
     realPhotoSrc: './images/real/06-snack-box.jpg',
     category: 'boxes',
     orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005',
+    isCustomQuote: true,
     ctaLabel: {
-      en: 'ORDER THIS BOX',
-      es: 'ORDENAR ESTA CAJA',
+      en: 'ORDER SNACK BOX',
+      es: 'ORDENAR SNACK BOX',
     },
     layoutAlign: 'right',
     visualScale: 1.1,
@@ -374,33 +409,37 @@ export const PRODUCTS: Product[] = [
     },
     shortTitle: {
       en: 'BRUNCH BOX',
-      es: 'BRUNCH BOX',
+      es: 'DESAYUNOS · BRUNCH',
     },
     name: {
-      en: 'Celebration Brunch Box',
-      es: 'Celebration Brunch Box',
+      en: 'Personalized Breakfast & Brunch Box',
+      es: 'Desayunos Personalizados · Brunch Box',
     },
     description: {
-      en: 'A complete rectangular brunch presentation uniting filled artisan croissants, bottled beverages with bamboo lids, cured meats, cheeses, fresh seasonal fruits and sweet accompaniments.',
-      es: 'Una presentación rectangular de brunch que reúne croissants rellenos, bebidas en frascos de vidrio con tapa de bambú, charcutería fina, quesos, frutas frescas y postres.',
+      en: 'A personalized breakfast and brunch presentation uniting filled artisan croissants, bottled beverages with bamboo lids, cured meats, cheeses, fresh seasonal fruits and sweet accompaniments.',
+      es: 'Desayunos personalizados y bandeja de brunch que reúne croissants rellenos, bebidas en frascos de vidrio con tapa de bambú, charcutería fina, quesos, frutas frescas y postres.',
     },
     dimensions: {
-      en: 'RECTANGULAR BRUNCH TRAY',
-      es: 'BANDEJA RECTANGULAR DE BRUNCH',
+      en: 'PERSONALIZED BRUNCH TRAY',
+      es: 'DESAYUNO PERSONALIZADO',
     },
     servings: {
-      // [EDITABLE FIELD] Confirm exact serving count
-      en: 'SERVES — TO CONFIRM',
-      es: 'PORCIONES — POR CONFIRMAR',
+      en: 'CUSTOM BREAKFAST',
+      es: 'A TU MEDIDA',
     },
     price: {
-      // [EDITABLE FIELD] Replace "$ PRICE" once official price is confirmed
-      en: '$ PRICE',
-      es: '$ PRECIO',
+      en: 'UP TO $120',
+      es: 'HASTA $120',
     },
     details: {
-      en: ['Includes bottled beverages, croissants & charcuterie', 'Presented in a ribbon-wrapped wooden tray with personalized note card'],
-      es: ['Incluye bebidas, croissants rellenos y selección de charcutería', 'Presentada en bandeja de madera decorada con cinta y tarjeta'],
+      en: [
+        'Personalized breakfasts up to $120 with drinks, croissants & charcuterie',
+        'Presented in a ribbon-wrapped wooden tray with personalized note card',
+      ],
+      es: [
+        'Desayunos personalizados hasta $120 con bebidas, croissants y charcutería',
+        'Presentada en bandeja de madera decorada con cinta y tarjeta personalizada',
+      ],
     },
     videoSrc: './videos/products/07-brunch-box.webm?v=birefnet1',
     videoFallbackMp4: './videos/products/07-brunch-box.mp4?v=birefnet1',
@@ -408,12 +447,69 @@ export const PRODUCTS: Product[] = [
     realPhotoSrc: './images/real/07-brunch-box.jpg',
     category: 'brunch',
     orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/3cIbIUb2n2m13MO6lI48004',
     ctaLabel: {
-      en: 'ORDER BRUNCH BOX',
-      es: 'ORDENAR BRUNCH BOX',
+      en: 'ORDER PERSONALIZED BRUNCH',
+      es: 'ORDENAR DESAYUNO',
     },
     layoutAlign: 'left',
     visualScale: 1.12,
+  },
+  {
+    id: '08',
+    slug: 'corporate-mini-box',
+    indexLabel: {
+      en: '08 / THE COLLECTION',
+      es: '08 / LA COLECCIÓN',
+    },
+    shortTitle: {
+      en: 'CORPORATE MINI BOX',
+      es: 'CORPORATE MINI BOX',
+    },
+    name: {
+      en: 'Corporate Mini Box',
+      es: 'Corporate Mini Box',
+    },
+    description: {
+      en: 'Executive individual mini charcuterie boxes curated for corporate gifting, client appreciation, meetings and branded events in Louisville.',
+      es: 'Mini cajas ejecutivas de charcutería diseñadas para regalos corporativos, atención a clientes, reuniones de equipo y eventos empresariales.',
+    },
+    dimensions: {
+      en: 'CORPORATE MINI BOX',
+      es: 'MINI BOX CORPORATIVA',
+    },
+    servings: {
+      en: 'CORPORATE & EVENTS',
+      es: 'CORPORATIVO Y EVENTOS',
+    },
+    price: {
+      en: 'CUSTOM QUOTE',
+      es: 'A COTIZAR',
+    },
+    details: {
+      en: [
+        'Tailored for corporate events, client gifts & team gatherings',
+        'Custom volume pricing — request a quote for your event',
+      ],
+      es: [
+        'Ideal para eventos corporativos, regalos empresariales y reuniones',
+        'Precio a cotizar según cantidad de cajas y personalización',
+      ],
+    },
+    videoSrc: './videos/products/06-snack-box.webm?v=birefnet1',
+    videoFallbackMp4: './videos/products/06-snack-box.mp4?v=birefnet1',
+    posterSrc: './images/products/06-snack-box-poster.webp?v=birefnet1',
+    realPhotoSrc: './images/real/06-snack-box.jpg',
+    category: 'corporate',
+    orderUrl: '#custom-orders',
+    stripePaymentLink: 'https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005',
+    isCustomQuote: true,
+    ctaLabel: {
+      en: 'QUOTE CORPORATE MINI BOX',
+      es: 'COTIZAR CORPORATE MINI BOX',
+    },
+    layoutAlign: 'right',
+    visualScale: 1.02,
   },
 ];
 

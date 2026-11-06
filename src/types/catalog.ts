@@ -1,7 +1,7 @@
 export type Language = 'en' | 'es';
 
 export interface Product {
-  id: string; // "01" - "07"
+  id: string; // "01" - "08"
   slug: string;
   indexLabel: Record<Language, string>; // e.g., "01 / THE COLLECTION"
   shortTitle: Record<Language, string>; // e.g., "SMALL"
@@ -20,6 +20,8 @@ export interface Product {
   ctaLabel: Record<Language, string>;
   layoutAlign: 'left' | 'right'; // Editorial text placement (left or right of floating product)
   visualScale: number; // Intentional scaling so smaller items balance with larger boards
+  stripePaymentLink?: string; // Official Stripe Checkout Payment Link
+  isCustomQuote?: boolean; // True if item requires custom quote before payment
 }
 
 export interface OccasionItem {
