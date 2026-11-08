@@ -62,8 +62,8 @@ export const CustomOrdersSection: React.FC<CustomOrdersSectionProps> = ({
           },
           {
             num: 'III',
-            title: 'Prepared Fresh in Louisville',
-            text: 'Handcrafted to order by Elianne for effortless hosting and unforgettable moments.',
+            title: 'Ready for Pick-Up in Louisville',
+            text: 'Handcrafted fresh to order by Elianne and ready for pick-up at the agreed time in Louisville, KY.',
           },
         ]
       : [
@@ -79,8 +79,8 @@ export const CustomOrdersSection: React.FC<CustomOrdersSectionProps> = ({
           },
           {
             num: 'III',
-            title: 'Preparado Fresco en Louisville',
-            text: 'Elaborado artesanalmente bajo pedido por Elianne para tu celebración.',
+            title: 'Listo para Recoger en Louisville',
+            text: 'Elaborado artesanalmente bajo pedido por Elianne, listo para recoger (pick-up) a la hora acordada en Louisville, KY.',
           },
         ];
 

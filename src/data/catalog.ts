@@ -579,8 +579,8 @@ export const OCCASIONS_DATA: OccasionItem[] = [
     index: '07',
     title: { en: 'Special Gifts', es: 'Regalos Especiales' },
     subtitle: {
-      en: 'Artisanal kraft snack boxes and curated trays delivered with a personal touch.',
-      es: 'Snack boxes y bandejas curadas entregadas como un detalle inolvidable.',
+      en: 'Artisanal kraft snack boxes and curated trays crafted with a personal touch and ready for pick-up.',
+      es: 'Snack boxes y bandejas curadas preparadas con dedicación y listas para recoger como un detalle inolvidable.',
     },
     imageSrc: './images/real/06-snack-box.jpg',
   },
