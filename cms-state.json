@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-07T01:02:29.124Z",
+  "updatedAt": "2026-11-08T22:40:51.413Z",
   "products": [
     {
       "id": "01",
@@ -45,8 +45,8 @@
       },
       "videoSrc": "./videos/products/01-small-board.webm?v=bluekey1",
       "videoFallbackMp4": "./videos/products/01-small-board.mp4?v=bluekey1",
-      "posterSrc": "./images/products/01-small-board-poster.webp?v=bluekey1",
-      "realPhotoSrc": "./images/real/01-small-board.jpg",
+      "posterSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177537660-IMG_6045.jpg",
+      "realPhotoSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177537660-IMG_6045.jpg",
       "category": "boards",
       "orderUrl": "#custom-orders",
       "stripePaymentLink": "https://buy.stripe.com/dRm6oAgmH3q5dnoh0m48000",
@@ -100,8 +100,8 @@
       },
       "videoSrc": "./videos/products/02-medium-board.webm?v=bluekey1",
       "videoFallbackMp4": "./videos/products/02-medium-board.mp4?v=bluekey1",
-      "posterSrc": "./images/products/02-medium-board-poster.webp?v=bluekey1",
-      "realPhotoSrc": "./images/real/02-medium-board.jpg",
+      "posterSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177514675-IMG_5879.jpg",
+      "realPhotoSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177514675-IMG_5879.jpg",
       "category": "boards",
       "orderUrl": "#custom-orders",
       "stripePaymentLink": "https://buy.stripe.com/7sY00c9Yjd0FbfgcK648001",
@@ -155,8 +155,8 @@
       },
       "videoSrc": "./videos/products/03-rectangular-board.webm?v=bluekey1",
       "videoFallbackMp4": "./videos/products/03-rectangular-board.mp4?v=bluekey1",
-      "posterSrc": "./images/products/03-rectangular-board-poster.webp?v=bluekey1",
-      "realPhotoSrc": "./images/real/03-rectangular-board.jpg",
+      "posterSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177475561-IMG_6023.jpg",
+      "realPhotoSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177475561-IMG_6023.jpg",
       "category": "boards",
       "orderUrl": "#custom-orders",
       "stripePaymentLink": "https://buy.stripe.com/6oU5kwb2n7Gl1EGh0m48002",
@@ -192,20 +192,20 @@
       },
       "servings": {
         "en": "WINE OR WHISKEY INCLUDED",
-        "es": "VINO O WHISKY INCLUIDO"
+        "es": ""
       },
       "price": {
         "es": "$100",
         "en": "$100"
       },
       "details": {
+        "es": [
+          "",
+          "Presentación en doble cesta tejida con cesta de galletas, miel y mermelada"
+        ],
         "en": [
           "Includes bottle of Wine or Whiskey of your choice",
           "Woven twin-basket display with dedicated cracker, honey & preserve basket"
-        ],
-        "es": [
-          "Incluye botella de Vino o Whisky a elección",
-          "Presentación en doble cesta tejida con cesta de galletas, miel y mermelada"
         ]
       },
       "videoSrc": "./videos/products/04-double-basket.webm?v=bluekey1",
@@ -231,8 +231,8 @@
         "en": "05 / THE COLLECTION"
       },
       "shortTitle": {
-        "en": "CUPS",
-        "es": "VASOS INDIVIDUALES"
+        "es": "Pedidos a partir de unidades ",
+        "en": "Pedidos a partir de unidades "
       },
       "name": {
         "en": "Individual Charcuterie Cups",
@@ -251,8 +251,8 @@
         "es": "EVENTOS Y CELEBRACIONES"
       },
       "price": {
-        "en": "CUSTOM QUOTE",
-        "es": "A COTIZAR"
+        "es": "$10 ",
+        "en": "$10 "
       },
       "details": {
         "en": [
@@ -270,8 +270,8 @@
       "realPhotoSrc": "./images/real/05-charcuterie-cups.jpg",
       "category": "individual",
       "orderUrl": "#custom-orders",
-      "stripePaymentLink": "https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005",
-      "isCustomQuote": true,
+      "stripePaymentLink": "https://buy.stripe.com/bJe7sEb2n0dT3MOaBY48007",
+      "isCustomQuote": false,
       "ctaLabel": {
         "en": "ORDER CHARCUTERIE CUPS",
         "es": "COTIZAR VASOS"
@@ -307,8 +307,8 @@
         "es": "2 PERSONAS"
       },
       "price": {
-        "en": "CUSTOM QUOTE",
-        "es": "A COTIZAR"
+        "es": "$45",
+        "en": "$45"
       },
       "details": {
         "en": [
@@ -326,8 +326,8 @@
       "realPhotoSrc": "./images/real/06-snack-box.jpg",
       "category": "boxes",
       "orderUrl": "#custom-orders",
-      "stripePaymentLink": "https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005",
-      "isCustomQuote": true,
+      "stripePaymentLink": "https://buy.stripe.com/bJe7sE1rN4u94QSeSe48008",
+      "isCustomQuote": false,
       "ctaLabel": {
         "en": "ORDER SNACK BOX",
         "es": "ORDENAR SNACK BOX"
