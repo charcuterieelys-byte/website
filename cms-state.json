@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-08T22:40:51.413Z",
+  "updatedAt": "2026-11-08T22:42:02.486Z",
   "products": [
     {
       "id": "01",
@@ -445,6 +445,174 @@
       },
       "layoutAlign": "right",
       "visualScale": 1.02
+    },
+    {
+      "id": "09",
+      "slug": "custom-package-1794177670857",
+      "indexLabel": {
+        "es": "09 / LA COLECCIÓN",
+        "en": "09 / THE COLLECTION"
+      },
+      "shortTitle": {
+        "es": "NUEVO PAQUETE",
+        "en": "NEW PACKAGE"
+      },
+      "name": {
+        "es": "Nuevo Paquete de Charcutería",
+        "en": "New Charcuterie Package"
+      },
+      "description": {
+        "es": "Selección artesanal de quesos, carnes frías, frutas frescas y acompañamientos gourmet.",
+        "en": "Artisanal selection of cheeses, cured meats, fresh fruits and gourmet pairings."
+      },
+      "dimensions": {
+        "es": "EDICIÓN ESPECIAL",
+        "en": "SPECIAL EDITION"
+      },
+      "servings": {
+        "es": "4–6 PERSONAS",
+        "en": "SERVES 4–6"
+      },
+      "price": {
+        "es": "$100",
+        "en": "$100"
+      },
+      "details": {
+        "es": [
+          "Elaborado fresco bajo pedido en Louisville, KY",
+          "Incluye quesos selectos, embutidos, frutas y acompañamientos"
+        ],
+        "en": [
+          "Prepared fresh to order in Louisville, KY",
+          "Includes artisan cheeses, cured meats, fruits & accompaniments"
+        ]
+      },
+      "videoSrc": "./videos/products/01-small-board.webm?v=bluekey1",
+      "videoFallbackMp4": "./videos/products/01-small-board.mp4?v=bluekey1",
+      "posterSrc": "./images/products/01-small-board-poster.webp?v=bluekey1",
+      "realPhotoSrc": "./images/real/01-small-board.jpg",
+      "category": "boards",
+      "orderUrl": "#custom-orders",
+      "stripePaymentLink": "https://buy.stripe.com/00w3co7Qbe4JersaBY4800a",
+      "isCustomQuote": false,
+      "ctaLabel": {
+        "es": "ORDENAR ESTE PAQUETE",
+        "en": "ORDER THIS PACKAGE"
+      },
+      "layoutAlign": "left",
+      "visualScale": 1.08
+    },
+    {
+      "id": "10",
+      "slug": "custom-package-1794177673287",
+      "indexLabel": {
+        "es": "10 / LA COLECCIÓN",
+        "en": "10 / THE COLLECTION"
+      },
+      "shortTitle": {
+        "es": "NUEVO PAQUETE",
+        "en": "NEW PACKAGE"
+      },
+      "name": {
+        "es": "Nuevo Paquete de Charcutería",
+        "en": "New Charcuterie Package"
+      },
+      "description": {
+        "es": "Selección artesanal de quesos, carnes frías, frutas frescas y acompañamientos gourmet.",
+        "en": "Artisanal selection of cheeses, cured meats, fresh fruits and gourmet pairings."
+      },
+      "dimensions": {
+        "es": "EDICIÓN ESPECIAL",
+        "en": "SPECIAL EDITION"
+      },
+      "servings": {
+        "es": "4–6 PERSONAS",
+        "en": "SERVES 4–6"
+      },
+      "price": {
+        "es": "$100",
+        "en": "$100"
+      },
+      "details": {
+        "es": [
+          "Elaborado fresco bajo pedido en Louisville, KY",
+          "Incluye quesos selectos, embutidos, frutas y acompañamientos"
+        ],
+        "en": [
+          "Prepared fresh to order in Louisville, KY",
+          "Includes artisan cheeses, cured meats, fruits & accompaniments"
+        ]
+      },
+      "videoSrc": "./videos/products/01-small-board.webm?v=bluekey1",
+      "videoFallbackMp4": "./videos/products/01-small-board.mp4?v=bluekey1",
+      "posterSrc": "./images/products/01-small-board-poster.webp?v=bluekey1",
+      "realPhotoSrc": "./images/real/01-small-board.jpg",
+      "category": "boards",
+      "orderUrl": "#custom-orders",
+      "stripePaymentLink": "https://buy.stripe.com/eVq5kw3zV1hXcjkdOa48009",
+      "isCustomQuote": false,
+      "ctaLabel": {
+        "es": "ORDENAR ESTE PAQUETE",
+        "en": "ORDER THIS PACKAGE"
+      },
+      "layoutAlign": "right",
+      "visualScale": 1.08
+    },
+    {
+      "id": "11",
+      "slug": "custom-package-1794177678337",
+      "indexLabel": {
+        "es": "11 / LA COLECCIÓN",
+        "en": "11 / THE COLLECTION"
+      },
+      "shortTitle": {
+        "es": "NUEVO PAQUETE",
+        "en": "NEW PACKAGE"
+      },
+      "name": {
+        "es": "Nuevo Paquete de Charcutería",
+        "en": "New Charcuterie Package"
+      },
+      "description": {
+        "es": "Selección artesanal de quesos, carnes frías, frutas frescas y acompañamientos gourmet.",
+        "en": "Artisanal selection of cheeses, cured meats, fresh fruits and gourmet pairings."
+      },
+      "dimensions": {
+        "es": "EDICIÓN ESPECIAL",
+        "en": "SPECIAL EDITION"
+      },
+      "servings": {
+        "es": "4–6 PERSONAS",
+        "en": "SERVES 4–6"
+      },
+      "price": {
+        "es": "$100",
+        "en": "$100"
+      },
+      "details": {
+        "es": [
+          "Elaborado fresco bajo pedido en Louisville, KY",
+          "Incluye quesos selectos, embutidos, frutas y acompañamientos"
+        ],
+        "en": [
+          "Prepared fresh to order in Louisville, KY",
+          "Includes artisan cheeses, cured meats, fruits & accompaniments"
+        ]
+      },
+      "videoSrc": "./videos/products/01-small-board.webm?v=bluekey1",
+      "videoFallbackMp4": "./videos/products/01-small-board.mp4?v=bluekey1",
+      "posterSrc": "./images/products/01-small-board-poster.webp?v=bluekey1",
+      "realPhotoSrc": "./images/real/01-small-board.jpg",
+      "category": "boards",
+      "orderUrl": "#custom-orders",
+      "stripePaymentLink": "https://buy.stripe.com/aFa6oAfiDgcRgzA4dA4800b",
+      "isCustomQuote": false,
+      "ctaLabel": {
+        "es": "ORDENAR ESTE PAQUETE",
+        "en": "ORDER THIS PACKAGE"
+      },
+      "layoutAlign": "left",
+      "visualScale": 1.08
     }
   ],
   "gallery": [
