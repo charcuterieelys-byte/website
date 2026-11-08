@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-08T22:43:23.355Z",
+  "updatedAt": "2026-11-08T22:45:53.491Z",
   "products": [
     {
       "id": "01",
@@ -448,6 +448,84 @@
     }
   ],
   "gallery": [
+    {
+      "id": "gal-1794177948610-0",
+      "title": {
+        "es": "Charola small 12”",
+        "en": "Charola small 12”"
+      },
+      "subtitle": {
+        "es": "Elaborado fresco bajo pedido en Louisville, KY",
+        "en": "Crafted fresh to order in Louisville, KY"
+      },
+      "category": "boards",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177947586-IMG_6046.jpg"
+    },
+    {
+      "id": "gal-1794177949840-1",
+      "title": {
+        "es": "Charola small 12”",
+        "en": "Charola small 12”"
+      },
+      "subtitle": {
+        "es": "Elaborado fresco bajo pedido en Louisville, KY",
+        "en": "Crafted fresh to order in Louisville, KY"
+      },
+      "category": "boards",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177948881-IMG_6045.jpg"
+    },
+    {
+      "id": "gal-1794177902530-0",
+      "title": {
+        "es": "Charola 18” large",
+        "en": "Charola 18” large"
+      },
+      "subtitle": {
+        "es": "Elaborado fresco bajo pedido en Louisville, KY",
+        "en": "Crafted fresh to order in Louisville, KY"
+      },
+      "category": "boards",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177901431-IMG_6026.jpg"
+    },
+    {
+      "id": "gal-1794177903860-1",
+      "title": {
+        "es": "Charola 18” large",
+        "en": "Charola 18” large"
+      },
+      "subtitle": {
+        "es": "Elaborado fresco bajo pedido en Louisville, KY",
+        "en": "Crafted fresh to order in Louisville, KY"
+      },
+      "category": "boards",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177902771-IMG_6025.jpg"
+    },
+    {
+      "id": "gal-1794177905238-2",
+      "title": {
+        "es": "Charola 18” large",
+        "en": "Charola 18” large"
+      },
+      "subtitle": {
+        "es": "Elaborado fresco bajo pedido en Louisville, KY",
+        "en": "Crafted fresh to order in Louisville, KY"
+      },
+      "category": "boards",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177904145-IMG_6036.jpg"
+    },
+    {
+      "id": "gal-1794177906626-3",
+      "title": {
+        "es": "Charola 18” large",
+        "en": "Charola 18” large"
+      },
+      "subtitle": {
+        "es": "Elaborado fresco bajo pedido en Louisville, KY",
+        "en": "Crafted fresh to order in Louisville, KY"
+      },
+      "category": "boards",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794177905560-IMG_6030.jpg"
+    },
     {
       "id": "gal-01",
       "title": {
