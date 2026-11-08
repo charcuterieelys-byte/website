@@ -209,10 +209,10 @@ export default async function handler(req, res) {
       Thank you for your order / Gracias por tu pedido
     </h2>
     <p style="line-height: 1.6; font-size: 14px; margin: 0 0 14px;">
-      Hola <strong>${escapeHtml(customerName)}</strong>, hemos recibido tu ${isDeposit50 ? 'anticipo de reserva del 50%' : 'pago completo'} por <strong>${escapeHtml(amountTotal)}</strong>${isDeposit50 && remainingBalanceUsd ? ` (saldo restante al recoger: <strong>${escapeHtml(remainingBalanceUsd)}</strong>)` : ''}. Elianne preparar&aacute; tu pedido fresco bajo reserva para recoger (pick-up) en Louisville, Kentucky.
+      Hola <strong>${escapeHtml(customerName)}</strong>, hemos recibido tu ${isDeposit50 ? 'anticipo de reserva del 50%' : 'pago completo'} por <strong>${escapeHtml(amountTotal)}</strong>${isDeposit50 && remainingBalanceUsd ? ` (saldo restante: <strong>${escapeHtml(remainingBalanceUsd)}</strong>)` : ''}. Elianne preparar&aacute; tu pedido fresco bajo reserva en Louisville, Kentucky.
     </p>
     <p style="line-height: 1.6; font-size: 14px; margin: 0;">
-      Este pedido es exclusivamente para recoger (Pick-Up) en Louisville, KY. Para coordinar la hora de recogida, escr&iacute;benos directamente por WhatsApp al <a href="https://wa.me/15023454063" style="color: #841F17; font-weight: bold;">+1 (502) 345-4063</a>.
+      Para coordinar tu hora de recogida (Pick-Up) o solicitar servicio de delivery por privado, escr&iacute;benos directamente por WhatsApp al <a href="https://wa.me/15023454063" style="color: #841F17; font-weight: bold;">+1 (502) 345-4063</a>.
     </p>
   </div>
 </body>

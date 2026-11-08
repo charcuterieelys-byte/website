@@ -147,8 +147,8 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
 
     const message =
       lang === 'en'
-        ? `Hello Ely’s Charcuterie,\n\nI would like to inquire about a pick-up order:\n• Selection: ${selectionLabel}\n• Name: ${name || 'To confirm'}\n• Contact: ${contact || 'To confirm'}\n• Pick-Up Date: ${date || 'Flexible'}\n• Guests: ${guests || 'To confirm'}\n• Notes: ${notes || 'None'}`
-        : `Hola Ely’s Charcuterie,\n\nMe gustaría consultar por un pedido para recoger (pick-up):\n• Selección: ${selectionLabel}\n• Nombre: ${name || 'Por confirmar'}\n• Contacto: ${contact || 'Por confirmar'}\n• Fecha para recoger: ${date || 'Flexible'}\n• Invitados: ${guests || 'Por confirmar'}\n• Notas: ${notes || 'Ninguna'}`;
+        ? `Hello Ely’s Charcuterie,\n\nI would like to inquire about an order:\n• Selection: ${selectionLabel}\n• Name: ${name || 'To confirm'}\n• Contact: ${contact || 'To confirm'}\n• Date: ${date || 'Flexible'}\n• Guests: ${guests || 'To confirm'}\n• Notes / Delivery Request: ${notes || 'None'}`
+        : `Hola Ely’s Charcuterie,\n\nMe gustaría consultar por un pedido:\n• Selección: ${selectionLabel}\n• Nombre: ${name || 'Por confirmar'}\n• Contacto: ${contact || 'Por confirmar'}\n• Fecha: ${date || 'Flexible'}\n• Invitados: ${guests || 'Por confirmar'}\n• Notas / Delivery: ${notes || 'Ninguna'}`;
 
     const url = `https://wa.me/${brandConfig.whatsappNumber}?text=${encodeURIComponent(
       message
@@ -172,7 +172,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
           <div className="flex items-center justify-between border-b border-[#841F17]/20 pb-6">
             <div>
               <p className="text-[10px] font-semibold tracking-[0.28em] uppercase text-[#841F17]">
-                {lang === 'en' ? 'ORDER CONCIERGE · PICK-UP ONLY' : 'PEDIDOS · SOLO PARA RECOGER (PICK-UP)'}
+                {lang === 'en' ? 'ORDER CONCIERGE · PICK-UP & PRIVATE DELIVERY' : 'PEDIDOS · PICK-UP O DELIVERY AL PRIVADO'}
               </p>
               <h3
                 id="order-concierge-title"
@@ -290,7 +290,7 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
                   htmlFor="order-date"
                   className="block text-[10px] font-semibold tracking-[0.24em] uppercase text-[#5A120D]/80"
                 >
-                  {lang === 'en' ? 'PICK-UP DATE' : 'FECHA PARA RECOGER'}
+                  {lang === 'en' ? 'ORDER DATE' : 'FECHA DEL PEDIDO'}
                 </label>
                 <input
                   id="order-date"
@@ -338,8 +338,8 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder={
                   lang === 'en'
-                    ? 'Dietary preferences, gift note, or event details...'
-                    : 'Preferencias, dedicatoria o detalles del evento...'
+                    ? 'Dietary preferences, gift note, or private delivery request...'
+                    : 'Preferencias, dedicatoria o si deseas solicitar delivery por privado...'
                 }
                 className="w-full bg-transparent border-b border-[#841F17]/30 focus:border-[#841F17] py-3 text-sm text-[#4A120E] placeholder:text-[#5A120D]/40 focus:outline-none"
               />
@@ -425,8 +425,8 @@ export const OrderInquiryModal: React.FC<OrderInquiryModalProps> = ({
 
         <p className="pt-8 text-[11px] text-[#5A120D]/70 font-normal leading-relaxed">
           {lang === 'en'
-            ? 'Pick-up only in Louisville, Kentucky · Direct personal attention by Elianne Lafuente.'
-            : 'Modalidad exclusiva para recoger (Pick-Up) en Louisville, Kentucky · Atención directa por Elianne Lafuente.'}
+            ? 'Prepared for pick-up in Louisville, KY · Delivery available upon private request via WhatsApp.'
+            : 'Pedidos para recoger (Pick-Up) en Louisville, KY · ¿Necesitas Delivery? Solicítalo directamente al privado por WhatsApp.'}
         </p>
       </div>
     </div>

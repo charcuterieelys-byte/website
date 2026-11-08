@@ -214,8 +214,8 @@ export function App() {
             </h3>
             <p className="text-sm text-[#4A120E]/90 leading-relaxed">
               {lang === 'en'
-                ? 'Your payment has been received. Elianne will prepare your charcuterie experience fresh to order for pick-up in Louisville, KY.'
-                : 'Hemos recibido tu pago correctamente. Elianne preparará tu pedido fresco bajo reserva exclusivamente para recoger (pick-up) en Louisville, KY.'}
+                ? 'Your payment has been received. Elianne will prepare your order fresh in Louisville, KY. Message us on WhatsApp to coordinate your pick-up time or request delivery privately.'
+                : 'Hemos recibido tu pago correctamente. Elianne preparará tu pedido fresco en Louisville, KY. Escríbenos por WhatsApp para coordinar la recogida (pick-up) o solicitar delivery por privado.'}
             </p>
             <div className="pt-2 flex flex-col gap-3">
               <a
@@ -224,16 +224,16 @@ export function App() {
                   BRAND_CONFIG.whatsappNumber
                 }?text=${encodeURIComponent(
                   lang === 'en'
-                    ? 'Hello Ely’s Charcuterie! I just completed my order payment via Stripe and wanted to coordinate my pick-up details in Louisville, KY.'
-                    : '¡Hola Ely’s Charcuterie! Acabo de realizar el pago de mi pedido por Stripe y quería coordinar los detalles para pasar a recogerlo (pick-up) en Louisville, KY.'
+                    ? 'Hello Ely’s Charcuterie! I just completed my order payment via Stripe and wanted to coordinate pick-up (or request delivery privately).'
+                    : '¡Hola Ely’s Charcuterie! Acabo de realizar el pago de mi pedido por Stripe y quería coordinar la recogida (pick-up) o solicitar delivery por privado.'
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3.5 bg-[#841F17] hover:bg-[#63150F] text-[#FAF5E8] text-xs font-semibold tracking-[0.22em] uppercase transition-colors"
               >
                 {lang === 'en'
-                  ? 'COORDINATE PICK-UP ON WHATSAPP'
-                  : 'COORDINAR RECOGIDA POR WHATSAPP'}
+                  ? 'COORDINATE PICK-UP / DELIVERY ON WHATSAPP'
+                  : 'COORDINAR PICK-UP / DELIVERY POR WHATSAPP'}
               </a>
               <button
                 type="button"

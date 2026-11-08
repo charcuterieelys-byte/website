@@ -88,7 +88,7 @@ export default async function handler(req, res) {
           : ''
       }
       <tr>
-        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17;">Fecha para recoger (Pick-Up):</td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15); font-weight: 600; color: #841F17;">Fecha del pedido:</td>
         <td style="padding: 10px 0; border-bottom: 1px solid rgba(132,31,23,0.15);">${escapeHtml(date || 'Flexible')}</td>
       </tr>
       <tr>

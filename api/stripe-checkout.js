@@ -238,11 +238,11 @@ export default async function handler(req, res) {
 
     const stripeProductDesc = isDeposit50
       ? lang === 'en'
-        ? `50% Reservation Deposit (${chargeUsdStr}) · Total: ${fullUsdStr} · Remaining balance due at pick-up: ${remainingUsdStr} · Pick-Up Only (Louisville, KY)`
-        : `Anticipo de Reserva 50% (${chargeUsdStr}) · Total paquete: ${fullUsdStr} · Saldo pendiente al recoger: ${remainingUsdStr} · Solo Pick-Up (Louisville, KY)`
+        ? `50% Reservation Deposit (${chargeUsdStr}) · Total: ${fullUsdStr} · Remaining balance: ${remainingUsdStr} · Pick-Up in Louisville, KY (Delivery by private request)`
+        : `Anticipo de Reserva 50% (${chargeUsdStr}) · Total paquete: ${fullUsdStr} · Saldo pendiente: ${remainingUsdStr} · Pick-Up en Louisville, KY (Delivery al privado)`
       : displayServings
-      ? `${displayServings} · Pago Completo (100%) · Solo para Recoger / Pick-Up Only (Louisville, KY)`
-      : 'Pago Completo (100%) · Solo para Recoger / Pick-Up Only (Louisville, KY)';
+      ? `${displayServings} · Pago Completo (100%) · Pick-Up en Louisville, KY (Delivery al privado)`
+      : 'Pago Completo (100%) · Pick-Up en Louisville, KY (Delivery al privado)';
 
     const params = new URLSearchParams({
       mode: 'payment',
@@ -257,7 +257,7 @@ export default async function handler(req, res) {
       'phone_number_collection[enabled]': 'true',
       'custom_fields[0][key]': 'event_date',
       'custom_fields[0][label][type]': 'custom',
-      'custom_fields[0][label][custom]': 'Fecha para Recoger / Pick-Up Date',
+      'custom_fields[0][label][custom]': 'Fecha del Pedido / Order Date',
       'custom_fields[0][type]': 'text',
       'custom_fields[0][optional]': 'false',
       'custom_fields[1][key]': 'notes',

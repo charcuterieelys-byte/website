@@ -143,8 +143,8 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
             <p className="text-sm text-[#4A120E]/90 font-normal leading-relaxed">
               {lang === 'en'
-                ? 'All creations are prepared fresh to order for pick-up only in Louisville, KY. Advance reservation is recommended for boards, boxes and private events.'
-                : 'Todas las creaciones se preparan frescas bajo pedido exclusivamente para recoger (pick-up) en Louisville, KY. Se recomienda reservar con anticipación.'}
+                ? 'All creations are prepared fresh to order for pick-up in Louisville, KY. Delivery is available upon private request.'
+                : 'Todas las creaciones se preparan frescas bajo pedido para recoger (pick-up) en Louisville, KY. Servicio de delivery disponible solicitándolo por privado.'}
             </p>
 
             <div className="pt-2">

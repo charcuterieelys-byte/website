@@ -112,7 +112,7 @@ async function createStripePaymentLink({ stripeKey, productName, priceUsd, origi
     'phone_number_collection[enabled]': 'true',
     'custom_fields[0][key]': 'event_date',
     'custom_fields[0][label][type]': 'custom',
-    'custom_fields[0][label][custom]': 'Fecha para Recoger / Pick-Up Date',
+    'custom_fields[0][label][custom]': 'Fecha del Pedido / Order Date',
     'custom_fields[0][type]': 'text',
     'custom_fields[0][optional]': 'false',
     'custom_fields[1][key]': 'notes',
