@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     watch: {
-      ignored: ['**/*.mp4', '**/videos/**', '**/_archivos_marca_local/**', '**/ogos/**', '**/MEDIA/**'],
+      ignored: ['**/*.mp4', '**/videos/**', '**/_archivos_marca_local/**', '**/ogos/**', '**/ards/**', '**/MEDIA/**', '**/*.tmp', '**/*.cdr', '**/*.ai'],
     },
   },
 })

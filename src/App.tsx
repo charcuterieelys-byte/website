@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { CmsState, Language, Product } from './types/catalog';
 import { BRAND_CONFIG } from './data/catalog';
 import { StudioEnvironment } from './components/StudioEnvironment';
@@ -101,6 +102,7 @@ export function App() {
   return (
     <div className="relative min-h-screen bg-[#E7D095] text-[#4A120E] selection:bg-[#841F17]/20 selection:text-[#841F17]">
       {/* ONE FIXED GLOBAL 3D STUDIO BACKGROUND */}
+      <Analytics />
       <StudioEnvironment />
 
       {/* MINIMAL FLOATING STUDIO NAVIGATION */}
