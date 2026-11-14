@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-14T14:24:46.009Z",
+  "updatedAt": "2026-11-14T14:29:20.713Z",
   "products": [
     {
       "id": "01",
@@ -448,6 +448,45 @@
     }
   ],
   "gallery": [
+    {
+      "id": "gal-1794666551876-0",
+      "title": {
+        "es": "Presentacion individual corporativa",
+        "en": "Presentacion individual corporativa"
+      },
+      "subtitle": {
+        "es": "Minicraft box de 10” de largo una presentacion simple para tus invitdados, individual. Incluye 4 tipos de quesos , carne curada, frutas , crakers, miel,nuts,set de cubiertos,",
+        "en": "Minicraft box de 10” de largo una presentacion simple para tus invitdados, individual. Incluye 4 tipos de quesos , carne curada, frutas , crakers, miel,nuts,set de cubiertos,"
+      },
+      "category": "boxes",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794666550635-IMG_6203.jpg"
+    },
+    {
+      "id": "gal-1794666553365-1",
+      "title": {
+        "es": "Presentacion individual corporativa",
+        "en": "Presentacion individual corporativa"
+      },
+      "subtitle": {
+        "es": "Minicraft box de 10” de largo una presentacion simple para tus invitdados, individual. Incluye 4 tipos de quesos , carne curada, frutas , crakers, miel,nuts,set de cubiertos,",
+        "en": "Minicraft box de 10” de largo una presentacion simple para tus invitdados, individual. Incluye 4 tipos de quesos , carne curada, frutas , crakers, miel,nuts,set de cubiertos,"
+      },
+      "category": "boxes",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794666552232-IMG_6196.jpg"
+    },
+    {
+      "id": "gal-1794666554801-2",
+      "title": {
+        "es": "Presentacion individual corporativa",
+        "en": "Presentacion individual corporativa"
+      },
+      "subtitle": {
+        "es": "Minicraft box de 10” de largo una presentacion simple para tus invitdados, individual. Incluye 4 tipos de quesos , carne curada, frutas , crakers, miel,nuts,set de cubiertos,",
+        "en": "Minicraft box de 10” de largo una presentacion simple para tus invitdados, individual. Incluye 4 tipos de quesos , carne curada, frutas , crakers, miel,nuts,set de cubiertos,"
+      },
+      "category": "boxes",
+      "imageSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794666553657-IMG_6193.jpg"
+    },
     {
       "id": "gal-1794177948610-0",
       "title": {
