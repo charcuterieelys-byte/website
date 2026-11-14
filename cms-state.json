@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-08T22:45:53.491Z",
+  "updatedAt": "2026-11-14T14:24:46.009Z",
   "products": [
     {
       "id": "01",
@@ -411,34 +411,34 @@
       },
       "dimensions": {
         "en": "CORPORATE MINI BOX",
-        "es": "MINI BOX CORPORATIVA"
+        "es": "MINI BOX CORPORATIVA 10” "
       },
       "servings": {
         "en": "CORPORATE & EVENTS",
         "es": "CORPORATIVO Y EVENTOS"
       },
       "price": {
-        "en": "CUSTOM QUOTE",
-        "es": "A COTIZAR"
+        "es": "$20",
+        "en": "$20"
       },
       "details": {
+        "es": [
+          "Pedidos minimo de 10 unidades en adelante Ideal para eventos corporativos, regalos empresariales y reuniones",
+          "Precio a cotizar según cantidad de cajas y personalización"
+        ],
         "en": [
           "Tailored for corporate events, client gifts & team gatherings",
           "Custom volume pricing — request a quote for your event"
-        ],
-        "es": [
-          "Ideal para eventos corporativos, regalos empresariales y reuniones",
-          "Precio a cotizar según cantidad de cajas y personalización"
         ]
       },
       "videoSrc": "./videos/products/06-snack-box.webm?v=bluekey1",
       "videoFallbackMp4": "./videos/products/06-snack-box.mp4?v=bluekey1",
-      "posterSrc": "./images/products/06-snack-box-poster.webp?v=bluekey1",
-      "realPhotoSrc": "./images/real/06-snack-box.jpg",
+      "posterSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794666215771-IMG_6196.jpg",
+      "realPhotoSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1794666215771-IMG_6196.jpg",
       "category": "corporate",
       "orderUrl": "#custom-orders",
-      "stripePaymentLink": "https://buy.stripe.com/7sY4gsfiD5ydbfgcK648005",
-      "isCustomQuote": true,
+      "stripePaymentLink": "https://buy.stripe.com/7sYcMY6M70dTgzAbG24800f",
+      "isCustomQuote": false,
       "ctaLabel": {
         "en": "QUOTE CORPORATE MINI BOX",
         "es": "COTIZAR CORPORATE MINI BOX"
