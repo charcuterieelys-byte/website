@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-14T14:29:20.713Z",
+  "updatedAt": "2026-11-18T14:25:38.928Z",
   "products": [
     {
       "id": "01",
@@ -445,6 +445,62 @@
       },
       "layoutAlign": "right",
       "visualScale": 1.02
+    },
+    {
+      "id": "09",
+      "slug": "custom-package-1795011877134",
+      "indexLabel": {
+        "es": "09 / LA COLECCIÓN",
+        "en": "09 / THE COLLECTION"
+      },
+      "shortTitle": {
+        "es": "NUEVO PAQUETE",
+        "en": "NEW PACKAGE"
+      },
+      "name": {
+        "es": "Regalo personalizado ",
+        "en": "New Charcuterie Package"
+      },
+      "description": {
+        "es": "Selección artesanal de quesos, carnes frías, frutas frescas y acompañamientos gourmet.",
+        "en": "Artisanal selection of cheeses, cured meats, fresh fruits and gourmet pairings."
+      },
+      "dimensions": {
+        "es": "EDICIÓN ESPECIAL",
+        "en": "SPECIAL EDITION"
+      },
+      "servings": {
+        "es": "4–6 PERSONAS",
+        "en": "SERVES 4–6"
+      },
+      "price": {
+        "es": "$100",
+        "en": "$100"
+      },
+      "details": {
+        "es": [
+          "Elaborado fresco bajo pedido en Louisville, KY",
+          "Incluye quesos selectos, embutidos, frutas y acompañamientos"
+        ],
+        "en": [
+          "Prepared fresh to order in Louisville, KY",
+          "Includes artisan cheeses, cured meats, fruits & accompaniments"
+        ]
+      },
+      "videoSrc": "./videos/products/01-small-board.webm?v=bluekey1",
+      "videoFallbackMp4": "./videos/products/01-small-board.mp4?v=bluekey1",
+      "posterSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1795011930834-IMG_6356.jpg",
+      "realPhotoSrc": "https://raw.githubusercontent.com/charcuterieelys-byte/website/cms-data/gallery/1795011930834-IMG_6356.jpg",
+      "category": "boards",
+      "orderUrl": "#custom-orders",
+      "stripePaymentLink": "https://buy.stripe.com/14A5kwb2nd0Fabc7pM4800i",
+      "isCustomQuote": false,
+      "ctaLabel": {
+        "es": "ORDENAR ESTE PAQUETE",
+        "en": "ORDER THIS PACKAGE"
+      },
+      "layoutAlign": "left",
+      "visualScale": 1.08
     }
   ],
   "gallery": [
